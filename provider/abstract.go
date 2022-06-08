@@ -1,7 +1,7 @@
 package provider
 
 import (
-	"fmt"
+	"errors"
 
 	"gitlab.rete.farm/sistemi/inca/pki"
 )
@@ -27,5 +27,5 @@ func For(URL string) (Provider, error) {
 		}
 	}
 
-	return nil, fmt.Errorf("no provider found")
+	return nil, errors.New("no provider found")
 }

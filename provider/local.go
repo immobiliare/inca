@@ -1,7 +1,7 @@
 package provider
 
 import (
-	"fmt"
+	"errors"
 
 	"gitlab.rete.farm/sistemi/inca/pki"
 )
@@ -15,8 +15,8 @@ func (p Local) ID() string {
 }
 
 func (p Local) Get(commonName string) (*pki.CRT, error) {
-	return nil, fmt.Errorf("write me")
+	return nil, errors.New("write me")
 }
 func (p Local) For(commonName string) error {
-	return fmt.Errorf("write me")
+	return errors.New("write me")
 }
