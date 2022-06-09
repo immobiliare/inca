@@ -23,15 +23,15 @@ type Request struct {
 	Duration     time.Duration
 }
 
-var (
-	defaultRequest = Request{
+func NewRequest() Request {
+	return Request{
 		Organization: "",
 		Hosts:        []string{},
 		CA:           true,
 		Algo:         EDDSA,
 		Duration:     time.Duration(100 * 365 * 24 * time.Hour),
 	}
-)
+}
 
 func New(req Request) (*CRT, *Key, error) {
 	var crt = &CRT{}

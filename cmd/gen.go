@@ -14,7 +14,7 @@ var cmdGen = &cobra.Command{
 	Use:   "gen",
 	Short: "A brief description of your command",
 	Run: func(cmd *cobra.Command, args []string) {
-		var req = pki.Request{}
+		var req = pki.NewRequest()
 
 		output, err := cmd.Flags().GetString("out")
 		if err != nil {
@@ -56,5 +56,7 @@ func init() {
 	cmdGen.Flags().StringP("out", "o", util.ErrWrap("./")(os.Getwd()), "Output path")
 	cmdGen.Flags().StringArrayP("name", "n", []string{}, "Certificate names")
 	cmdGen.Flags().StringP("algo", "a", "eddsa", "Private key algorithm")
-	cmdGen.MarkFlagRequired("name")
+	if err := cmdGen.MarkFlagRequired("name"); err != nil {
+		logrus.WithError(err).Fatalln()
+	}
 }
