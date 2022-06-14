@@ -8,6 +8,7 @@ import (
 	"math/big"
 	"net"
 	"os"
+	"path/filepath"
 	"time"
 )
 
@@ -82,7 +83,7 @@ func Export(crt *CRT, key *Key, path string) error {
 		return err
 	}
 
-	certOut, err := os.Create("crt.pem")
+	certOut, err := os.Create(filepath.Join(path, "crt.pem"))
 	if err != nil {
 		return err
 	}
@@ -95,7 +96,7 @@ func Export(crt *CRT, key *Key, path string) error {
 		return err
 	}
 
-	keyOut, err := os.OpenFile("key.pem", os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0600)
+	keyOut, err := os.OpenFile(filepath.Join(path, "key.pem"), os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0600)
 	if err != nil {
 		return err
 	}
