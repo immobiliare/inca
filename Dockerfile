@@ -11,4 +11,4 @@ RUN go build
 FROM alpine:3.14
 WORKDIR /tmp
 COPY --from=builder /workspace/inca /usr/sbin/
-CMD ["/usr/sbin/inca"]
+CMD ["/usr/sbin/inca", "server"]
