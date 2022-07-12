@@ -12,7 +12,7 @@ import (
 
 var cmdGen = &cobra.Command{
 	Use:   "gen",
-	Short: "A brief description of your command",
+	Short: "Generate CA certificate",
 	Run: func(cmd *cobra.Command, args []string) {
 		var req = pki.NewRequest()
 
@@ -41,6 +41,8 @@ var cmdGen = &cobra.Command{
 		if err != nil {
 			logrus.WithError(err).Fatalln()
 		}
+		logrus.WithField("certificate", crt).Println("certificate generated")
+		logrus.WithField("public", key.Public()).Println("key generated")
 
 		logrus.WithField("output", output).Println("persisting certificate")
 		if err := pki.Export(crt, key, output); err != nil {

@@ -10,11 +10,26 @@ import (
 )
 
 var (
-	inca      *server.Inca
 	cmdServer = &cobra.Command{
 		Use:   "server",
 		Short: "Run an Inca server instance",
 		Run: func(cmd *cobra.Command, args []string) {
+			bind, err := cmd.Flags().GetString("bind")
+			if err != nil {
+				logrus.WithError(err).Fatalln()
+			}
+
+			cfg, err := cmd.Flags().GetString("config")
+			if err != nil {
+				logrus.WithError(err).Fatalln()
+			}
+
+			logrus.WithField("bind", bind).Println("Spinning up Inca server")
+			inca, err := server.Spinup(cfg)
+			if err != nil {
+				logrus.WithError(err).Fatalln()
+			}
+
 			sigint := make(chan os.Signal, 1)
 			signal.Notify(sigint, os.Interrupt)
 			go func() {
@@ -23,12 +38,7 @@ var (
 				}
 			}()
 
-			bind, err := cmd.Flags().GetString("bind")
-			if err != nil {
-				logrus.WithError(err).Fatalln()
-			}
-
-			inca = server.Spinup()
+			logrus.WithField("size", len(inca.Cfg.Providers)).Println("Registered providers")
 			if err := inca.Listen(bind); err != nil {
 				logrus.WithError(err).Fatalln()
 			}
@@ -38,5 +48,6 @@ var (
 
 func init() {
 	cmdServer.Flags().StringP("bind", "b", ":8080", "Bind server to interface")
+	cmdServer.Flags().StringP("config", "c", "/etc/inca", "Configuration file")
 	cmdRoot.AddCommand(cmdServer)
 }
