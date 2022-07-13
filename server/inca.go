@@ -10,6 +10,7 @@ import (
 	"gitlab.rete.farm/sistemi/inca/pki"
 	"gitlab.rete.farm/sistemi/inca/provider"
 	"gitlab.rete.farm/sistemi/inca/server/config"
+	"gitlab.rete.farm/sistemi/inca/server/middleware"
 	"gitlab.rete.farm/sistemi/inca/util"
 )
 
@@ -30,7 +31,7 @@ func Spinup(path string) (*Inca, error) {
 		),
 		cfg,
 	}
-	inca.Use(zlogger(zerolog.New(os.Stdout), func(c *fiber.Ctx) bool { return false }))
+	inca.Use(middleware.Logger(zerolog.New(os.Stdout), func(c *fiber.Ctx) bool { return false }))
 	inca.Get("/:name", func(c *fiber.Ctx) error {
 		var (
 			name         = c.Params("name")

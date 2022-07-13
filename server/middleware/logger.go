@@ -1,4 +1,9 @@
-package server
+// SPDX-FileCopyrightText: 2020 Eder Sosa <eder.sohe@gmail.com>
+// SPDX-License-Identifier: MIT
+//
+// Code below is a modified version of https://github.com/edersohe/zflogger:
+// only addition is support for Fiber v2.
+package middleware
 
 import (
 	"fmt"
@@ -11,7 +16,7 @@ import (
 	"github.com/rs/zerolog"
 )
 
-type zfields struct {
+type fields struct {
 	ID         string
 	RemoteIP   string
 	Host       string
@@ -24,7 +29,7 @@ type zfields struct {
 	Stack      []byte
 }
 
-func (req *zfields) MarshalZerologObject(e *zerolog.Event) {
+func (req *fields) MarshalZerologObject(e *zerolog.Event) {
 	e.
 		Str("id", req.ID).
 		Str("ip", req.RemoteIP).
@@ -45,7 +50,7 @@ func (req *zfields) MarshalZerologObject(e *zerolog.Event) {
 	}
 }
 
-func zlogger(log zerolog.Logger, filter func(*fiber.Ctx) bool) fiber.Handler {
+func Logger(log zerolog.Logger, filter func(*fiber.Ctx) bool) fiber.Handler {
 	return func(c *fiber.Ctx) (err error) {
 		if filter != nil && filter(c) {
 			return c.Next()
@@ -59,7 +64,7 @@ func zlogger(log zerolog.Logger, filter func(*fiber.Ctx) bool) fiber.Handler {
 			c.Set(fiber.HeaderXRequestID, rid)
 		}
 
-		fields := &zfields{
+		fields := &fields{
 			ID:       rid,
 			RemoteIP: c.IP(),
 			Method:   c.Method(),
