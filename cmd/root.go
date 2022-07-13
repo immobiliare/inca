@@ -3,7 +3,6 @@ package cmd
 import (
 	"os"
 
-	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
@@ -12,10 +11,10 @@ var (
 		Use:   "inca",
 		Short: "Inca is an INternal CA manager for local CAs as well as external ones",
 		PersistentPreRun: func(cmd *cobra.Command, args []string) {
-			logrus.SetFormatter(&logrus.JSONFormatter{})
-			if debug, err := cmd.Flags().GetBool("debug"); err == nil && debug {
-				logrus.SetLevel(logrus.DebugLevel)
-			}
+			// logrus.SetFormatter(&logrus.JSONFormatter{})
+			// if debug, err := cmd.Flags().GetBool("debug"); err == nil && debug {
+			// 	logrus.SetLevel(logrus.DebugLevel)
+			// }
 		},
 	}
 )

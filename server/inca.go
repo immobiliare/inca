@@ -2,15 +2,15 @@ package server
 
 import (
 	"fmt"
-	"time"
+	"os"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
+	"gitlab.rete.farm/sistemi/inca/pki"
+	"gitlab.rete.farm/sistemi/inca/provider"
 	"gitlab.rete.farm/sistemi/inca/server/config"
-)
-
-const (
-	logFormat = "{\"rtime\":\"${latency}\",\"ip\":\"${ip}\",\"port\":\"${port}\",\"status\":\"${status}\",\"method\":\"${method}\",\"path\":\"${path}\",\"time\":\"${time}\"}\n"
+	"gitlab.rete.farm/sistemi/inca/util"
 )
 
 type Inca struct {
@@ -24,19 +24,50 @@ func Spinup(path string) (*Inca, error) {
 		return nil, err
 	}
 
-	app := fiber.New(fiber.Config{
-		DisableStartupMessage: true,
+	inca := &Inca{
+		fiber.New(
+			fiber.Config{DisableStartupMessage: true},
+		),
+		cfg,
+	}
+	inca.Use(zlogger(zerolog.New(os.Stdout), func(c *fiber.Ctx) bool { return false }))
+	inca.Get("/:name", func(c *fiber.Ctx) error {
+		var (
+			name         = c.Params("name")
+			queryStrings = util.ParseQueryString(c.Request().URI().QueryString())
+		)
+		if len(name) <= 3 {
+			log.Error().Str("name", name).Msg("name too short")
+			return c.SendStatus(fiber.StatusBadRequest)
+		}
+
+		p := provider.GetFor(name, queryStrings, cfg.Providers)
+		if p == nil {
+			log.Error().Str("name", name).Msg("no provider found")
+			return c.SendStatus(fiber.StatusBadRequest)
+		}
+
+		crt, key, err := (*p).Get(name, queryStrings)
+		if err != nil {
+			log.Error().Err(err).Msg("unable to generate")
+			return c.SendStatus(fiber.StatusBadRequest)
+		}
+
+		if err := pki.Export(crt, fmt.Sprintf("%s.pem", name), false); err != nil {
+			log.Error().Err(err).Msg("unable to export certificate")
+			return c.SendStatus(fiber.StatusBadRequest)
+		}
+
+		if err := pki.Export(key, fmt.Sprintf("%s.key", name), true); err != nil {
+			log.Error().Err(err).Msg("unable to export key")
+			return c.SendStatus(fiber.StatusBadRequest)
+		}
+
+		return c.SendString("ok")
 	})
-	app.Use(logger.New(logger.Config{
-		Format:     logFormat,
-		TimeFormat: time.RFC3339,
-	}))
-	app.Get("/:name", func(c *fiber.Ctx) error {
-		return c.SendString(fmt.Sprintf("get %s", c.Params("name")))
-	})
-	app.Get("/revoke/:name", func(c *fiber.Ctx) error {
+	inca.Get("/revoke/:name", func(c *fiber.Ctx) error {
 		return c.SendString(fmt.Sprintf("revoke %s", c.Params("name")))
 	})
 
-	return &Inca{app, cfg}, nil
+	return inca, nil
 }

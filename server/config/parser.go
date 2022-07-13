@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"gitlab.rete.farm/sistemi/inca/provider"
+	"gitlab.rete.farm/sistemi/inca/storage"
 	"gopkg.in/yaml.v2"
 )
 
@@ -15,6 +16,12 @@ type Config struct {
 		Type    string `yaml:"type"`
 		Options string `yaml:"options"`
 	} `yaml:"origins"`
+
+	Storage *storage.Storage
+	Data    struct {
+		Type    string `yaml:"type"`
+		Options string `yaml:"options"`
+	} `yaml:"data"`
 }
 
 func Parse(path string) (*Config, error) {
@@ -39,6 +46,12 @@ func Parse(path string) (*Config, error) {
 		}
 		cfg.Providers = append(cfg.Providers, prov)
 	}
+
+	storage, err := storage.Get(cfg.Data.Type, strings.Split(cfg.Data.Options, " ")...)
+	if err != nil {
+		return nil, err
+	}
+	cfg.Storage = storage
 
 	return &cfg, nil
 }

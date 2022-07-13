@@ -1,42 +1,47 @@
 package provider
 
 import (
-	"errors"
+	"crypto/tls"
+	"crypto/x509"
 	"fmt"
+	"strings"
 
 	"gitlab.rete.farm/sistemi/inca/pki"
 )
 
 type Local struct {
 	Provider
-	crt *pki.CRT
-	key *pki.Key
+	crt *x509.Certificate
+	tls *tls.Certificate
 }
 
 func (p Local) ID() string {
 	return "local"
 }
 
-func (p *Local) Tune(options ...string) error {
+func (p *Local) Tune(options ...string) (err error) {
 	if len(options) != 2 {
 		return fmt.Errorf("invalid number of options for provider %s: %s", p.ID(), options)
 	}
 
-	crt, err := pki.Parse(options[0])
-	if err != nil {
-		return fmt.Errorf("cannot parse %s: %s", options[0], err)
-	}
-	p.crt = crt
-
-	key, err := pki.ParseKey(options[1])
-	if err != nil {
-		return fmt.Errorf("cannot parse %s: %s", options[1], err)
-	}
-	p.key = key
-
-	return nil
+	p.crt, p.tls, err = pki.ParseKeyPair(options[0], options[1])
+	return
 }
 
-func (p *Local) Get(commonName string) (*pki.CRT, error) {
-	return nil, errors.New("write me")
+func (p *Local) For(name string) bool {
+	for _, dns := range p.crt.DNSNames {
+		if strings.HasSuffix(name, dns) {
+			return true
+		}
+	}
+	return false
+}
+
+func (p *Local) Get(name string, options map[string]string) ([]byte, []byte, error) {
+	crt, key, err := pki.New(pki.NewRequest(name))
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return pki.Wrap(crt, key, p.crt, p.tls.PrivateKey)
 }

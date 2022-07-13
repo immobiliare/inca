@@ -4,7 +4,7 @@ import (
 	"os"
 	"os/signal"
 
-	"github.com/sirupsen/logrus"
+	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 	"gitlab.rete.farm/sistemi/inca/server"
 )
@@ -16,31 +16,32 @@ var (
 		Run: func(cmd *cobra.Command, args []string) {
 			bind, err := cmd.Flags().GetString("bind")
 			if err != nil {
-				logrus.WithError(err).Fatalln()
+				log.Fatal().Err(err).Msg("bind flag is mandatory")
 			}
 
 			cfg, err := cmd.Flags().GetString("config")
 			if err != nil {
-				logrus.WithError(err).Fatalln()
+				log.Fatal().Err(err).Msg("config flag is mandatory")
 			}
 
-			logrus.WithField("bind", bind).Println("Spinning up Inca server")
+			log.Info().Str("bind", bind).Msg("spinning up Inca server")
 			inca, err := server.Spinup(cfg)
 			if err != nil {
-				logrus.WithError(err).Fatalln()
+				log.Fatal().Err(err).Msg("unable to spinup Inca server")
 			}
 
 			sigint := make(chan os.Signal, 1)
 			signal.Notify(sigint, os.Interrupt)
 			go func() {
 				for range sigint {
-					logrus.WithError(inca.Shutdown())
+					log.Error().Err(inca.Shutdown())
 				}
 			}()
 
-			logrus.WithField("size", len(inca.Cfg.Providers)).Println("Registered providers")
+			log.Info().Int("size", len(inca.Cfg.Providers)).Msg("registered providers")
+			log.Info().Str("type", (*(inca.Cfg.Storage)).ID()).Msg("registered storage")
 			if err := inca.Listen(bind); err != nil {
-				logrus.WithError(err).Fatalln()
+				log.Fatal().Err(err).Msg("unable to bind server")
 			}
 		},
 	}

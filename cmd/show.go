@@ -1,7 +1,9 @@
 package cmd
 
 import (
-	"github.com/sirupsen/logrus"
+	"fmt"
+
+	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 	"gitlab.rete.farm/sistemi/inca/pki"
 )
@@ -11,26 +13,27 @@ var showGen = &cobra.Command{
 	Short: "Pretty print a certificate",
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) != 2 {
-			logrus.Fatalln("wrong arguments")
+			log.Fatal().Msg("wrong arguments")
 		}
 		var (
 			crtPath = args[0]
 			keyPath = args[1]
 		)
 
-		logrus.WithField("path", keyPath).Println("parsing key")
+		log.Info().Str("path", keyPath).Msg("parsing key")
 		key, err := pki.ParseKey(keyPath)
 		if err != nil {
-			logrus.WithError(err).Fatalln()
+			log.Fatal().Err(err).Msg("unable to parse key")
 		}
-		logrus.WithField("public", key.Public()).Println("key parsed")
+		log.Info().Str("path", keyPath).Msg("key parsed")
+		log.Info().Str("public", fmt.Sprintf("%v", key.Public())).Msg("key parsed")
 
-		logrus.WithField("path", crtPath).Println("parsing certificate")
+		log.Info().Str("path", crtPath).Msg("parsing certificate")
 		crt, err := pki.Parse(crtPath)
 		if err != nil {
-			logrus.WithError(err).Fatalln()
+			log.Fatal().Err(err).Msg("unable to parse certificate")
 		}
-		logrus.WithField("names", crt.DNSNames).Println("certificate parsed")
+		log.Info().Strs("names", crt.DNSNames).Msg("certificate parsed")
 	},
 }
 

@@ -2,14 +2,13 @@ package provider
 
 import (
 	"errors"
-
-	"gitlab.rete.farm/sistemi/inca/pki"
 )
 
 type Provider interface {
 	ID() string
 	Tune(options ...string) error
-	Get(commonName string) (*pki.CRT, error)
+	For(name string) bool
+	Get(name string, options map[string]string) ([]byte, []byte, error)
 }
 
 func Get(id string, options ...string) (*Provider, error) {
@@ -26,4 +25,13 @@ func Get(id string, options ...string) (*Provider, error) {
 	}
 
 	return nil, errors.New("provider not found")
+}
+
+func GetFor(name string, options map[string]string, providers []*Provider) *Provider {
+	for _, p := range providers {
+		if (*p).For(name) {
+			return p
+		}
+	}
+	return nil
 }

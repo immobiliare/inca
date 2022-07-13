@@ -2,30 +2,30 @@ package pki
 
 import (
 	"crypto/rand"
+	"crypto/tls"
 	"crypto/x509"
 	"crypto/x509/pkix"
 	"encoding/pem"
 	"io/ioutil"
 	"math/big"
 	"net"
-	"os"
-	"path/filepath"
 	"time"
 )
 
-type CRT struct {
-	x509.Certificate
-}
-
 type Request struct {
-	Organization string
-	Hosts        []string
-	CA           bool
-	Algo         int
-	Duration     time.Duration
+	Organization  string
+	Country       string
+	Province      string
+	Locality      string
+	StreetAddress string
+	PostalCode    string
+	Hosts         []string
+	CA            bool
+	Algo          int
+	Duration      time.Duration
 }
 
-func Parse(path string) (*CRT, error) {
+func Parse(path string) (*x509.Certificate, error) {
 	data, err := ioutil.ReadFile(path)
 	if err != nil {
 		return nil, err
@@ -37,28 +37,48 @@ func Parse(path string) (*CRT, error) {
 		return nil, err
 	}
 
-	return &CRT{*crt}, nil
+	return crt, nil
 }
 
-func NewRequest() Request {
+func ParseKeyPair(crtPath, keyPath string) (*x509.Certificate, *tls.Certificate, error) {
+	tls, err := tls.LoadX509KeyPair(crtPath, keyPath)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	crt, err := x509.ParseCertificate(tls.Certificate[0])
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return crt, &tls, nil
+}
+
+func NewRequest(names ...string) Request {
 	return Request{
-		Organization: "",
-		Hosts:        []string{},
-		CA:           true,
-		Algo:         EDDSA,
-		Duration:     time.Duration(100 * 365 * 24 * time.Hour),
+		Organization:  "Immobiliare.it",
+		Country:       "IT",
+		Province:      "RM",
+		Locality:      "Rome",
+		StreetAddress: "Via di Santa Prassede",
+		PostalCode:    "00184",
+		Hosts:         names,
+		CA:            false,
+		Algo:          EDDSA,
+		Duration:      time.Duration(100 * 365 * 24 * time.Hour),
 	}
 }
 
-func New(req Request) (*CRT, *Key, error) {
-	var crt = CRT{}
+func New(req Request) (*x509.Certificate, *Key, error) {
+	var crt = x509.Certificate{}
 	crt.Subject = pkix.Name{
-		Organization: []string{req.Organization},
-		// Country:       []string{"US"},
-		// Province:      []string{""},
-		// Locality:      []string{"San Francisco"},
-		// StreetAddress: []string{"Golden Gate Bridge"},
-		// PostalCode:    []string{"94016"},
+		CommonName:    req.Hosts[0],
+		Organization:  []string{req.Organization},
+		Country:       []string{req.Country},
+		Province:      []string{req.Province},
+		Locality:      []string{req.Locality},
+		StreetAddress: []string{req.StreetAddress},
+		PostalCode:    []string{req.PostalCode},
 	}
 	crt.BasicConstraintsValid = true
 	crt.NotBefore = time.Now()
@@ -91,44 +111,4 @@ func New(req Request) (*CRT, *Key, error) {
 
 	key, err := newKey(req.Algo)
 	return &crt, key, err
-}
-
-func Export(crt *CRT, key *Key, path string) error {
-	derBytes, err := x509.CreateCertificate(rand.Reader, &crt.Certificate, &crt.Certificate, key.Public(), key.Value)
-	if err != nil {
-		return err
-	}
-
-	certOut, err := os.Create(filepath.Join(path, "crt.pem"))
-	if err != nil {
-		return err
-	}
-
-	if err := pem.Encode(certOut, &pem.Block{Type: "CERTIFICATE", Bytes: derBytes}); err != nil {
-		return err
-	}
-
-	if err := certOut.Close(); err != nil {
-		return err
-	}
-
-	keyOut, err := os.OpenFile(filepath.Join(path, "key.pem"), os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0600)
-	if err != nil {
-		return err
-	}
-
-	privBytes, err := x509.MarshalPKCS8PrivateKey(key.Value)
-	if err != nil {
-		return err
-	}
-
-	if err := pem.Encode(keyOut, &pem.Block{Type: "PRIVATE KEY", Bytes: privBytes}); err != nil {
-		return err
-	}
-
-	if err := keyOut.Close(); err != nil {
-		return err
-	}
-
-	return nil
 }
