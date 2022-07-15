@@ -1,13 +1,13 @@
 package server
 
 import (
+	"bytes"
 	"fmt"
 	"os"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
-	"gitlab.rete.farm/sistemi/inca/pki"
 	"gitlab.rete.farm/sistemi/inca/provider"
 	"gitlab.rete.farm/sistemi/inca/server/config"
 	"gitlab.rete.farm/sistemi/inca/server/middleware"
@@ -35,11 +35,19 @@ func Spinup(path string) (*Inca, error) {
 	inca.Get("/:name", func(c *fiber.Ctx) error {
 		var (
 			name         = c.Params("name")
+			crtFname     = fmt.Sprintf("%s.pem", name)
+			keyFname     = fmt.Sprintf("%s.key", name)
 			queryStrings = util.ParseQueryString(c.Request().URI().QueryString())
 		)
 		if len(name) <= 3 {
 			log.Error().Str("name", name).Msg("name too short")
 			return c.SendStatus(fiber.StatusBadRequest)
+		}
+
+		data, err := (*cfg.Storage).Get(crtFname)
+		if err == nil {
+			log.Info().Str("fname", crtFname).Err(err).Msg("returning cached certificate")
+			return c.SendStream(bytes.NewReader(data), len(data))
 		}
 
 		p := provider.GetFor(name, queryStrings, cfg.Providers)
@@ -54,17 +62,27 @@ func Spinup(path string) (*Inca, error) {
 			return c.SendStatus(fiber.StatusBadRequest)
 		}
 
-		if err := pki.Export(crt, fmt.Sprintf("%s.pem", name), false); err != nil {
-			log.Error().Err(err).Msg("unable to export certificate")
+		if err := (*cfg.Storage).Put(crtFname, crt); err != nil {
+			log.Error().Err(err).Msg("unable to persist certificate")
 			return c.SendStatus(fiber.StatusBadRequest)
 		}
 
-		if err := pki.Export(key, fmt.Sprintf("%s.key", name), true); err != nil {
-			log.Error().Err(err).Msg("unable to export key")
+		if err := (*cfg.Storage).Put(keyFname, key); err != nil {
+			log.Error().Err(err).Msg("unable to persist certificate")
 			return c.SendStatus(fiber.StatusBadRequest)
 		}
 
-		return c.SendString("ok")
+		return c.SendStream(bytes.NewReader(crt.Bytes), len(crt.Bytes))
+	})
+	inca.Get("/:name/key", func(c *fiber.Ctx) error {
+		var keyFname = fmt.Sprintf("%s.key", c.Params("name"))
+		data, err := (*cfg.Storage).Get(keyFname)
+		if err == nil {
+			return c.SendStream(bytes.NewReader(data), len(data))
+		}
+
+		log.Info().Str("fname", keyFname).Err(err).Msg("cached key not found")
+		return c.SendStatus(fiber.StatusNotFound)
 	})
 	inca.Get("/revoke/:name", func(c *fiber.Ctx) error {
 		return c.SendString(fmt.Sprintf("revoke %s", c.Params("name")))

@@ -3,6 +3,7 @@ package provider
 import (
 	"crypto/tls"
 	"crypto/x509"
+	"encoding/pem"
 	"fmt"
 	"strings"
 
@@ -37,7 +38,7 @@ func (p *Local) For(name string) bool {
 	return false
 }
 
-func (p *Local) Get(name string, options map[string]string) ([]byte, []byte, error) {
+func (p *Local) Get(name string, options map[string]string) (*pem.Block, *pem.Block, error) {
 	crt, key, err := pki.New(pki.NewRequest(name))
 	if err != nil {
 		return nil, nil, err

@@ -7,30 +7,31 @@ import (
 	"encoding/pem"
 	"io/fs"
 	"os"
+	"strings"
 )
 
-func Wrap(crt *x509.Certificate, key *Key, ca *x509.Certificate, signer crypto.PrivateKey) ([]byte, []byte, error) {
+func Wrap(crt *x509.Certificate, key *Key, ca *x509.Certificate, signer crypto.PrivateKey) (*pem.Block, *pem.Block, error) {
 	crtBytes, err := x509.CreateCertificate(rand.Reader, crt, ca, key.Public(), signer)
 	if err != nil {
 		return nil, nil, err
 	}
+	crtBlock := pem.Block{Type: "CERTIFICATE", Bytes: crtBytes}
 
 	keyBytes, err := x509.MarshalPKCS8PrivateKey(key.Value)
 	if err != nil {
 		return nil, nil, err
 	}
+	keyBlock := pem.Block{Type: "PRIVATE KEY", Bytes: keyBytes}
 
-	return crtBytes, keyBytes, nil
+	return &crtBlock, &keyBlock, nil
 }
 
-func Export(payload []byte, path string, isKey bool) (err error) {
+func Export(block *pem.Block, path string) (err error) {
 	var (
-		perms  = fs.FileMode(0644)
-		header = "CERTIFICATE"
+		perms = fs.FileMode(0644)
 	)
-	if isKey {
+	if strings.Contains(block.Type, "PRIVATE KEY") {
 		perms = fs.FileMode(0600)
-		header = "PRIVATE KEY"
 	}
 
 	output, err := os.OpenFile(path, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, perms)
@@ -39,7 +40,7 @@ func Export(payload []byte, path string, isKey bool) (err error) {
 	}
 	defer output.Close()
 
-	if err := pem.Encode(output, &pem.Block{Type: header, Bytes: payload}); err != nil {
+	if err := pem.Encode(output, block); err != nil {
 		return err
 	}
 

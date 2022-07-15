@@ -52,12 +52,12 @@ var cmdGen = &cobra.Command{
 		}
 
 		log.Info().Msg("exporting certificate")
-		if err := pki.Export(crtBytes, filepath.Join(output, "crt.pem"), false); err != nil {
+		if err := pki.Export(crtBytes, filepath.Join(output, "crt.pem")); err != nil {
 			log.Fatal().Err(err).Msg("unable to export certificate")
 		}
 
 		log.Info().Msg("exporting key")
-		if err := pki.Export(keyBytes, filepath.Join(output, "key.pem"), true); err != nil {
+		if err := pki.Export(keyBytes, filepath.Join(output, "key.pem")); err != nil {
 			log.Fatal().Err(err).Msg("unable to export key")
 		}
 

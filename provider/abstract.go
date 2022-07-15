@@ -1,6 +1,7 @@
 package provider
 
 import (
+	"encoding/pem"
 	"errors"
 )
 
@@ -8,7 +9,7 @@ type Provider interface {
 	ID() string
 	Tune(options ...string) error
 	For(name string) bool
-	Get(name string, options map[string]string) ([]byte, []byte, error)
+	Get(name string, options map[string]string) (*pem.Block, *pem.Block, error)
 }
 
 func Get(id string, options ...string) (*Provider, error) {

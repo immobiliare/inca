@@ -1,12 +1,15 @@
 package storage
 
 import (
+	"encoding/pem"
 	"errors"
 )
 
 type Storage interface {
 	ID() string
 	Tune(options ...string) error
+	Put(name string, data *pem.Block) error
+	Get(name string) ([]byte, error)
 }
 
 func Get(id string, options ...string) (*Storage, error) {
