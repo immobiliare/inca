@@ -112,3 +112,7 @@ func New(req Request) (*x509.Certificate, *Key, error) {
 	key, err := newKey(req.Algo)
 	return &crt, key, err
 }
+
+func IsValidCN(name string) bool {
+	return len(name) > 3
+}

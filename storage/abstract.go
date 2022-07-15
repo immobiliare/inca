@@ -10,6 +10,7 @@ type Storage interface {
 	Tune(options ...string) error
 	Put(name string, data *pem.Block) error
 	Get(name string) ([]byte, error)
+	Del(name string) error
 }
 
 func Get(id string, options ...string) (*Storage, error) {

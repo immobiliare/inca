@@ -4,6 +4,7 @@ import (
 	"encoding/pem"
 	"fmt"
 	"io/ioutil"
+	"os"
 	"path/filepath"
 
 	"gitlab.rete.farm/sistemi/inca/pki"
@@ -46,4 +47,8 @@ func (s *FileSystem) Put(name string, data *pem.Block) error {
 		return err
 	}
 	return nil
+}
+
+func (s *FileSystem) Del(name string) error {
+	return os.Remove(filepath.Join(s.path, name))
 }
