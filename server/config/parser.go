@@ -40,7 +40,7 @@ func Parse(path string) (*Config, error) {
 	}
 
 	for _, provPuppet := range cfg.Origins {
-		prov, err := provider.Get(provPuppet.Type, strings.Split(provPuppet.Options, " ")...)
+		prov, err := provider.Find(provPuppet.Type, strings.Split(provPuppet.Options, " ")...)
 		if err != nil {
 			return nil, err
 		}

@@ -10,9 +10,10 @@ type Provider interface {
 	Tune(options ...string) error
 	For(name string) bool
 	Get(name string, options map[string]string) (*pem.Block, *pem.Block, error)
+	CA() (*pem.Block, error)
 }
 
-func Get(id string, options ...string) (*Provider, error) {
+func Find(id string, options ...string) (*Provider, error) {
 	for _, provider := range []Provider{
 		new(Local),
 	} {
@@ -31,6 +32,15 @@ func Get(id string, options ...string) (*Provider, error) {
 func GetFor(name string, options map[string]string, providers []*Provider) *Provider {
 	for _, p := range providers {
 		if (*p).For(name) {
+			return p
+		}
+	}
+	return nil
+}
+
+func Get(id string, providers []*Provider) *Provider {
+	for _, p := range providers {
+		if (*p).ID() == id {
 			return p
 		}
 	}

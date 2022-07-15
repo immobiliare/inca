@@ -14,6 +14,7 @@ import (
 
 type Key struct {
 	Value any
+	Algo  int
 }
 
 const (
@@ -30,12 +31,24 @@ func ParseKey(path string) (*Key, error) {
 	}
 
 	block, _ := pem.Decode(data)
-	key, err := x509.ParsePKCS8PrivateKey(block.Bytes)
+	keyData, err := x509.ParsePKCS8PrivateKey(block.Bytes)
 	if err != nil {
 		return nil, err
 	}
+	key := Key{keyData, UnsupportedAlgorithm}
 
-	return &Key{key}, nil
+	switch keyData.(type) {
+	case *rsa.PrivateKey:
+		key.Algo = RSA
+	case *ecdsa.PrivateKey:
+		key.Algo = ECDSA
+	case ed25519.PrivateKey:
+		key.Algo = EDDSA
+	default:
+		key.Algo = UnsupportedAlgorithm
+	}
+
+	return &key, nil
 }
 
 func newKey(algo int) (*Key, error) {
@@ -57,7 +70,7 @@ func newKey(algo int) (*Key, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &Key{key}, nil
+	return &Key{key, algo}, nil
 }
 
 func (key *Key) Public() any {

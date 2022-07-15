@@ -1,7 +1,6 @@
 package provider
 
 import (
-	"crypto/tls"
 	"crypto/x509"
 	"encoding/pem"
 	"fmt"
@@ -13,7 +12,7 @@ import (
 type Local struct {
 	Provider
 	crt *x509.Certificate
-	tls *tls.Certificate
+	key *pki.Key
 }
 
 func (p Local) ID() string {
@@ -25,7 +24,7 @@ func (p *Local) Tune(options ...string) (err error) {
 		return fmt.Errorf("invalid number of options for provider %s: %s", p.ID(), options)
 	}
 
-	p.crt, p.tls, err = pki.ParseKeyPair(options[0], options[1])
+	p.crt, p.key, err = pki.ParseKeyPair(options[0], options[1])
 	return
 }
 
@@ -44,5 +43,9 @@ func (p *Local) Get(name string, options map[string]string) (*pem.Block, *pem.Bl
 		return nil, nil, err
 	}
 
-	return pki.Wrap(crt, key, p.crt, p.tls.PrivateKey)
+	return pki.Wrap(crt, key, p.crt, p.key)
+}
+
+func (p *Local) CA() (*pem.Block, error) {
+	return pki.WrapCrt(p.crt, p.key, p.crt, p.key)
 }

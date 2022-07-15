@@ -84,6 +84,20 @@ func Spinup(path string) (*Inca, error) {
 		log.Info().Str("fname", keyFname).Err(err).Msg("cached key not found")
 		return c.SendStatus(fiber.StatusNotFound)
 	})
+	inca.Get("/ca/:provider", func(c *fiber.Ctx) error {
+		p := provider.Get(c.Params("provider"), inca.Cfg.Providers)
+		if p == nil {
+			return c.SendStatus(fiber.StatusNotFound)
+		}
+
+		caCrt, err := (*p).CA()
+		if err != nil {
+			log.Error().Err(err).Msg("unable to retrieve CA certificate")
+			return c.SendStatus(fiber.StatusBadRequest)
+		}
+
+		return c.SendStream(bytes.NewReader(caCrt.Bytes), len(caCrt.Bytes))
+	})
 	inca.Get("/revoke/:name", func(c *fiber.Ctx) error {
 		return c.SendString(fmt.Sprintf("revoke %s", c.Params("name")))
 	})

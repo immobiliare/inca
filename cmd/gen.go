@@ -46,7 +46,7 @@ var cmdGen = &cobra.Command{
 		log.Info().Str("public", fmt.Sprintf("%v", key.Public())).Msg("key generated")
 
 		log.Info().Msg("wrapping certificate")
-		crtBytes, keyBytes, err := pki.Wrap(crt, key, crt, key.Value)
+		crtBytes, keyBytes, err := pki.Wrap(crt, key, crt, key)
 		if err != nil {
 			log.Fatal().Err(err).Msg("unable to wrap certificate")
 		}

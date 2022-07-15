@@ -1,7 +1,6 @@
 package pki
 
 import (
-	"crypto"
 	"crypto/rand"
 	"crypto/x509"
 	"encoding/pem"
@@ -10,20 +9,36 @@ import (
 	"strings"
 )
 
-func Wrap(crt *x509.Certificate, key *Key, ca *x509.Certificate, signer crypto.PrivateKey) (*pem.Block, *pem.Block, error) {
-	crtBytes, err := x509.CreateCertificate(rand.Reader, crt, ca, key.Public(), signer)
+func WrapCrt(crt *x509.Certificate, key *Key, ca *x509.Certificate, signer *Key) (*pem.Block, error) {
+	bytes, err := x509.CreateCertificate(rand.Reader, crt, ca, key.Public(), signer.Value)
+	if err != nil {
+		return nil, err
+	}
+
+	return &pem.Block{Type: "CERTIFICATE", Bytes: bytes}, nil
+}
+
+func WrapKey(key *Key) (*pem.Block, error) {
+	bytes, err := x509.MarshalPKCS8PrivateKey(key.Value)
+	if err != nil {
+		return nil, err
+	}
+
+	return &pem.Block{Type: "PRIVATE KEY", Bytes: bytes}, nil
+}
+
+func Wrap(crt *x509.Certificate, key *Key, ca *x509.Certificate, signer *Key) (*pem.Block, *pem.Block, error) {
+	crtBlock, err := WrapCrt(crt, key, ca, signer)
 	if err != nil {
 		return nil, nil, err
 	}
-	crtBlock := pem.Block{Type: "CERTIFICATE", Bytes: crtBytes}
 
-	keyBytes, err := x509.MarshalPKCS8PrivateKey(key.Value)
+	keyBlock, err := WrapKey(key)
 	if err != nil {
 		return nil, nil, err
 	}
-	keyBlock := pem.Block{Type: "PRIVATE KEY", Bytes: keyBytes}
 
-	return &crtBlock, &keyBlock, nil
+	return crtBlock, keyBlock, nil
 }
 
 func Export(block *pem.Block, path string) (err error) {

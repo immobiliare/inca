@@ -40,7 +40,7 @@ func Parse(path string) (*x509.Certificate, error) {
 	return crt, nil
 }
 
-func ParseKeyPair(crtPath, keyPath string) (*x509.Certificate, *tls.Certificate, error) {
+func ParseKeyPair(crtPath, keyPath string) (*x509.Certificate, *Key, error) {
 	tls, err := tls.LoadX509KeyPair(crtPath, keyPath)
 	if err != nil {
 		return nil, nil, err
@@ -51,7 +51,7 @@ func ParseKeyPair(crtPath, keyPath string) (*x509.Certificate, *tls.Certificate,
 		return nil, nil, err
 	}
 
-	return crt, &tls, nil
+	return crt, &Key{Value: tls.PrivateKey}, nil
 }
 
 func NewRequest(names ...string) Request {
