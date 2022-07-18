@@ -82,12 +82,6 @@ func (s *S3) Put(name string, crtData *pem.Block, keyData *pem.Block) error {
 		return err
 	}
 
-	if err := client.WaitUntilBucketExists(&s3.HeadBucketInput{
-		Bucket: bucket(name),
-	}); err != nil {
-		return err
-	}
-
 	if _, err := client.PutObject(&s3.PutObjectInput{
 		Bucket: bucket(name),
 		Key:    &s3CrtName,
