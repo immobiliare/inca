@@ -72,6 +72,8 @@ var cmdGen = &cobra.Command{
 			if err := pki.Export(keyBytes, filepath.Join(output, "key.pem")); err != nil {
 				log.Fatal().Err(err).Msg("unable to export key")
 			}
+
+			log.Info().Str("output", output).Msg("certificate created")
 		} else {
 			var (
 				outputBuffer = new(bytes.Buffer)
@@ -106,7 +108,6 @@ var cmdGen = &cobra.Command{
 
 			fmt.Print(outputBuffer.String())
 		}
-		log.Info().Str("output", output).Msg("certificate created")
 	},
 }
 
