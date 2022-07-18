@@ -8,8 +8,8 @@ import (
 type Storage interface {
 	ID() string
 	Tune(options ...string) error
-	Put(name string, data *pem.Block) error
-	Get(name string) ([]byte, error)
+	Put(name string, crtData *pem.Block, keyData *pem.Block) error
+	Get(name string) ([]byte, []byte, error)
 	Del(name string) error
 }
 

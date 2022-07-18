@@ -2,7 +2,7 @@ package server
 
 import (
 	"bytes"
-	"fmt"
+	"encoding/pem"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/rs/zerolog/log"
@@ -13,8 +13,6 @@ import (
 func (inca *Inca) handlerCRT(c *fiber.Ctx) error {
 	var (
 		name         = c.Params("name")
-		crtFname     = crtFilename(name)
-		keyFname     = keyFilename(name)
 		queryStrings = util.ParseQueryString(c.Request().URI().QueryString())
 	)
 	if len(name) <= 3 {
@@ -22,9 +20,9 @@ func (inca *Inca) handlerCRT(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusBadRequest)
 	}
 
-	data, err := (*inca.Cfg.Storage).Get(crtFname)
+	data, _, err := (*inca.Cfg.Storage).Get(name)
 	if err == nil {
-		log.Info().Str("fname", crtFname).Err(err).Msg("returning cached certificate")
+		log.Info().Str("name", name).Err(err).Msg("returning cached certificate")
 		return c.SendStream(bytes.NewReader(data), len(data))
 	}
 
@@ -40,19 +38,11 @@ func (inca *Inca) handlerCRT(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusBadRequest)
 	}
 
-	if err := (*inca.Cfg.Storage).Put(crtFname, crt); err != nil {
+	if err := (*inca.Cfg.Storage).Put(name, crt, key); err != nil {
 		log.Error().Err(err).Msg("unable to persist certificate")
 		return c.SendStatus(fiber.StatusBadRequest)
 	}
 
-	if err := (*inca.Cfg.Storage).Put(keyFname, key); err != nil {
-		log.Error().Err(err).Msg("unable to persist certificate")
-		return c.SendStatus(fiber.StatusBadRequest)
-	}
-
-	return c.SendStream(bytes.NewReader(crt.Bytes), len(crt.Bytes))
-}
-
-func crtFilename(name string) string {
-	return fmt.Sprintf("%s.pem", name)
+	crtData := pem.EncodeToMemory(crt)
+	return c.SendStream(bytes.NewReader(crtData), len(crtData))
 }
