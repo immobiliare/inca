@@ -23,7 +23,7 @@ type FileSystem struct {
 }
 
 func (s FileSystem) ID() string {
-	return "filesystem"
+	return "FileSystem"
 }
 
 func (s *FileSystem) Tune(options ...string) error {
