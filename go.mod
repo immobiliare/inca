@@ -13,6 +13,7 @@ require (
 	github.com/gofiber/utils v0.0.6 // indirect
 	github.com/google/uuid v1.1.1 // indirect
 	github.com/gorilla/schema v1.1.0 // indirect
+	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/json-iterator/go v1.1.9 // indirect
 	github.com/mattn/go-colorable v0.1.12 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect
@@ -23,6 +24,7 @@ require (
 
 require (
 	github.com/andybalholm/brotli v1.0.4 // indirect
+	github.com/aws/aws-sdk-go v1.44.56
 	github.com/dre1080/fiberlog v0.1.0
 	github.com/edersohe/zflogger v0.7.0
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect

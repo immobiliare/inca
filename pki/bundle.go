@@ -41,6 +41,10 @@ func Wrap(crt *x509.Certificate, key *Key, ca *x509.Certificate, signer *Key) (*
 	return crtBlock, keyBlock, nil
 }
 
+func ExportBytes(block *pem.Block) []byte {
+	return pem.EncodeToMemory(block)
+}
+
 func Export(block *pem.Block, path string) (err error) {
 	var (
 		perms = fs.FileMode(0644)

@@ -3,6 +3,7 @@ package storage
 import (
 	"encoding/pem"
 	"errors"
+	"strings"
 )
 
 type Storage interface {
@@ -16,8 +17,9 @@ type Storage interface {
 func Get(id string, options ...string) (*Storage, error) {
 	for _, storage := range []Storage{
 		new(FileSystem),
+		new(S3),
 	} {
-		if id != storage.ID() {
+		if !strings.EqualFold(id, storage.ID()) {
 			continue
 		}
 		if err := storage.Tune(options...); err != nil {
