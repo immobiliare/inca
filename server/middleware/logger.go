@@ -24,7 +24,7 @@ type fields struct {
 	Path       string
 	Protocol   string
 	StatusCode int
-	Latency    float64
+	Latency    time.Duration
 	Error      error
 	Stack      []byte
 }
@@ -38,7 +38,7 @@ func (req *fields) MarshalZerologObject(e *zerolog.Event) {
 		Str("path", req.Path).
 		Str("protocol", req.Protocol).
 		Int("status", req.StatusCode).
-		Float64("latency", req.Latency).
+		Str("latency", fmt.Sprint(req.Latency)).
 		Str("tag", "request")
 
 	if req.Error != nil {
@@ -95,7 +95,7 @@ func Logger(log zerolog.Logger, filter func(*fiber.Ctx) bool) fiber.Handler {
 			}
 
 			fields.StatusCode = c.Response().StatusCode()
-			fields.Latency = time.Since(start).Seconds()
+			fields.Latency = time.Since(start)
 
 			switch {
 			case rvr != nil:
