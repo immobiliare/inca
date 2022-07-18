@@ -1,10 +1,13 @@
 package cmd
 
 import (
+	"archive/zip"
+	"bytes"
 	"fmt"
 	"os"
 	"path/filepath"
 
+	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 	"gitlab.rete.farm/sistemi/inca/pki"
@@ -15,6 +18,14 @@ var cmdGen = &cobra.Command{
 	Use:   "gen",
 	Short: "Generate CA certificate",
 	Run: func(cmd *cobra.Command, args []string) {
+		output, err := cmd.Flags().GetString("output")
+		if err != nil {
+			log.Fatal().Err(err).Msg("output flag is mandatory")
+		}
+		if output == "-" {
+			zerolog.SetGlobalLevel(zerolog.FatalLevel)
+		}
+
 		names, err := cmd.Flags().GetStringArray("name")
 		if err != nil {
 			log.Fatal().Err(err).Msg("at least a name gotta be given")
@@ -23,9 +34,9 @@ var cmdGen = &cobra.Command{
 		req := pki.NewRequest(names...)
 		req.CA = true
 
-		output, err := cmd.Flags().GetString("out")
+		compress, err := cmd.Flags().GetBool("compress")
 		if err != nil {
-			log.Fatal().Err(err).Msg("output flag is mandatory")
+			log.Fatal().Err(err).Msg("unable to read compress flag")
 		}
 
 		algo, err := cmd.Flags().GetString("algo")
@@ -51,23 +62,58 @@ var cmdGen = &cobra.Command{
 			log.Fatal().Err(err).Msg("unable to wrap certificate")
 		}
 
-		log.Info().Msg("exporting certificate")
-		if err := pki.Export(crtBytes, filepath.Join(output, "crt.pem")); err != nil {
-			log.Fatal().Err(err).Msg("unable to export certificate")
-		}
+		if output != "-" {
+			log.Info().Msg("exporting certificate")
+			if err := pki.Export(crtBytes, filepath.Join(output, "crt.pem")); err != nil {
+				log.Fatal().Err(err).Msg("unable to export certificate")
+			}
 
-		log.Info().Msg("exporting key")
-		if err := pki.Export(keyBytes, filepath.Join(output, "key.pem")); err != nil {
-			log.Fatal().Err(err).Msg("unable to export key")
-		}
+			log.Info().Msg("exporting key")
+			if err := pki.Export(keyBytes, filepath.Join(output, "key.pem")); err != nil {
+				log.Fatal().Err(err).Msg("unable to export key")
+			}
+		} else {
+			var (
+				outputBuffer = new(bytes.Buffer)
+				crtBuffer    = pki.ExportBytes(crtBytes)
+				keyBuffer    = pki.ExportBytes(keyBytes)
+			)
+			if compress {
+				zip := zip.NewWriter(outputBuffer)
+				for key, value := range map[string][]byte{
+					"crt.pem": crtBuffer,
+					"key.pem": keyBuffer,
+				} {
+					file, err := zip.Create(key)
+					if err != nil {
+						log.Fatal().Err(err).Msg("unable to create ZIP archive entry")
+					}
 
+					if _, err := file.Write(value); err != nil {
+						log.Fatal().Err(err).Msg("unable to add content to ZIP archive entry")
+					}
+				}
+
+				err := zip.Close()
+				if err != nil {
+					log.Fatal().Err(err).Msg("unable to close ZIP archive")
+				}
+			} else {
+				if _, err := outputBuffer.Write(append(crtBuffer, keyBuffer...)); err != nil {
+					log.Fatal().Err(err).Msg("unable to merge certificate and key into a single buffer")
+				}
+			}
+
+			fmt.Print(outputBuffer.String())
+		}
 		log.Info().Str("output", output).Msg("certificate created")
 	},
 }
 
 func init() {
 	cmdRoot.AddCommand(cmdGen)
-	cmdGen.Flags().StringP("out", "o", util.ErrWrap("./")(os.Getwd()), "Output path")
+	cmdGen.Flags().StringP("output", "o", util.ErrWrap("./")(os.Getwd()), "Output path (\"-\" for stdout)")
+	cmdGen.Flags().BoolP("compress", "c", false, "ZIP-compress bundle (only for stdout generation)")
 	cmdGen.Flags().StringArrayP("name", "n", []string{}, "Certificate names")
 	cmdGen.Flags().StringP("algo", "a", "eddsa", "Private key algorithm")
 	if err := cmdGen.MarkFlagRequired("name"); err != nil {
