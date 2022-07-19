@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/pem"
 	"fmt"
+	"io"
 	"strings"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -29,52 +30,63 @@ func (s S3) ID() string {
 }
 
 func (s *S3) Tune(options ...string) error {
-	if len(options) != 3 {
+	if len(options) != 4 {
 		return fmt.Errorf("invalid number of options for provider %s: %s", s.ID(), options)
 	}
 
-	s.config = &aws.Config{
-		Credentials:      credentials.NewStaticCredentials(options[1], options[2], ""),
-		Endpoint:         aws.String(options[0]),
-		Region:           aws.String("eu-west-1"),
-		DisableSSL:       aws.Bool(strings.HasPrefix(options[0], "http://")),
-		S3ForcePathStyle: aws.Bool(true),
-	}
+	s.config = aws.NewConfig().
+		WithEndpoint(options[0]).
+		WithDisableSSL(strings.HasPrefix(options[0], "http://")).
+		WithRegion(options[3]).
+		WithS3ForcePathStyle(true).
+		WithCredentials(credentials.NewStaticCredentials(
+			options[1],
+			options[2],
+			"",
+		))
 	return nil
 }
 
 func (s *S3) Get(name string) ([]byte, []byte, error) {
-	session, err := session.NewSession(s.config)
-	if err != nil {
-		return nil, nil, err
-	}
-	client := s3manager.NewDownloader(session)
+	client := s3.New(
+		session.Must(session.NewSession()),
+		s.config,
+	)
 
-	crtData := aws.NewWriteAtBuffer([]byte{})
-	if _, err := client.Download(crtData, &s3.GetObjectInput{
+	crtData := bytes.NewBuffer(nil)
+	if data, err := client.GetObject(&s3.GetObjectInput{
 		Bucket: bucket(name),
 		Key:    &s3CrtName,
 	}); err != nil {
 		return nil, nil, err
+	} else {
+		if _, err := io.Copy(crtData, data.Body); err != nil {
+			return nil, nil, err
+		}
+		data.Body.Close()
 	}
 
-	keyData := aws.NewWriteAtBuffer([]byte{})
-	if _, err := client.Download(keyData, &s3.GetObjectInput{
+	keyData := bytes.NewBuffer(nil)
+	if data, err := client.GetObject(&s3.GetObjectInput{
 		Bucket: bucket(name),
 		Key:    &s3KeyName,
 	}); err != nil {
 		return nil, nil, err
+	} else {
+		if _, err := io.Copy(keyData, data.Body); err != nil {
+			return nil, nil, err
+		}
+		data.Body.Close()
 	}
 
 	return crtData.Bytes(), keyData.Bytes(), nil
 }
 
 func (s *S3) Put(name string, crtData *pem.Block, keyData *pem.Block) error {
-	session, err := session.NewSession(s.config)
-	if err != nil {
-		return err
-	}
-	client := s3.New(session)
+	client := s3.New(
+		session.Must(session.NewSession()),
+		s.config,
+	)
 
 	if _, err := client.CreateBucket(&s3.CreateBucketInput{Bucket: bucket(name)}); err != nil &&
 		strings.HasPrefix(err.Error(), s3.ErrCodeBucketAlreadyExists) &&
@@ -102,11 +114,10 @@ func (s *S3) Put(name string, crtData *pem.Block, keyData *pem.Block) error {
 }
 
 func (s *S3) Del(name string) error {
-	session, err := session.NewSession(s.config)
-	if err != nil {
-		return err
-	}
-	client := s3.New(session)
+	client := s3.New(
+		session.Must(session.NewSession()),
+		s.config,
+	)
 
 	if err := s3manager.NewBatchDeleteWithClient(client).Delete(
 		aws.BackgroundContext(),

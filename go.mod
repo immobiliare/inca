@@ -24,7 +24,7 @@ require (
 
 require (
 	github.com/andybalholm/brotli v1.0.4 // indirect
-	github.com/aws/aws-sdk-go v1.44.56
+	github.com/aws/aws-sdk-go v1.44.57
 	github.com/dre1080/fiberlog v0.1.0
 	github.com/edersohe/zflogger v0.7.0
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
