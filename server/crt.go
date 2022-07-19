@@ -2,6 +2,8 @@ package server
 
 import (
 	"bytes"
+	"fmt"
+	"strings"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/rs/zerolog/log"
@@ -22,7 +24,10 @@ func (inca *Inca) handlerCRT(c *fiber.Ctx) error {
 
 	data, _, err := (*inca.Cfg.Storage).Get(name)
 	if err == nil {
-		log.Info().Str("name", name).Err(err).Msg("returning cached certificate")
+		log.Info().Str("name", name).Msg("returning cached certificate")
+		if strings.EqualFold(c.Get("Accept", "text/plain"), "application/json") {
+			return c.SendString(fmt.Sprintf(`{"crt":"%s"}`, util.BytesToJSON(data)))
+		}
 		return c.SendStream(bytes.NewReader(data), len(data))
 	}
 
@@ -44,5 +49,8 @@ func (inca *Inca) handlerCRT(c *fiber.Ctx) error {
 	}
 
 	crtData := pki.ExportBytes(crt)
+	if strings.EqualFold(c.Get("Accept", "text/plain"), "application/json") {
+		return c.SendString(fmt.Sprintf(`{"crt":"%s"}`, util.BytesToJSON(crtData)))
+	}
 	return c.SendStream(bytes.NewReader(crtData), len(crtData))
 }

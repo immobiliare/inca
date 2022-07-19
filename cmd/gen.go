@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
@@ -106,9 +105,7 @@ var cmdGen = &cobra.Command{
 
 				fmt.Print(out.String())
 			case "json":
-				crtJson := strings.ReplaceAll(string(crtBuffer[:len(crtBuffer)-1]), "\n", "\\n")
-				keyJson := strings.ReplaceAll(string(keyBuffer[:len(keyBuffer)-1]), "\n", "\\n")
-				fmt.Printf(`{"crt":"%s","key":"%s"}`, crtJson, keyJson)
+				fmt.Printf(`{"crt":"%s","key":"%s"}`, util.BytesToJSON(crtBuffer), util.BytesToJSON(keyBuffer))
 			default: // raw
 				fmt.Printf("%s%s", string(crtBuffer), string(keyBuffer))
 			}

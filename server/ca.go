@@ -2,11 +2,14 @@ package server
 
 import (
 	"bytes"
+	"fmt"
+	"strings"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/rs/zerolog/log"
 	"gitlab.rete.farm/sistemi/inca/pki"
 	"gitlab.rete.farm/sistemi/inca/provider"
+	"gitlab.rete.farm/sistemi/inca/util"
 )
 
 func (inca *Inca) handlerCA(c *fiber.Ctx) error {
@@ -22,5 +25,8 @@ func (inca *Inca) handlerCA(c *fiber.Ctx) error {
 	}
 
 	caCrtBytes := pki.ExportBytes(caCrt)
+	if strings.EqualFold(c.Get("Accept", "text/plain"), "application/json") {
+		return c.SendString(fmt.Sprintf(`{"crt":"%s"}`, util.BytesToJSON(caCrtBytes)))
+	}
 	return c.SendStream(bytes.NewReader(caCrtBytes), len(caCrtBytes))
 }
