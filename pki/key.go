@@ -60,7 +60,7 @@ func newKey(algo int) (*Key, error) {
 	case EDDSA:
 		_, key, err = ed25519.GenerateKey(rand.Reader)
 	case ECDSA:
-		key, err = ecdsa.GenerateKey(elliptic.P521(), rand.Reader)
+		key, err = ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
 	case RSA:
 		key, err = rsa.GenerateKey(rand.Reader, 4096)
 	default:
