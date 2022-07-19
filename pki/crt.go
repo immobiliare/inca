@@ -64,7 +64,7 @@ func NewRequest(names ...string) Request {
 		PostalCode:    "00184",
 		Hosts:         names,
 		CA:            false,
-		Algo:          EDDSA,
+		Algo:          ECDSA,
 		Duration:      time.Duration(100 * 365 * 24 * time.Hour),
 	}
 }

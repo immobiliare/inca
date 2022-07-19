@@ -119,7 +119,7 @@ func init() {
 	cmdGen.Flags().StringP("output", "o", util.ErrWrap("./")(os.Getwd()), "Output path (\"-\" for stdout)")
 	cmdGen.Flags().StringP("encode", "e", "raw", "Encode returned payload: zip, json (only for stdout generation)")
 	cmdGen.Flags().StringArrayP("name", "n", []string{}, "Certificate names")
-	cmdGen.Flags().StringP("algo", "a", "eddsa", "Private key algorithm")
+	cmdGen.Flags().StringP("algo", "a", "ecdsa", "Private key algorithm")
 	if err := cmdGen.MarkFlagRequired("name"); err != nil {
 		log.Fatal().Err(err).Msg("unable to mark name flag as required")
 	}
