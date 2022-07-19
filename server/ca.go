@@ -5,6 +5,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/rs/zerolog/log"
+	"gitlab.rete.farm/sistemi/inca/pki"
 	"gitlab.rete.farm/sistemi/inca/provider"
 )
 
@@ -20,5 +21,6 @@ func (inca *Inca) handlerCA(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusBadRequest)
 	}
 
-	return c.SendStream(bytes.NewReader(caCrt.Bytes), len(caCrt.Bytes))
+	caCrtBytes := pki.ExportBytes(caCrt)
+	return c.SendStream(bytes.NewReader(caCrtBytes), len(caCrtBytes))
 }
