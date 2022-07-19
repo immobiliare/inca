@@ -38,7 +38,12 @@ func (p *Local) For(name string) bool {
 }
 
 func (p *Local) Get(name string, options map[string]string) (*pem.Block, *pem.Block, error) {
-	req := pki.NewRequest(name)
+	names := []string{name}
+	if altNames, ok := options["alt"]; ok {
+		names = append(names, strings.Split(altNames, ",")...)
+	}
+
+	req := pki.NewRequest(names...)
 	if algo, ok := options["algo"]; ok {
 		switch algo {
 		case "eddsa":
