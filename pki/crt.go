@@ -31,6 +31,10 @@ func Parse(path string) (*x509.Certificate, error) {
 		return nil, err
 	}
 
+	return ParseBytes(data)
+}
+
+func ParseBytes(data []byte) (*x509.Certificate, error) {
 	block, _ := pem.Decode(data)
 	crt, err := x509.ParseCertificate(block.Bytes)
 	if err != nil {

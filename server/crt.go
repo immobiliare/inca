@@ -17,8 +17,8 @@ func (inca *Inca) handlerCRT(c *fiber.Ctx) error {
 		name         = c.Params("name")
 		queryStrings = util.ParseQueryString(c.Request().URI().QueryString())
 	)
-	if len(name) <= 3 {
-		log.Error().Str("name", name).Msg("name too short")
+	if !pki.IsValidCN(name) {
+		log.Error().Str("name", name).Msg("invalid name")
 		return c.SendStatus(fiber.StatusBadRequest)
 	}
 
