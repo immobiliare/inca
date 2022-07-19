@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
@@ -34,9 +35,9 @@ var cmdGen = &cobra.Command{
 		req := pki.NewRequest(names...)
 		req.CA = true
 
-		compress, err := cmd.Flags().GetBool("compress")
+		encode, err := cmd.Flags().GetString("encode")
 		if err != nil {
-			log.Fatal().Err(err).Msg("unable to read compress flag")
+			log.Fatal().Err(err).Msg("unable to read encode flag")
 		}
 
 		algo, err := cmd.Flags().GetString("algo")
@@ -74,14 +75,16 @@ var cmdGen = &cobra.Command{
 			}
 
 			log.Info().Str("output", output).Msg("certificate created")
+			return
 		} else {
 			var (
-				outputBuffer = new(bytes.Buffer)
-				crtBuffer    = pki.ExportBytes(crtBytes)
-				keyBuffer    = pki.ExportBytes(keyBytes)
+				crtBuffer = pki.ExportBytes(crtBytes)
+				keyBuffer = pki.ExportBytes(keyBytes)
 			)
-			if compress {
-				zip := zip.NewWriter(outputBuffer)
+			switch encode {
+			case "zip":
+				out := new(bytes.Buffer)
+				zip := zip.NewWriter(out)
 				for key, value := range map[string][]byte{
 					"crt.pem": crtBuffer,
 					"key.pem": keyBuffer,
@@ -100,13 +103,16 @@ var cmdGen = &cobra.Command{
 				if err != nil {
 					log.Fatal().Err(err).Msg("unable to close ZIP archive")
 				}
-			} else {
-				if _, err := outputBuffer.Write(append(crtBuffer, keyBuffer...)); err != nil {
-					log.Fatal().Err(err).Msg("unable to merge certificate and key into a single buffer")
-				}
-			}
 
-			fmt.Print(outputBuffer.String())
+				fmt.Print(out.String())
+			case "json":
+				crtJson := strings.ReplaceAll(string(crtBuffer[:len(crtBuffer)-1]), "\n", "\\n")
+				keyJson := strings.ReplaceAll(string(keyBuffer[:len(keyBuffer)-1]), "\n", "\\n")
+				fmt.Printf(`{"crt":"%s","key":"%s"}`, crtJson, keyJson)
+			default: // raw
+				fmt.Printf("%s%s", string(crtBuffer), string(keyBuffer))
+			}
+			return
 		}
 	},
 }
@@ -114,7 +120,7 @@ var cmdGen = &cobra.Command{
 func init() {
 	cmdRoot.AddCommand(cmdGen)
 	cmdGen.Flags().StringP("output", "o", util.ErrWrap("./")(os.Getwd()), "Output path (\"-\" for stdout)")
-	cmdGen.Flags().BoolP("compress", "c", false, "ZIP-compress bundle (only for stdout generation)")
+	cmdGen.Flags().StringP("encode", "e", "raw", "Encode returned payload: zip, json (only for stdout generation)")
 	cmdGen.Flags().StringArrayP("name", "n", []string{}, "Certificate names")
 	cmdGen.Flags().StringP("algo", "a", "eddsa", "Private key algorithm")
 	if err := cmdGen.MarkFlagRequired("name"); err != nil {
