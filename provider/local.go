@@ -38,7 +38,19 @@ func (p *Local) For(name string) bool {
 }
 
 func (p *Local) Get(name string, options map[string]string) (*pem.Block, *pem.Block, error) {
-	crt, key, err := pki.New(pki.NewRequest(name))
+	req := pki.NewRequest(name)
+	if algo, ok := options["algo"]; ok {
+		switch algo {
+		case "eddsa":
+			req.Algo = pki.EDDSA
+		case "ecdsa":
+			req.Algo = pki.ECDSA
+		case "rsa":
+			req.Algo = pki.RSA
+		}
+	}
+
+	crt, key, err := pki.New(req)
 	if err != nil {
 		return nil, nil, err
 	}
