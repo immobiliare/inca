@@ -14,14 +14,15 @@ import (
 
 type Key struct {
 	Value any
-	Algo  int
+	Algo  string
 }
 
 const (
-	UnsupportedAlgorithm = iota
-	EDDSA
-	ECDSA
-	RSA
+	DefaultCrtAlgo       = ECDSA
+	UnsupportedAlgorithm = ""
+	EDDSA                = "eddsa"
+	ECDSA                = "ecdsa"
+	RSA                  = "rsa"
 )
 
 func ParseKey(path string) (*Key, error) {
@@ -51,7 +52,7 @@ func ParseKey(path string) (*Key, error) {
 	return &key, nil
 }
 
-func newKey(algo int) (*Key, error) {
+func newKey(algo string) (*Key, error) {
 	var (
 		key any
 		err error

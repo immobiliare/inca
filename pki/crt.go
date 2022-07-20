@@ -21,9 +21,11 @@ type Request struct {
 	PostalCode    string
 	Hosts         []string
 	CA            bool
-	Algo          int
+	Algo          string
 	Duration      time.Duration
 }
+
+const DefaultCrtDuration = time.Duration(100 * 365 * 24 * time.Hour)
 
 func Parse(path string) (*x509.Certificate, error) {
 	data, err := ioutil.ReadFile(path)
@@ -58,19 +60,46 @@ func ParseKeyPair(crtPath, keyPath string) (*x509.Certificate, *Key, error) {
 	return crt, &Key{Value: tls.PrivateKey}, nil
 }
 
-func NewRequest(names ...string) Request {
-	return Request{
-		Organization:  "Immobiliare.it",
-		Country:       "IT",
-		Province:      "RM",
-		Locality:      "Rome",
-		StreetAddress: "Via di Santa Prassede",
-		PostalCode:    "00184",
-		Hosts:         names,
-		CA:            false,
-		Algo:          ECDSA,
-		Duration:      time.Duration(100 * 365 * 24 * time.Hour),
+func NewRequest(options map[string]any) Request {
+	req := Request{
+		Hosts:    []string{},
+		CA:       false,
+		Algo:     ECDSA,
+		Duration: DefaultCrtDuration,
 	}
+
+	if organization, ok := options["organization"]; ok {
+		req.Organization = organization.(string)
+	}
+	if country, ok := options["country"]; ok {
+		req.Country = country.(string)
+	}
+	if province, ok := options["province"]; ok {
+		req.Province = province.(string)
+	}
+	if locality, ok := options["locality"]; ok {
+		req.Locality = locality.(string)
+	}
+	if streetAddress, ok := options["streetAddress"]; ok {
+		req.StreetAddress = streetAddress.(string)
+	}
+	if postalCode, ok := options["postalCode"]; ok {
+		req.PostalCode = postalCode.(string)
+	}
+	if hosts, ok := options["hosts"]; ok {
+		req.Hosts = hosts.([]string)
+	}
+	if ca, ok := options["ca"]; ok {
+		req.CA = ca.(bool)
+	}
+	if algo, ok := options["algo"]; ok {
+		req.Algo = algo.(string)
+	}
+	if duration, ok := options["duration"]; ok {
+		req.Duration = duration.(time.Duration)
+	}
+
+	return req
 }
 
 func New(req Request) (*x509.Certificate, *Key, error) {

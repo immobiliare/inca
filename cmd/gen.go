@@ -31,24 +31,31 @@ var cmdGen = &cobra.Command{
 			log.Fatal().Err(err).Msg("at least a name gotta be given")
 		}
 
-		req := pki.NewRequest(names...)
-		req.CA = true
+		reqOptions := make(map[string]any)
+		reqOptions["hosts"] = names
 
-		encode, err := cmd.Flags().GetString("encode")
-		if err != nil {
-			log.Fatal().Err(err).Msg("unable to read encode flag")
+		if duration, err := cmd.Flags().GetDuration("duration"); err == nil {
+			reqOptions["duration"] = duration
 		}
 
-		algo, err := cmd.Flags().GetString("algo")
-		if err != nil {
-			log.Fatal().Err(err).Msg("algorithm flag is mandatory")
+		if ca, err := cmd.Flags().GetBool("ca"); err == nil {
+			reqOptions["ca"] = ca
 		}
-		req.Algo = map[string]int{
-			"eddsa": pki.EDDSA,
-			"ecdsa": pki.ECDSA,
-			"rsa":   pki.RSA,
-		}[algo]
-		log.Info().Strs("names", req.Hosts).Dur("duration", req.Duration).Str("algo", algo).Msg("generating certificate")
+
+		for _, reqOptionKey := range []string{
+			"algo", "organization", "country", "province", "locality", "streetAddress", "postalCode",
+		} {
+			if reqOptionValue, err := cmd.Flags().GetString(reqOptionKey); err == nil {
+				reqOptions[reqOptionKey] = reqOptionValue
+			}
+		}
+
+		req := pki.NewRequest(reqOptions)
+		log.Info().Strs("names", req.Hosts).
+			Dur("duration", req.Duration).
+			Str("algo", string(req.Algo)).
+			Msg("generating certificate")
+
 		crt, key, err := pki.New(req)
 		if err != nil {
 			log.Fatal().Err(err).Msg("unable to generate certificate")
@@ -63,6 +70,7 @@ var cmdGen = &cobra.Command{
 		}
 
 		if output != "-" {
+
 			log.Info().Msg("exporting certificate")
 			if err := pki.Export(crtBytes, filepath.Join(output, "crt.pem")); err != nil {
 				log.Fatal().Err(err).Msg("unable to export certificate")
@@ -75,11 +83,19 @@ var cmdGen = &cobra.Command{
 
 			log.Info().Str("output", output).Msg("certificate created")
 			return
+
 		} else {
+
 			var (
 				crtBuffer = pki.ExportBytes(crtBytes)
 				keyBuffer = pki.ExportBytes(keyBytes)
 			)
+
+			encode, err := cmd.Flags().GetString("encode")
+			if err != nil {
+				log.Fatal().Err(err).Msg("unable to read encode flag")
+			}
+
 			switch encode {
 			case "zip":
 				out := new(bytes.Buffer)
@@ -110,16 +126,25 @@ var cmdGen = &cobra.Command{
 				fmt.Printf("%s%s", string(crtBuffer), string(keyBuffer))
 			}
 			return
+
 		}
 	},
 }
 
 func init() {
 	cmdRoot.AddCommand(cmdGen)
+	cmdGen.Flags().StringArrayP("name", "n", []string{}, "Certificate names")
 	cmdGen.Flags().StringP("output", "o", util.ErrWrap("./")(os.Getwd()), "Output path (\"-\" for stdout)")
 	cmdGen.Flags().StringP("encode", "e", "raw", "Encode returned payload: zip, json (only for stdout generation)")
-	cmdGen.Flags().StringArrayP("name", "n", []string{}, "Certificate names")
-	cmdGen.Flags().StringP("algo", "a", "ecdsa", "Private key algorithm")
+	cmdGen.Flags().StringP("algo", "a", pki.DefaultCrtAlgo, "Private key algorithm")
+	cmdGen.Flags().String("organization", "", "Certificate Organization")
+	cmdGen.Flags().String("country", "", "Certificate Country")
+	cmdGen.Flags().String("province", "", "Certificate Province")
+	cmdGen.Flags().String("locality", "", "Certificate Locality")
+	cmdGen.Flags().String("streetAddress", "", "Certificate StreetAddress")
+	cmdGen.Flags().String("postalCode", "", "Certificate PostalCode")
+	cmdGen.Flags().Duration("duration", pki.DefaultCrtDuration, "Certificate Duration")
+	cmdGen.Flags().Bool("ca", false, "CA-enabled certificate")
 	if err := cmdGen.MarkFlagRequired("name"); err != nil {
 		log.Fatal().Err(err).Msg("unable to mark name flag as required")
 	}

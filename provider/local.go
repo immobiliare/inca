@@ -38,23 +38,28 @@ func (p *Local) For(name string) bool {
 }
 
 func (p *Local) Get(name string, options map[string]string) (*pem.Block, *pem.Block, error) {
-	names := []string{name}
-	if altNames, ok := options["alt"]; ok {
-		names = append(names, strings.Split(altNames, ",")...)
+	reqOptions := make(map[string]any)
+	for key, value := range options {
+		reqOptions[key] = value
 	}
 
-	req := pki.NewRequest(names...)
+	reqOptions["hosts"] = []string{name}
+	if altNames, ok := options["alt"]; ok {
+		reqOptions["hosts"] = append(reqOptions["hosts"].([]string), strings.Split(altNames, ",")...)
+	}
+
 	if algo, ok := options["algo"]; ok {
 		switch algo {
 		case "eddsa":
-			req.Algo = pki.EDDSA
+			reqOptions["algo"] = pki.EDDSA
 		case "ecdsa":
-			req.Algo = pki.ECDSA
+			reqOptions["algo"] = pki.ECDSA
 		case "rsa":
-			req.Algo = pki.RSA
+			reqOptions["algo"] = pki.RSA
 		}
 	}
 
+	req := pki.NewRequest(reqOptions)
 	crt, key, err := pki.New(req)
 	if err != nil {
 		return nil, nil, err
