@@ -23,13 +23,27 @@ func (inca *Inca) handlerCRT(c *fiber.Ctx) error {
 
 	data, _, err := (*inca.Cfg.Storage).Get(name)
 	if err == nil {
-		log.Info().Str("name", name).Msg("returning cached certificate")
-		if strings.EqualFold(c.Get("Accept", "text/plain"), "application/json") {
-			return c.JSON(struct {
-				Crt string `json:"crt"`
-			}{string(data)})
+		if crt, err := pki.ParseBytes(data); err != nil {
+			log.Error().Str("name", name).Msg("unable to parse cached certificate")
+		} else {
+			crtDNSNames, crtIPAddresses := pki.AltNames(crt)
+			reqDNSNames, reqIPAddresses := pki.ParseAltNames(queryStringAlt(queryStrings))
+			dnsNames, ipAddresses := util.StringSliceDistinct(append(crtDNSNames, reqDNSNames...)),
+				util.StringSliceDistinct(append(crtIPAddresses, reqIPAddresses...))
+			if !(util.StringSlicesEqual(crtDNSNames, dnsNames) &&
+				util.StringSlicesEqual(crtIPAddresses, ipAddresses)) {
+				log.Info().Str("name", name).Msg("cached certificate needs flush")
+				queryStrings["alt"] = strings.Join(append(dnsNames, ipAddresses...), ",")
+			} else {
+				log.Info().Str("name", name).Msg("returning cached certificate")
+				if strings.EqualFold(c.Get("Accept", "text/plain"), "application/json") {
+					return c.JSON(struct {
+						Crt string `json:"crt"`
+					}{string(data)})
+				}
+				return c.SendStream(bytes.NewReader(data), len(data))
+			}
 		}
-		return c.SendStream(bytes.NewReader(data), len(data))
 	}
 
 	p := provider.GetFor(name, queryStrings, (*inca.Cfg).Providers)
@@ -56,4 +70,11 @@ func (inca *Inca) handlerCRT(c *fiber.Ctx) error {
 		}{string(crtData)})
 	}
 	return c.SendStream(bytes.NewReader(crtData), len(crtData))
+}
+
+func queryStringAlt(queryStrings map[string]string) (altNames []string) {
+	if param, ok := queryStrings["alt"]; ok {
+		altNames = strings.Split(param, ",")
+	}
+	return
 }

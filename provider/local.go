@@ -39,13 +39,9 @@ func (p *Local) For(name string) bool {
 
 func (p *Local) Get(name string, options map[string]string) (*pem.Block, *pem.Block, error) {
 	reqOptions := make(map[string]any)
+	reqOptions["cn"] = name
 	for key, value := range options {
 		reqOptions[key] = value
-	}
-
-	reqOptions["hosts"] = []string{name}
-	if altNames, ok := options["alt"]; ok {
-		reqOptions["hosts"] = append(reqOptions["hosts"].([]string), strings.Split(altNames, ",")...)
 	}
 
 	if algo, ok := options["algo"]; ok {

@@ -33,7 +33,7 @@ var cmdGen = &cobra.Command{
 		}
 
 		reqOptions := make(map[string]any)
-		reqOptions["hosts"] = names
+		reqOptions["cn"] = names
 
 		if duration, err := cmd.Flags().GetDuration("duration"); err == nil {
 			reqOptions["duration"] = duration
@@ -52,7 +52,9 @@ var cmdGen = &cobra.Command{
 		}
 
 		req := pki.NewRequest(reqOptions)
-		log.Info().Strs("names", req.Hosts).
+		log.Info().Str("name", req.CN).
+			Strs("dns", req.DNSNames).
+			Strs("ip", req.IPAddresses).
 			Dur("duration", req.Duration).
 			Str("algo", string(req.Algo)).
 			Msg("generating certificate")

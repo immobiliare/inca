@@ -9,6 +9,8 @@ import (
 	"io/ioutil"
 	"math/big"
 	"net"
+	"sort"
+	"strings"
 	"time"
 )
 
@@ -19,7 +21,9 @@ type Request struct {
 	Locality      string
 	StreetAddress string
 	PostalCode    string
-	Hosts         []string
+	CN            string
+	DNSNames      []string
+	IPAddresses   []string
 	CA            bool
 	Algo          string
 	Duration      time.Duration
@@ -62,10 +66,11 @@ func ParseKeyPair(crtPath, keyPath string) (*x509.Certificate, *Key, error) {
 
 func NewRequest(options map[string]any) Request {
 	req := Request{
-		Hosts:    []string{},
-		CA:       false,
-		Algo:     DefaultCrtAlgo,
-		Duration: DefaultCrtDuration,
+		CA:          false,
+		Algo:        DefaultCrtAlgo,
+		Duration:    DefaultCrtDuration,
+		DNSNames:    []string{},
+		IPAddresses: []string{},
 	}
 
 	if organization, ok := options["organization"]; ok {
@@ -86,8 +91,11 @@ func NewRequest(options map[string]any) Request {
 	if postalCode, ok := options["postal_code"]; ok {
 		req.PostalCode = postalCode.(string)
 	}
-	if hosts, ok := options["hosts"]; ok {
-		req.Hosts = hosts.([]string)
+	if cn, ok := options["cn"]; ok {
+		req.CN = cn.(string)
+	}
+	if alt, ok := options["alt"]; ok {
+		req.DNSNames, req.IPAddresses = ParseAltNames(strings.Split(alt.(string), ","))
 	}
 	if ca, ok := options["ca"]; ok {
 		req.CA = ca.(bool)
@@ -105,7 +113,7 @@ func NewRequest(options map[string]any) Request {
 func New(req Request) (*x509.Certificate, *Key, error) {
 	var crt = x509.Certificate{}
 	crt.Subject = pkix.Name{
-		CommonName:    req.Hosts[0],
+		CommonName:    req.CN,
 		Organization:  []string{req.Organization},
 		Country:       []string{req.Country},
 		Province:      []string{req.Province},
@@ -116,6 +124,12 @@ func New(req Request) (*x509.Certificate, *Key, error) {
 	crt.BasicConstraintsValid = true
 	crt.NotBefore = time.Now()
 	crt.NotAfter = crt.NotBefore.Add(req.Duration)
+	crt.DNSNames = req.DNSNames
+	for _, address := range req.IPAddresses {
+		if ip := net.ParseIP(address); ip != nil {
+			crt.IPAddresses = append(crt.IPAddresses, ip)
+		}
+	}
 
 	crt.KeyUsage = x509.KeyUsageDigitalSignature
 	crt.ExtKeyUsage = []x509.ExtKeyUsage{x509.ExtKeyUsageServerAuth}
@@ -129,14 +143,6 @@ func New(req Request) (*x509.Certificate, *Key, error) {
 		crt.SerialNumber = serialNumber
 	}
 
-	for _, host := range req.Hosts {
-		if ip := net.ParseIP(host); ip != nil {
-			crt.IPAddresses = append(crt.IPAddresses, ip)
-		} else {
-			crt.DNSNames = append(crt.DNSNames, host)
-		}
-	}
-
 	if req.CA {
 		crt.IsCA = true
 		crt.KeyUsage |= x509.KeyUsageCertSign
@@ -148,4 +154,40 @@ func New(req Request) (*x509.Certificate, *Key, error) {
 
 func IsValidCN(name string) bool {
 	return len(name) > 3
+}
+
+func AltNames(crt *x509.Certificate) ([]string, []string) {
+	var (
+		dnsNames    = []string{}
+		ipAddresses = []string{}
+	)
+	for _, name := range crt.DNSNames {
+		name = strings.TrimSpace(name)
+		if len(name) > 0 {
+			dnsNames = append(dnsNames, name)
+		}
+	}
+	for _, ip := range crt.IPAddresses {
+		ipString := strings.TrimSpace(ip.String())
+		if len(ipString) > 0 {
+			ipAddresses = append(ipAddresses, ip.String())
+		}
+	}
+	sort.Strings(dnsNames)
+	sort.Strings(ipAddresses)
+	return dnsNames, ipAddresses
+}
+
+func ParseAltNames(altNames []string) (dnsNames []string, ipAddresses []string) {
+	for _, name := range altNames {
+		name = strings.TrimSpace(name)
+		if ip := net.ParseIP(name); ip == nil && len(name) > 0 {
+			dnsNames = append(dnsNames, name)
+		} else if len(name) > 0 {
+			ipAddresses = append(ipAddresses, name)
+		}
+	}
+	sort.Strings(dnsNames)
+	sort.Strings(ipAddresses)
+	return
 }
