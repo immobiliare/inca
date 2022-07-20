@@ -3,6 +3,7 @@ package cmd
 import (
 	"archive/zip"
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -121,7 +122,15 @@ var cmdGen = &cobra.Command{
 
 				fmt.Print(out.String())
 			case "json":
-				fmt.Printf(`{"crt":"%s","key":"%s"}`, util.BytesToJSON(crtBuffer), util.BytesToJSON(keyBuffer))
+				jsonBundle := &struct {
+					Crt string `json:"crt"`
+					Key string `json:"key"`
+				}{string(crtBuffer), string(keyBuffer)}
+				if json, err := json.Marshal(jsonBundle); err != nil {
+					log.Fatal().Err(err).Msg("unable to JSON-encode archive")
+				} else {
+					fmt.Print(string(json))
+				}
 			default: // raw
 				fmt.Printf("%s%s", string(crtBuffer), string(keyBuffer))
 			}

@@ -2,7 +2,6 @@ package server
 
 import (
 	"bytes"
-	"fmt"
 	"strings"
 
 	"github.com/gofiber/fiber/v2"
@@ -26,7 +25,9 @@ func (inca *Inca) handlerCRT(c *fiber.Ctx) error {
 	if err == nil {
 		log.Info().Str("name", name).Msg("returning cached certificate")
 		if strings.EqualFold(c.Get("Accept", "text/plain"), "application/json") {
-			return c.SendString(fmt.Sprintf(`{"crt":"%s"}`, util.BytesToJSON(data)))
+			return c.JSON(struct {
+				Crt string `json:"crt"`
+			}{string(data)})
 		}
 		return c.SendStream(bytes.NewReader(data), len(data))
 	}
@@ -50,7 +51,9 @@ func (inca *Inca) handlerCRT(c *fiber.Ctx) error {
 
 	crtData := pki.ExportBytes(crt)
 	if strings.EqualFold(c.Get("Accept", "text/plain"), "application/json") {
-		return c.SendString(fmt.Sprintf(`{"crt":"%s"}`, util.BytesToJSON(crtData)))
+		return c.JSON(struct {
+			Crt string `json:"crt"`
+		}{string(crtData)})
 	}
 	return c.SendStream(bytes.NewReader(crtData), len(crtData))
 }

@@ -27,9 +27,9 @@ func (inca *Inca) handlerShow(c *fiber.Ctx) error {
 	}
 
 	return c.JSON(struct {
-		Names     []string
-		NotBefore time.Time
-		NotAfter  time.Time
+		Names     []string  `json:"names"`
+		NotBefore time.Time `json:"not_before"`
+		NotAfter  time.Time `json:"not_after"`
 	}{
 		crt.DNSNames,
 		crt.NotBefore,
