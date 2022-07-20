@@ -32,7 +32,7 @@ lab:
     - curl 127.0.0.1:8080/ca/local | openssl x509 -text
     - curl 127.0.0.1:8080/test.$name | openssl x509 -text
     - test -f test/test.$name/crt.pem
-    - curl 127.0.0.1:8080/test.$name/key | openssl x509 -text
+    - curl 127.0.0.1:8080/test.$name/key
     - curl 127.0.0.1:8080/test.$name/show | jq
     - curl 127.0.0.1:8080/test.$name/revoke -X PUT
     - test -f test/test.$name/crt.pem && exit 1 || echo -n
