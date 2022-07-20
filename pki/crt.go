@@ -80,10 +80,10 @@ func NewRequest(options map[string]any) Request {
 	if locality, ok := options["locality"]; ok {
 		req.Locality = locality.(string)
 	}
-	if streetAddress, ok := options["streetAddress"]; ok {
+	if streetAddress, ok := options["street_address"]; ok {
 		req.StreetAddress = streetAddress.(string)
 	}
-	if postalCode, ok := options["postalCode"]; ok {
+	if postalCode, ok := options["postal_code"]; ok {
 		req.PostalCode = postalCode.(string)
 	}
 	if hosts, ok := options["hosts"]; ok {
