@@ -44,7 +44,7 @@ var cmdGen = &cobra.Command{
 		}
 
 		for _, reqOptionKey := range []string{
-			"algo", "organization", "country", "province", "locality", "streetAddress", "postalCode",
+			"algo", "organization", "country", "province", "locality", "street-address", "postal-code",
 		} {
 			if reqOptionValue, err := cmd.Flags().GetString(reqOptionKey); err == nil {
 				reqOptions[reqOptionKey] = reqOptionValue
@@ -150,8 +150,8 @@ func init() {
 	cmdGen.Flags().String("country", "", "Certificate Country")
 	cmdGen.Flags().String("province", "", "Certificate Province")
 	cmdGen.Flags().String("locality", "", "Certificate Locality")
-	cmdGen.Flags().String("streetAddress", "", "Certificate StreetAddress")
-	cmdGen.Flags().String("postalCode", "", "Certificate PostalCode")
+	cmdGen.Flags().String("street-address", "", "Certificate StreetAddress")
+	cmdGen.Flags().String("postal-code", "", "Certificate PostalCode")
 	cmdGen.Flags().Duration("duration", pki.DefaultCrtDuration, "Certificate Duration")
 	cmdGen.Flags().Bool("ca", false, "CA-enabled certificate")
 	if err := cmdGen.MarkFlagRequired("name"); err != nil {
