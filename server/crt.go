@@ -40,12 +40,12 @@ func (inca *Inca) handlerCRT(c *fiber.Ctx) error {
 	crt, key, err := (*p).Get(name, queryStrings)
 	if err != nil {
 		log.Error().Err(err).Msg("unable to generate")
-		return c.SendStatus(fiber.StatusBadRequest)
+		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 
 	if err := (*inca.Cfg.Storage).Put(name, crt, key); err != nil {
 		log.Error().Err(err).Msg("unable to persist certificate")
-		return c.SendStatus(fiber.StatusBadRequest)
+		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 
 	crtData := pki.ExportBytes(crt)

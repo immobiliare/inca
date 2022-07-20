@@ -21,7 +21,7 @@ func (inca *Inca) handlerCA(c *fiber.Ctx) error {
 	caCrt, err := (*p).CA()
 	if err != nil {
 		log.Error().Err(err).Msg("unable to retrieve CA certificate")
-		return c.SendStatus(fiber.StatusBadRequest)
+		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 
 	caCrtBytes := pki.ExportBytes(caCrt)
