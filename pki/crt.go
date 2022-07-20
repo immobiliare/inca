@@ -64,7 +64,7 @@ func NewRequest(options map[string]any) Request {
 	req := Request{
 		Hosts:    []string{},
 		CA:       false,
-		Algo:     ECDSA,
+		Algo:     DefaultCrtAlgo,
 		Duration: DefaultCrtDuration,
 	}
 
