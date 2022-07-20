@@ -1,0 +1,6 @@
+origins:
+  - type: local
+    options: test/crt.pem test/key.pem
+data:
+  type: filesystem
+  options: test
