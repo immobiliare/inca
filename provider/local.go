@@ -29,7 +29,7 @@ func (p *Local) Tune(options ...string) (err error) {
 }
 
 func (p *Local) For(name string) bool {
-	for _, dns := range p.crt.DNSNames {
+	for _, dns := range append(p.crt.DNSNames, p.crt.Subject.CommonName) {
 		if strings.HasSuffix(name, dns) {
 			return true
 		}
