@@ -85,3 +85,37 @@ func (s *FileSystem) Del(name string) error {
 
 	return os.RemoveAll(filepath.Join(s.path, name))
 }
+
+func (s *FileSystem) Find(filters ...string) ([][]byte, error) {
+	dirs, err := ioutil.ReadDir(s.path)
+	if err != nil {
+		return nil, err
+	}
+
+	results := [][]byte{}
+	for _, dir := range dirs {
+		if !dir.IsDir() {
+			continue
+		}
+
+		var (
+			crtPath  = filepath.Join(s.path, dir.Name(), fsCrtName)
+			isResult = pki.IsValidCN(dir.Name()) && util.RegexesMatch(dir.Name(), filters...)
+		)
+
+		_, err := os.Stat(crtPath)
+		isResult = isResult && !os.IsNotExist(err)
+		if !isResult {
+			continue
+		}
+
+		crt, _, err := s.Get(dir.Name())
+		if err != nil {
+			return nil, err
+		}
+
+		results = append(results, crt)
+	}
+
+	return results, nil
+}

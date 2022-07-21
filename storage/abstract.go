@@ -12,6 +12,7 @@ type Storage interface {
 	Put(name string, crtData *pem.Block, keyData *pem.Block) error
 	Get(name string) ([]byte, []byte, error)
 	Del(name string) error
+	Find(filters ...string) ([][]byte, error)
 }
 
 func Get(id string, options ...string) (*Storage, error) {

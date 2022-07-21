@@ -13,6 +13,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 	"gitlab.rete.farm/sistemi/inca/pki"
+	"gitlab.rete.farm/sistemi/inca/util"
 )
 
 var (
@@ -55,7 +56,7 @@ func (s *S3) Get(name string) ([]byte, []byte, error) {
 
 	crtData := bytes.NewBuffer(nil)
 	if data, err := client.GetObject(&s3.GetObjectInput{
-		Bucket: bucket(name),
+		Bucket: nameToBucket(name),
 		Key:    &s3CrtName,
 	}); err != nil {
 		return nil, nil, err
@@ -68,7 +69,7 @@ func (s *S3) Get(name string) ([]byte, []byte, error) {
 
 	keyData := bytes.NewBuffer(nil)
 	if data, err := client.GetObject(&s3.GetObjectInput{
-		Bucket: bucket(name),
+		Bucket: nameToBucket(name),
 		Key:    &s3KeyName,
 	}); err != nil {
 		return nil, nil, err
@@ -88,14 +89,14 @@ func (s *S3) Put(name string, crtData *pem.Block, keyData *pem.Block) error {
 		s.config,
 	)
 
-	if _, err := client.CreateBucket(&s3.CreateBucketInput{Bucket: bucket(name)}); err != nil &&
+	if _, err := client.CreateBucket(&s3.CreateBucketInput{Bucket: nameToBucket(name)}); err != nil &&
 		strings.HasPrefix(err.Error(), s3.ErrCodeBucketAlreadyExists) &&
 		strings.HasPrefix(err.Error(), s3.ErrCodeBucketAlreadyOwnedByYou) {
 		return err
 	}
 
 	if _, err := client.PutObject(&s3.PutObjectInput{
-		Bucket: bucket(name),
+		Bucket: nameToBucket(name),
 		Key:    &s3CrtName,
 		Body:   bytes.NewReader(pki.ExportBytes(crtData)),
 	}); err != nil {
@@ -103,7 +104,7 @@ func (s *S3) Put(name string, crtData *pem.Block, keyData *pem.Block) error {
 	}
 
 	if _, err := client.PutObject(&s3.PutObjectInput{
-		Bucket: bucket(name),
+		Bucket: nameToBucket(name),
 		Key:    &s3KeyName,
 		Body:   bytes.NewReader(pki.ExportBytes(keyData)),
 	}); err != nil {
@@ -122,13 +123,13 @@ func (s *S3) Del(name string) error {
 	if err := s3manager.NewBatchDeleteWithClient(client).Delete(
 		aws.BackgroundContext(),
 		s3manager.NewDeleteListIterator(client, &s3.ListObjectsInput{
-			Bucket: bucket(name),
+			Bucket: nameToBucket(name),
 		})); err != nil {
 		return err
 	}
 
 	if _, err := client.DeleteBucket(&s3.DeleteBucketInput{
-		Bucket: bucket(name),
+		Bucket: nameToBucket(name),
 	}); err != nil {
 		return err
 	}
@@ -136,7 +137,40 @@ func (s *S3) Del(name string) error {
 	return nil
 }
 
-func bucket(name string) *string {
+func (s *S3) Find(filters ...string) ([][]byte, error) {
+	client := s3.New(
+		session.Must(session.NewSession()),
+		s.config,
+	)
+
+	buckets, err := client.ListBuckets(&s3.ListBucketsInput{})
+	if err != nil {
+		return nil, err
+	}
+
+	results := [][]byte{}
+	for _, bucket := range buckets.Buckets {
+		if !(pki.IsValidCN(bucketToName(bucket.Name)) &&
+			util.RegexesMatch(bucketToName(bucket.Name), filters...)) {
+			continue
+		}
+
+		crt, _, err := s.Get(*bucket.Name)
+		if err != nil {
+			return nil, err
+		}
+
+		results = append(results, crt)
+	}
+
+	return results, nil
+}
+
+func nameToBucket(name string) *string {
 	bucket := strings.ReplaceAll(name, ".", "-")
 	return &bucket
+}
+
+func bucketToName(bucket *string) string {
+	return strings.ReplaceAll(*bucket, "-", ".")
 }

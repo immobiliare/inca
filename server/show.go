@@ -1,12 +1,13 @@
 package server
 
 import (
-	"time"
-
 	"github.com/gofiber/fiber/v2"
 	"github.com/rs/zerolog/log"
 	"gitlab.rete.farm/sistemi/inca/pki"
 )
+
+type Certificate struct {
+}
 
 func (inca *Inca) handlerShow(c *fiber.Ctx) error {
 	var name = c.Params("name")
@@ -26,13 +27,5 @@ func (inca *Inca) handlerShow(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 
-	return c.JSON(struct {
-		Names     []string  `json:"names"`
-		NotBefore time.Time `json:"not_before"`
-		NotAfter  time.Time `json:"not_after"`
-	}{
-		crt.DNSNames,
-		crt.NotBefore,
-		crt.NotAfter,
-	})
+	return c.JSON(EncodeCrt(crt))
 }
