@@ -6,7 +6,7 @@ import (
 )
 
 func (inca *Inca) handlerRevoke(c *fiber.Ctx) error {
-	if err := (*inca.Cfg.Storage).Del(c.Params("name")); err != nil {
+	if err := (*inca.Storage).Del(c.Params("name")); err != nil {
 		log.Error().Err(err).Msg("unable to remove")
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}

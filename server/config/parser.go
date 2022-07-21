@@ -1,9 +1,10 @@
 package config
 
 import (
+	"errors"
+	"fmt"
 	"io/ioutil"
 	"os"
-	"strings"
 
 	"gitlab.rete.farm/sistemi/inca/provider"
 	"gitlab.rete.farm/sistemi/inca/storage"
@@ -11,20 +12,18 @@ import (
 )
 
 type Config struct {
+	Storage   *storage.Storage
 	Providers []*provider.Provider
-	Origins   []struct {
-		Type    string `yaml:"type"`
-		Options string `yaml:"options"`
-	} `yaml:"origins"`
+}
 
-	Storage *storage.Storage
-	Data    struct {
-		Type    string `yaml:"type"`
-		Options string `yaml:"options"`
-	} `yaml:"data"`
+type Wrapper struct {
+	Storage   map[string]interface{}   `yaml:"storage"`
+	Providers []map[string]interface{} `yaml:"providers"`
 }
 
 func Parse(path string) (*Config, error) {
+	cfg := Config{}
+
 	if _, err := os.Stat(path); os.IsNotExist(err) {
 		return nil, err
 	}
@@ -34,24 +33,35 @@ func Parse(path string) (*Config, error) {
 		return nil, err
 	}
 
-	cfg := Config{Providers: []*provider.Provider{}}
-	if err := yaml.Unmarshal(content, &cfg); err != nil {
+	wrapper := Wrapper{}
+	if err := yaml.Unmarshal(content, &wrapper); err != nil {
 		return nil, err
 	}
 
-	for _, provPuppet := range cfg.Origins {
-		prov, err := provider.Find(provPuppet.Type, strings.Split(provPuppet.Options, " ")...)
-		if err != nil {
-			return nil, err
-		}
-		cfg.Providers = append(cfg.Providers, prov)
+	id, ok := wrapper.Storage["type"]
+	if !ok {
+		return nil, errors.New("storage type not defined")
 	}
-
-	storage, err := storage.Get(cfg.Data.Type, strings.Split(cfg.Data.Options, " ")...)
+	storage, err := storage.Get(id.(string), wrapper.Storage)
 	if err != nil {
 		return nil, err
 	}
 	cfg.Storage = storage
+
+	providers := []*provider.Provider{}
+	for _, providerConfig := range wrapper.Providers {
+		id, ok := providerConfig["type"]
+		if !ok {
+			return nil, fmt.Errorf("provider type not defined")
+		}
+
+		provider, err := provider.Get(id.(string), providerConfig)
+		if err != nil {
+			return nil, err
+		}
+		providers = append(providers, provider)
+	}
+	cfg.Providers = providers
 
 	return &cfg, nil
 }

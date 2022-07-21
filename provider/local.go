@@ -19,12 +19,18 @@ func (p Local) ID() string {
 	return "local"
 }
 
-func (p *Local) Tune(options ...string) (err error) {
-	if len(options) != 2 {
-		return fmt.Errorf("invalid number of options for provider %s: %s", p.ID(), options)
+func (p *Local) Tune(options map[string]interface{}) (err error) {
+	crtPath, ok := options["crt"]
+	if !ok {
+		return fmt.Errorf("storage %s: crt not defined", p.ID())
 	}
 
-	p.crt, p.key, err = pki.ParseKeyPair(options[0], options[1])
+	keyPath, ok := options["key"]
+	if !ok {
+		return fmt.Errorf("storage %s: key not defined", p.ID())
+	}
+
+	p.crt, p.key, err = pki.ParseKeyPair(crtPath.(string), keyPath.(string))
 	return
 }
 

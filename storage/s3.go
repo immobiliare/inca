@@ -30,19 +30,35 @@ func (s S3) ID() string {
 	return "S3"
 }
 
-func (s *S3) Tune(options ...string) error {
-	if len(options) != 4 {
-		return fmt.Errorf("invalid number of options for provider %s: %s", s.ID(), options)
+func (s *S3) Tune(options map[string]interface{}) error {
+	endpoint, ok := options["endpoint"]
+	if !ok {
+		return fmt.Errorf("provider %s: endpoint not defined", s.ID())
+	}
+
+	access, ok := options["access"]
+	if !ok {
+		return fmt.Errorf("provider %s: access not defined", s.ID())
+	}
+
+	secret, ok := options["secret"]
+	if !ok {
+		return fmt.Errorf("provider %s: secret not defined", s.ID())
+	}
+
+	region, ok := options["region"]
+	if !ok {
+		return fmt.Errorf("provider %s: region not defined", s.ID())
 	}
 
 	s.config = aws.NewConfig().
-		WithEndpoint(options[0]).
-		WithDisableSSL(strings.HasPrefix(options[0], "http://")).
-		WithRegion(options[3]).
+		WithEndpoint(endpoint.(string)).
+		WithDisableSSL(strings.HasPrefix(endpoint.(string), "http://")).
+		WithRegion(region.(string)).
 		WithS3ForcePathStyle(true).
 		WithCredentials(credentials.NewStaticCredentials(
-			options[1],
-			options[2],
+			access.(string),
+			secret.(string),
 			"",
 		))
 	return nil

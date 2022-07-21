@@ -9,7 +9,7 @@ import (
 )
 
 func (inca *Inca) handlerKey(c *fiber.Ctx) error {
-	_, data, err := (*inca.Cfg.Storage).Get(c.Params("name"))
+	_, data, err := (*inca.Storage).Get(c.Params("name"))
 	if err == nil {
 		if strings.EqualFold(c.Get("Accept", "text/plain"), "application/json") {
 			return c.JSON(struct {

@@ -11,7 +11,7 @@ import (
 )
 
 func (inca *Inca) handlerCA(c *fiber.Ctx) error {
-	p := provider.Get(c.Params("provider"), inca.Cfg.Providers)
+	p := provider.GetFrom(c.Params("provider"), inca.Providers)
 	if p == nil {
 		return c.SendStatus(fiber.StatusNotFound)
 	}

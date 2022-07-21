@@ -38,8 +38,8 @@ var (
 				}
 			}()
 
-			log.Info().Int("size", len(inca.Cfg.Providers)).Msg("registered providers")
-			log.Info().Str("type", (*(inca.Cfg.Storage)).ID()).Msg("registered storage")
+			log.Info().Int("size", len(inca.Providers)).Msg("registered providers")
+			log.Info().Str("type", (*(inca.Storage)).ID()).Msg("registered storage")
 			if err := inca.Listen(bind); err != nil {
 				log.Fatal().Err(err).Msg("unable to bind server")
 			}

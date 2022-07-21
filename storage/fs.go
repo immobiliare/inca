@@ -17,29 +17,26 @@ const (
 	fsKeyName = "key.pem"
 )
 
-type FileSystem struct {
+type FS struct {
 	Storage
 	path string
 }
 
-func (s FileSystem) ID() string {
-	return "FileSystem"
+func (s FS) ID() string {
+	return "FS"
 }
 
-func (s *FileSystem) Tune(options ...string) error {
-	if len(options) != 1 {
-		return fmt.Errorf("invalid number of options for provider %s: %s", s.ID(), options)
+func (s *FS) Tune(options map[string]interface{}) error {
+	path, ok := options["path"]
+	if !ok {
+		return fmt.Errorf("provider %s: crt not defined", s.ID())
 	}
 
-	s.path = options[0]
-	if !util.IsDir(s.path) {
-		return fmt.Errorf("%s: no such directory", s.path)
-	}
-
+	s.path = path.(string)
 	return nil
 }
 
-func (s *FileSystem) Get(name string) ([]byte, []byte, error) {
+func (s *FS) Get(name string) ([]byte, []byte, error) {
 	crtData, err := ioutil.ReadFile(filepath.Join(s.path, name, fsCrtName))
 	if err != nil {
 		return nil, nil, err
@@ -53,7 +50,7 @@ func (s *FileSystem) Get(name string) ([]byte, []byte, error) {
 	return crtData, keyData, nil
 }
 
-func (s *FileSystem) Put(name string, crtData *pem.Block, keyData *pem.Block) error {
+func (s *FS) Put(name string, crtData *pem.Block, keyData *pem.Block) error {
 	var (
 		dirPath = filepath.Join(s.path, name)
 		crtPath = filepath.Join(dirPath, fsCrtName)
@@ -76,7 +73,7 @@ func (s *FileSystem) Put(name string, crtData *pem.Block, keyData *pem.Block) er
 	return nil
 }
 
-func (s *FileSystem) Del(name string) error {
+func (s *FS) Del(name string) error {
 	// needed as os.RemoveAll does not return an error
 	// when the directory does not exist
 	if _, err := os.Stat(filepath.Join(s.path, name)); errors.Is(err, os.ErrNotExist) {
@@ -86,7 +83,7 @@ func (s *FileSystem) Del(name string) error {
 	return os.RemoveAll(filepath.Join(s.path, name))
 }
 
-func (s *FileSystem) Find(filters ...string) ([][]byte, error) {
+func (s *FS) Find(filters ...string) ([][]byte, error) {
 	dirs, err := ioutil.ReadDir(s.path)
 	if err != nil {
 		return nil, err

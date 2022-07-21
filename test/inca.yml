@@ -1,6 +1,7 @@
-origins:
+providers:
   - type: local
-    options: test/crt.pem test/key.pem
-data:
-  type: filesystem
-  options: test
+    crt: test/crt.pem
+    key: test/key.pem
+storage:
+  type: fs
+  path: test

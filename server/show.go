@@ -16,7 +16,7 @@ func (inca *Inca) handlerShow(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusBadRequest)
 	}
 
-	data, _, err := (*inca.Cfg.Storage).Get(name)
+	data, _, err := (*inca.Storage).Get(name)
 	if err != nil {
 		return c.SendStatus(fiber.StatusNotFound)
 	}

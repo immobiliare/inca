@@ -21,7 +21,7 @@ func (inca *Inca) handlerCRT(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusBadRequest)
 	}
 
-	data, _, err := (*inca.Cfg.Storage).Get(name)
+	data, _, err := (*inca.Storage).Get(name)
 	if err == nil {
 		if crt, err := pki.ParseBytes(data); err != nil {
 			log.Error().Str("name", name).Msg("unable to parse cached certificate")
@@ -46,7 +46,7 @@ func (inca *Inca) handlerCRT(c *fiber.Ctx) error {
 		}
 	}
 
-	p := provider.GetFor(name, queryStrings, (*inca.Cfg).Providers)
+	p := provider.GetFor(name, queryStrings, inca.Providers)
 	if p == nil {
 		log.Error().Str("name", name).Msg("no provider found")
 		return c.SendStatus(fiber.StatusBadRequest)
@@ -58,7 +58,7 @@ func (inca *Inca) handlerCRT(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 
-	if err := (*inca.Cfg.Storage).Put(name, crt, key); err != nil {
+	if err := (*inca.Storage).Put(name, crt, key); err != nil {
 		log.Error().Err(err).Msg("unable to persist certificate")
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}

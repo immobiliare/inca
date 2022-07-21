@@ -8,7 +8,7 @@ import (
 
 func (inca *Inca) handlerEnum(c *fiber.Ctx) error {
 	filter := c.Params("filter", ".*")
-	results, err := (*inca.Cfg.Storage).Find(filter)
+	results, err := (*inca.Storage).Find(filter)
 	if err != nil {
 		log.Error().Err(err).Msg("unable to enumerate certificates")
 		return c.SendStatus(fiber.StatusInternalServerError)
