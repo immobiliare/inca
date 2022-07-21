@@ -9,6 +9,7 @@ import (
 	"io/ioutil"
 	"math/big"
 	"net"
+	"regexp"
 	"sort"
 	"strings"
 	"time"
@@ -30,6 +31,8 @@ type Request struct {
 }
 
 const DefaultCrtDuration = time.Duration(100 * 365 * 24 * time.Hour)
+
+var DomainRegex = regexp.MustCompile(`^(([a-zA-Z]{1})|([a-zA-Z]{1}[a-zA-Z]{1})|([a-zA-Z]{1}[0-9]{1})|([0-9]{1}[a-zA-Z]{1})|([a-zA-Z0-9][a-zA-Z0-9-_]{1,61}[a-zA-Z0-9]))\.([a-zA-Z]{2,6}|[a-zA-Z0-9-]{2,30}\.[a-zA-Z]{2,63})$`)
 
 func Parse(path string) (*x509.Certificate, error) {
 	data, err := ioutil.ReadFile(path)
@@ -153,7 +156,7 @@ func New(req Request) (*x509.Certificate, *Key, error) {
 }
 
 func IsValidCN(name string) bool {
-	return len(name) > 3
+	return DomainRegex.MatchString(name)
 }
 
 func AltNames(crt *x509.Certificate) ([]string, []string) {
