@@ -35,7 +35,7 @@ lab:
     - curl 127.0.0.1:8080 | jq -r '.results|length' | grep 1
     - curl 127.0.0.1:8080/test.$name/key
     - curl 127.0.0.1:8080/test.$name/show | jq
-    - curl 127.0.0.1:8080/test.$name/revoke -X PUT
+    - curl -X DELETE 127.0.0.1:8080/test.$name
     - test -f test/test.$name/crt.pem && exit 1 || echo -n
     - kill %1
 

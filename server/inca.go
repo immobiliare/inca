@@ -52,10 +52,10 @@ func Spinup(path string) (*Inca, error) {
 	}
 	inca.Use(middleware.Logger(zerolog.New(os.Stdout), func(c *fiber.Ctx) bool { return false }))
 	inca.Get("/", inca.handlerEnum)
+	inca.Get("/ca/:filter", inca.handlerCA)
 	inca.Get("/:name", inca.handlerCRT)
 	inca.Get("/:name/key", inca.handlerKey)
 	inca.Get("/:name/show", inca.handlerShow)
-	inca.Put("/:name/revoke", inca.handlerRevoke)
-	inca.Get("/ca/:filter", inca.handlerCA)
+	inca.Delete("/:name", inca.handlerRevoke)
 	return inca, nil
 }
