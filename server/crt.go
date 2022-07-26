@@ -46,7 +46,7 @@ func (inca *Inca) handlerCRT(c *fiber.Ctx) error {
 		}
 	}
 
-	p := provider.GetFor(name, queryStrings, inca.Providers)
+	p := provider.GetByTargetName(name, queryStrings, inca.Providers)
 	if p == nil {
 		log.Error().Str("name", name).Msg("no provider found")
 		return c.SendStatus(fiber.StatusBadRequest)

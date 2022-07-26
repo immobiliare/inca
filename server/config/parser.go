@@ -55,7 +55,7 @@ func Parse(path string) (*Config, error) {
 			return nil, fmt.Errorf("provider type not defined")
 		}
 
-		provider, err := provider.Get(id.(string), providerConfig)
+		provider, err := provider.Tune(id.(string), providerConfig)
 		if err != nil {
 			return nil, err
 		}

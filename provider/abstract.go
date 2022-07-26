@@ -14,7 +14,7 @@ type Provider interface {
 	CA() (*pem.Block, error)
 }
 
-func Get(id string, options map[string]interface{}) (*Provider, error) {
+func Tune(id string, options map[string]interface{}) (*Provider, error) {
 	for _, provider := range []Provider{
 		new(Local),
 	} {
@@ -32,18 +32,18 @@ func Get(id string, options map[string]interface{}) (*Provider, error) {
 	return nil, errors.New("provider not found")
 }
 
-func GetFor(name string, options map[string]string, providers []*Provider) *Provider {
+func GetByID(id string, providers []*Provider) (results []*Provider) {
 	for _, p := range providers {
-		if (*p).For(name) {
-			return p
+		if strings.EqualFold(id, (*p).ID()) {
+			results = append(results, p)
 		}
 	}
-	return nil
+	return
 }
 
-func GetFrom(id string, providers []*Provider) *Provider {
+func GetByTargetName(name string, options map[string]string, providers []*Provider) *Provider {
 	for _, p := range providers {
-		if (*p).ID() == id {
+		if (*p).For(name) {
 			return p
 		}
 	}

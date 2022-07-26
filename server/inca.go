@@ -56,6 +56,6 @@ func Spinup(path string) (*Inca, error) {
 	inca.Get("/:name/key", inca.handlerKey)
 	inca.Get("/:name/show", inca.handlerShow)
 	inca.Put("/:name/revoke", inca.handlerRevoke)
-	inca.Get("/ca/:provider", inca.handlerCA)
+	inca.Get("/ca/:filter", inca.handlerCA)
 	return inca, nil
 }
