@@ -25,19 +25,7 @@ lab:
     - apt-get update
     - apt-get install -y jq curl openssl
   script:
-    - set -e
-    - go run main.go gen --ca -o test -n $name
-    - go run main.go server -c test/inca.yml &!
-    - sleep 3
-    - curl 127.0.0.1:8080/ca/local | openssl x509 -text
-    - curl 127.0.0.1:8080/test.$name | openssl x509 -text
-    - test -f test/test.$name/crt.pem
-    - curl 127.0.0.1:8080 | jq -r '.results|length' | grep 1
-    - curl 127.0.0.1:8080/test.$name/key
-    - curl 127.0.0.1:8080/test.$name/show | jq
-    - curl -X DELETE 127.0.0.1:8080/test.$name
-    - test -f test/test.$name/crt.pem && exit 1 || echo -n
-    - kill %1
+    - test/test.sh "${name}"
 
 docker:
   stage: docker
