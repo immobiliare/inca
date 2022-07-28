@@ -45,12 +45,13 @@ docker run -it -v --network host ${PWD}/inca.yml:/etc/inca:ro \
 inca gen -n domain.tld -o /etc/inca.d
 cat >/etc/inca <<EOF
 bind: :80
-origins:
+providers:
   - type: local
-    options: /etc/inca.d/crt.pem /etc/inca.d/key.pem
-data:
+    crt: /etc/inca.d/crt.pem
+    key: /etc/inca.d/key.pem
+storage:
   type: filesystem
-  options: /etc/inca.d
+  path: /etc/inca.d
 EOF
 inca server
 ```
