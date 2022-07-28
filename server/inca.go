@@ -50,8 +50,11 @@ func Spinup(path string) (*Inca, error) {
 		cfg.Storage,
 		cfg.Providers,
 	}
-	inca.Use(middleware.Logger(zerolog.New(os.Stdout), func(c *fiber.Ctx) bool { return false }))
+	inca.Use(middleware.Logger(zerolog.New(os.Stdout), func(c *fiber.Ctx) bool {
+		return c.Path() == "/health"
+	}))
 	inca.Get("/", inca.handlerEnum)
+	inca.Get("/health", inca.handlerHealth)
 	inca.Get("/ca/:filter", inca.handlerCA)
 	inca.Get("/:name", inca.handlerCRT)
 	inca.Get("/:name/key", inca.handlerKey)
