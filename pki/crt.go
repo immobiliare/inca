@@ -30,7 +30,7 @@ type Request struct {
 	Duration      time.Duration
 }
 
-const DefaultCrtDuration = time.Duration(100 * 365 * 24 * time.Hour)
+const DefaultCrtDuration = time.Duration(397 * 24 * time.Hour)
 
 var DomainRegex = regexp.MustCompile(`^(([a-z][a-z0-9-]+)\.)+[a-z]{2,}$`)
 
