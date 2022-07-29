@@ -1,7 +1,6 @@
 package storage
 
 import (
-	"encoding/pem"
 	"errors"
 	"fmt"
 	"io/ioutil"
@@ -50,7 +49,7 @@ func (s *FS) Get(name string) ([]byte, []byte, error) {
 	return crtData, keyData, nil
 }
 
-func (s *FS) Put(name string, crtData *pem.Block, keyData *pem.Block) error {
+func (s *FS) Put(name string, crtData, keyData []byte) error {
 	var (
 		dirPath = filepath.Join(s.path, name)
 		crtPath = filepath.Join(dirPath, fsCrtName)
@@ -62,11 +61,11 @@ func (s *FS) Put(name string, crtData *pem.Block, keyData *pem.Block) error {
 		}
 	}
 
-	if err := pki.Export(crtData, crtPath); err != nil {
+	if err := os.WriteFile(crtPath, crtData, 0644); err != nil {
 		return err
 	}
 
-	if err := pki.Export(keyData, keyPath); err != nil {
+	if err := os.WriteFile(keyPath, keyData, 0644); err != nil {
 		return err
 	}
 

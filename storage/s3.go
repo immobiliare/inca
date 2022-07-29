@@ -2,7 +2,6 @@ package storage
 
 import (
 	"bytes"
-	"encoding/pem"
 	"fmt"
 	"io"
 	"strings"
@@ -99,7 +98,7 @@ func (s *S3) Get(name string) ([]byte, []byte, error) {
 	return crtData.Bytes(), keyData.Bytes(), nil
 }
 
-func (s *S3) Put(name string, crtData *pem.Block, keyData *pem.Block) error {
+func (s *S3) Put(name string, crtData, keyData []byte) error {
 	client := s3.New(
 		session.Must(session.NewSession()),
 		s.config,
@@ -114,7 +113,7 @@ func (s *S3) Put(name string, crtData *pem.Block, keyData *pem.Block) error {
 	if _, err := client.PutObject(&s3.PutObjectInput{
 		Bucket: nameToBucket(name),
 		Key:    &s3CrtName,
-		Body:   bytes.NewReader(pki.ExportBytes(crtData)),
+		Body:   bytes.NewReader(crtData),
 	}); err != nil {
 		return err
 	}
@@ -122,7 +121,7 @@ func (s *S3) Put(name string, crtData *pem.Block, keyData *pem.Block) error {
 	if _, err := client.PutObject(&s3.PutObjectInput{
 		Bucket: nameToBucket(name),
 		Key:    &s3KeyName,
-		Body:   bytes.NewReader(pki.ExportBytes(keyData)),
+		Body:   bytes.NewReader(keyData),
 	}); err != nil {
 		return err
 	}

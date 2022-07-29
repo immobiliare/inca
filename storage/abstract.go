@@ -1,7 +1,6 @@
 package storage
 
 import (
-	"encoding/pem"
 	"errors"
 	"strings"
 )
@@ -9,7 +8,7 @@ import (
 type Storage interface {
 	ID() string
 	Tune(options map[string]interface{}) error
-	Put(name string, crtData *pem.Block, keyData *pem.Block) error
+	Put(name string, crtData, keyData []byte) error
 	Get(name string) ([]byte, []byte, error)
 	Del(name string) error
 	Find(filters ...string) ([][]byte, error)

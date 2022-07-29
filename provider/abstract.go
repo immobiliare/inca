@@ -1,7 +1,6 @@
 package provider
 
 import (
-	"encoding/pem"
 	"errors"
 	"strings"
 )
@@ -10,13 +9,14 @@ type Provider interface {
 	ID() string
 	Tune(options map[string]interface{}) error
 	For(name string) bool
-	Get(name string, options map[string]string) (*pem.Block, *pem.Block, error)
-	CA() (*pem.Block, error)
+	Get(name string, options map[string]string) ([]byte, []byte, error)
+	CA() ([]byte, error)
 }
 
 func Tune(id string, options map[string]interface{}) (*Provider, error) {
 	for _, provider := range []Provider{
 		new(Local),
+		new(LetsEncrypt),
 	} {
 		if !strings.EqualFold(id, provider.ID()) {
 			continue

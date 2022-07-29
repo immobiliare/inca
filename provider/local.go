@@ -2,7 +2,6 @@ package provider
 
 import (
 	"crypto/x509"
-	"encoding/pem"
 	"fmt"
 	"strings"
 
@@ -43,7 +42,7 @@ func (p *Local) For(name string) bool {
 	return false
 }
 
-func (p *Local) Get(name string, options map[string]string) (*pem.Block, *pem.Block, error) {
+func (p *Local) Get(name string, options map[string]string) ([]byte, []byte, error) {
 	reqOptions := make(map[string]any)
 	reqOptions["cn"] = name
 	for key, value := range options {
@@ -67,9 +66,18 @@ func (p *Local) Get(name string, options map[string]string) (*pem.Block, *pem.Bl
 		return nil, nil, err
 	}
 
-	return pki.Wrap(crt, key, p.crt, p.key)
+	if crt, key, err := pki.Wrap(crt, key, p.crt, p.key); err != nil {
+		return nil, nil, err
+	} else {
+		return pki.ExportBytes(crt), pki.ExportBytes(key), nil
+	}
 }
 
-func (p *Local) CA() (*pem.Block, error) {
-	return pki.WrapCrt(p.crt, p.key, p.crt, p.key)
+func (p *Local) CA() ([]byte, error) {
+	crt, err := pki.WrapCrt(p.crt, p.key, p.crt, p.key)
+	if err != nil {
+		return nil, err
+	}
+
+	return pki.ExportBytes(crt), nil
 }

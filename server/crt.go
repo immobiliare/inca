@@ -63,13 +63,12 @@ func (inca *Inca) handlerCRT(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 
-	crtData := pki.ExportBytes(crt)
 	if strings.EqualFold(c.Get("Accept", "text/plain"), "application/json") {
 		return c.JSON(struct {
 			Crt string `json:"crt"`
-		}{string(crtData)})
+		}{string(crt)})
 	}
-	return c.SendStream(bytes.NewReader(crtData), len(crtData))
+	return c.SendStream(bytes.NewReader(crt), len(crt))
 }
 
 func queryStringAlt(queryStrings map[string]string) (altNames []string) {

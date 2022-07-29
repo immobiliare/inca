@@ -6,7 +6,6 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/rs/zerolog/log"
-	"gitlab.rete.farm/sistemi/inca/pki"
 	"gitlab.rete.farm/sistemi/inca/provider"
 )
 
@@ -34,11 +33,10 @@ func (inca *Inca) handlerCA(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 
-	caCrtBytes := pki.ExportBytes(caCrt)
 	if strings.EqualFold(c.Get("Accept", "text/plain"), "application/json") {
 		return c.JSON(struct {
 			Crt string `json:"crt"`
-		}{string(caCrtBytes)})
+		}{string(caCrt)})
 	}
-	return c.SendStream(bytes.NewReader(caCrtBytes), len(caCrtBytes))
+	return c.SendStream(bytes.NewReader(caCrt), len(caCrt))
 }

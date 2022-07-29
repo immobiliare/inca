@@ -53,18 +53,30 @@ func ParseBytes(data []byte) (*x509.Certificate, error) {
 	return crt, nil
 }
 
+func ParseKeyPairBytes(crt, key []byte) (*x509.Certificate, *Key, error) {
+	tls, err := tls.X509KeyPair(crt, key)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	if crt, err := x509.ParseCertificate(tls.Certificate[0]); err != nil {
+		return nil, nil, err
+	} else {
+		return crt, &Key{Value: tls.PrivateKey}, nil
+	}
+}
+
 func ParseKeyPair(crtPath, keyPath string) (*x509.Certificate, *Key, error) {
 	tls, err := tls.LoadX509KeyPair(crtPath, keyPath)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	crt, err := x509.ParseCertificate(tls.Certificate[0])
-	if err != nil {
+	if crt, err := x509.ParseCertificate(tls.Certificate[0]); err != nil {
 		return nil, nil, err
+	} else {
+		return crt, &Key{Value: tls.PrivateKey}, nil
 	}
-
-	return crt, &Key{Value: tls.PrivateKey}, nil
 }
 
 func NewRequest(options map[string]any) Request {
