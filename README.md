@@ -39,7 +39,18 @@ docker run -it -v --network host ${PWD}/inca.yml:/etc/inca:ro \
 
 ## Usage
 
-### Bootstrap
+```sh
+# fetch certificate
+curl https://inca.it3.ns.farm/whatever.ns.farm -o whatever.ns.farm.pem
+# fetch certificate with further params
+curl https://inca.it3.ns.farm/whatever-with-details.ns.farm?alt=whatever2.ns.farm&duration=2y
+# fetch key
+curl https://inca.it3.ns.farm/whatever.ns.farm/key -o whatever.ns.farm.key
+# remove certificate
+curl -X https://inca.it3.ns.farm/whatever.ns.farm
+```
+
+#### Custom installation
 
 ```sh
 inca gen -n domain.tld -o /etc/inca.d
@@ -56,7 +67,7 @@ EOF
 inca server
 ```
 
-### Generate certificates
+#### Generate certificates
 
 ```sh
 curl http://localhost:80/crt.domain.tld -o crt.domain.tld.pem
