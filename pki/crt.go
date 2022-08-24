@@ -6,9 +6,9 @@ import (
 	"crypto/x509"
 	"crypto/x509/pkix"
 	"encoding/pem"
-	"io/ioutil"
 	"math/big"
 	"net"
+	"os"
 	"regexp"
 	"sort"
 	"strings"
@@ -35,7 +35,7 @@ const DefaultCrtDuration = time.Duration(397 * 24 * time.Hour)
 var DomainRegex = regexp.MustCompile(`^(([a-z][a-z0-9-]+)\.)+[a-z]{2,}$`)
 
 func Parse(path string) (*x509.Certificate, error) {
-	data, err := ioutil.ReadFile(path)
+	data, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
 	}

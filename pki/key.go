@@ -9,7 +9,7 @@ import (
 	"crypto/x509"
 	"encoding/pem"
 	"errors"
-	"io/ioutil"
+	"os"
 )
 
 type Key struct {
@@ -26,7 +26,7 @@ const (
 )
 
 func ParseKey(path string) (*Key, error) {
-	data, err := ioutil.ReadFile(path)
+	data, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
 	}

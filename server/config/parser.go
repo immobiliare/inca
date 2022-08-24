@@ -3,7 +3,6 @@ package config
 import (
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"os"
 
 	"gitlab.rete.farm/sistemi/inca/provider"
@@ -28,7 +27,7 @@ func Parse(path string) (*Config, error) {
 		return nil, err
 	}
 
-	content, err := ioutil.ReadFile(path)
+	content, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
 	}

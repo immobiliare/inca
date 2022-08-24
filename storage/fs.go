@@ -3,7 +3,6 @@ package storage
 import (
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 
@@ -36,12 +35,12 @@ func (s *FS) Tune(options map[string]interface{}) error {
 }
 
 func (s *FS) Get(name string) ([]byte, []byte, error) {
-	crtData, err := ioutil.ReadFile(filepath.Join(s.path, name, fsCrtName))
+	crtData, err := os.ReadFile(filepath.Join(s.path, name, fsCrtName))
 	if err != nil {
 		return nil, nil, err
 	}
 
-	keyData, err := ioutil.ReadFile(filepath.Join(s.path, name, fsKeyName))
+	keyData, err := os.ReadFile(filepath.Join(s.path, name, fsKeyName))
 	if err != nil {
 		return nil, nil, err
 	}
@@ -83,7 +82,7 @@ func (s *FS) Del(name string) error {
 }
 
 func (s *FS) Find(filters ...string) ([][]byte, error) {
-	dirs, err := ioutil.ReadDir(s.path)
+	dirs, err := os.ReadDir(s.path)
 	if err != nil {
 		return nil, err
 	}
