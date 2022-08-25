@@ -4,6 +4,8 @@ import (
 	"crypto"
 	"errors"
 	"fmt"
+	"io"
+	"net/http"
 	"os"
 	"strings"
 
@@ -197,6 +199,10 @@ func (p *LetsEncrypt) Get(name string, options map[string]string) ([]byte, []byt
 }
 
 func (p *LetsEncrypt) CA() ([]byte, error) {
-	return []byte(
-		fmt.Sprintf(`<html><head><meta http-equiv="refresh" content="0;URL='%s'"/></head></html>`, p.ca)), nil
+	response, err := http.Get(p.ca)
+	if err != nil {
+		return nil, err
+	}
+	defer response.Body.Close()
+	return io.ReadAll(response.Body)
 }
