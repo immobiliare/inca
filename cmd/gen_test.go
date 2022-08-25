@@ -20,7 +20,7 @@ const (
 
 func TestCmdGen(t *testing.T) {
 	test := is.New(t)
-	output, err := mockExecute(cmdGen, []string{
+	output, err := mockExecute(cmdGen,
 		"gen",
 		"--ca",
 		"--name", name,
@@ -32,7 +32,7 @@ func TestCmdGen(t *testing.T) {
 		"--locality", locality,
 		"--street-address", streetAddress,
 		"--postal-code", postalCode,
-	}...)
+	)
 	test.NoErr(err)
 
 	outputJson := make(map[string]interface{})

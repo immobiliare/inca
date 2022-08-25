@@ -26,9 +26,9 @@ func TestCmdServer(t *testing.T) {
 		time.Sleep(3 * time.Second)
 		test.NoErr(syscall.Kill(syscall.Getpid(), syscall.SIGINT))
 	}()
-	_, err := mockExecute(cmdServer, []string{
+	_, err := mockExecute(cmdServer,
 		"server",
 		"--config", tempFile,
-	}...)
+	)
 	test.NoErr(err)
 }
