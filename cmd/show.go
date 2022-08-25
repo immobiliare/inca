@@ -8,7 +8,7 @@ import (
 	"gitlab.rete.farm/sistemi/inca/pki"
 )
 
-var showGen = &cobra.Command{
+var cmdShow = &cobra.Command{
 	Use:   "show [certificate] [key]",
 	Short: "Pretty print a certificate",
 	Run: func(cmd *cobra.Command, args []string) {
@@ -38,5 +38,5 @@ var showGen = &cobra.Command{
 }
 
 func init() {
-	cmdRoot.AddCommand(showGen)
+	cmdRoot.AddCommand(cmdShow)
 }

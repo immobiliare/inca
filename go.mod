@@ -6,6 +6,7 @@ require (
 	github.com/getsentry/sentry-go v0.13.0
 	github.com/gofiber/fiber/v2 v2.36.0
 	github.com/google/uuid v1.3.0
+	github.com/matryer/is v1.4.0
 	github.com/rs/zerolog v1.27.0
 	github.com/sirupsen/logrus v1.9.0
 	github.com/spf13/cobra v1.5.0

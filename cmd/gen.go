@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
@@ -50,7 +51,7 @@ var cmdGen = &cobra.Command{
 			"algo", "organization", "country", "province", "locality", "street-address", "postal-code",
 		} {
 			if reqOptionValue, err := cmd.Flags().GetString(reqOptionKey); err == nil {
-				reqOptions[reqOptionKey] = reqOptionValue
+				reqOptions[strings.ReplaceAll(reqOptionKey, "-", "_")] = reqOptionValue
 			}
 		}
 
@@ -125,7 +126,7 @@ var cmdGen = &cobra.Command{
 					log.Fatal().Err(err).Msg("unable to close ZIP archive")
 				}
 
-				fmt.Print(out.String())
+				cmd.Print(out.String())
 			case "json":
 				jsonBundle := &struct {
 					Crt string `json:"crt"`
@@ -134,10 +135,10 @@ var cmdGen = &cobra.Command{
 				if json, err := json.Marshal(jsonBundle); err != nil {
 					log.Fatal().Err(err).Msg("unable to JSON-encode archive")
 				} else {
-					fmt.Print(string(json))
+					cmd.Print(string(json))
 				}
 			default: // raw
-				fmt.Printf("%s%s", string(crtBuffer), string(keyBuffer))
+				cmd.Printf("%s%s", string(crtBuffer), string(keyBuffer))
 			}
 			return
 
