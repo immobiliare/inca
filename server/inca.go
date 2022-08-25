@@ -2,11 +2,14 @@ package server
 
 import (
 	"crypto/x509"
+	"fmt"
 	"os"
 	"time"
 
+	"github.com/getsentry/sentry-go"
 	"github.com/gofiber/fiber/v2"
 	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 	"gitlab.rete.farm/sistemi/inca/pki"
 	"gitlab.rete.farm/sistemi/inca/provider"
 	"gitlab.rete.farm/sistemi/inca/server/config"
@@ -41,6 +44,17 @@ func Spinup(path string) (*Inca, error) {
 	cfg, err := config.Parse(path)
 	if err != nil {
 		return nil, err
+	}
+
+	if len(cfg.Sentry) > 0 {
+		if err := sentry.Init(sentry.ClientOptions{
+			Dsn:              cfg.Sentry,
+			TracesSampleRate: 1.0,
+		}); err != nil {
+			return nil, fmt.Errorf("sentry: %s", err)
+		}
+		defer sentry.Flush(2 * time.Second)
+		log.Info().Msg("sentry correctly initialized")
 	}
 
 	inca := &Inca{

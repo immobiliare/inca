@@ -11,11 +11,13 @@ import (
 )
 
 type Config struct {
+	Sentry    string
 	Storage   *storage.Storage
 	Providers []*provider.Provider
 }
 
 type Wrapper struct {
+	Sentry    string                   `yaml:"sentry"`
 	Storage   map[string]interface{}   `yaml:"storage"`
 	Providers []map[string]interface{} `yaml:"providers"`
 }
@@ -61,6 +63,10 @@ func Parse(path string) (*Config, error) {
 		providers = append(providers, provider)
 	}
 	cfg.Providers = providers
+
+	if len(wrapper.Sentry) > 0 {
+		cfg.Sentry = wrapper.Sentry
+	}
 
 	return &cfg, nil
 }
