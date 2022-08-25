@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"io/ioutil"
 	"os"
 	"syscall"
 	"testing"
@@ -20,12 +19,12 @@ const (
 
 func TestCmdServer(t *testing.T) {
 	test := is.New(t)
-	test.NoErr(ioutil.WriteFile(tempFile, []byte(config), 0644))
+	test.NoErr(os.WriteFile(tempFile, []byte(config), 0644))
 	defer os.Remove(tempFile)
 
 	go func() {
 		time.Sleep(3 * time.Second)
-		syscall.Kill(syscall.Getpid(), syscall.SIGINT)
+		test.NoErr(syscall.Kill(syscall.Getpid(), syscall.SIGINT))
 	}()
 	_, err := mockExecute(cmdServer, []string{
 		"server",
