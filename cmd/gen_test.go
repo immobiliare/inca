@@ -9,29 +9,29 @@ import (
 )
 
 const (
-	name          = "domain.tld"
-	organization  = "organization"
-	country       = "country"
-	province      = "province"
-	locality      = "locality"
-	streetAddress = "street address"
-	postalCode    = "postal code"
+	testingName          = "domain.tld"
+	testingOrganization  = "organization"
+	testingCountry       = "country"
+	testingProvince      = "province"
+	testingLocality      = "locality"
+	testingStreetAddress = "street address"
+	testingPostalCode    = "postal code"
 )
 
 func TestCmdGen(t *testing.T) {
 	test := is.New(t)
-	output, err := mockExecute(cmdGen,
+	output, err := testExecute(cmdGen,
 		"gen",
 		"--ca",
-		"--name", name,
+		"--name", testingName,
 		"--output", "-",
 		"--encode", "json",
-		"--organization", organization,
-		"--country", country,
-		"--province", province,
-		"--locality", locality,
-		"--street-address", streetAddress,
-		"--postal-code", postalCode,
+		"--organization", testingOrganization,
+		"--country", testingCountry,
+		"--province", testingProvince,
+		"--locality", testingLocality,
+		"--street-address", testingStreetAddress,
+		"--postal-code", testingPostalCode,
 	)
 	test.NoErr(err)
 
@@ -50,11 +50,11 @@ func TestCmdGen(t *testing.T) {
 	)
 	test.NoErr(err)
 	test.True(crt.IsCA)
-	test.Equal(crt.Subject.CommonName, name)
-	test.Equal(crt.Subject.Organization[0], organization)
-	test.Equal(crt.Subject.Country[0], country)
-	test.Equal(crt.Subject.Province[0], province)
-	test.Equal(crt.Subject.Locality[0], locality)
-	test.Equal(crt.Subject.StreetAddress[0], streetAddress)
-	test.Equal(crt.Subject.PostalCode[0], postalCode)
+	test.Equal(crt.Subject.CommonName, testingName)
+	test.Equal(crt.Subject.Organization[0], testingOrganization)
+	test.Equal(crt.Subject.Country[0], testingCountry)
+	test.Equal(crt.Subject.Province[0], testingProvince)
+	test.Equal(crt.Subject.Locality[0], testingLocality)
+	test.Equal(crt.Subject.StreetAddress[0], testingStreetAddress)
+	test.Equal(crt.Subject.PostalCode[0], testingPostalCode)
 }

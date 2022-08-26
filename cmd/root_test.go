@@ -8,7 +8,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func mockExecute(subcmd *cobra.Command, args ...string) (output string, err error) {
+func testExecute(subcmd *cobra.Command, args ...string) (output string, err error) {
 	var (
 		outputBuffer = new(bytes.Buffer)
 		command      = &cobra.Command{}

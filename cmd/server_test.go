@@ -10,8 +10,8 @@ import (
 )
 
 const (
-	tempFile = "/tmp/.testCmdServer.yml"
-	config   = `storage:
+	testingConfigPath = "/tmp/.testCmdServer.yml"
+	tesTingConfig     = `storage:
     type: fs
     path: ./
 `
@@ -19,16 +19,16 @@ const (
 
 func TestCmdServer(t *testing.T) {
 	test := is.New(t)
-	test.NoErr(os.WriteFile(tempFile, []byte(config), 0644))
-	defer os.Remove(tempFile)
+	test.NoErr(os.WriteFile(testingConfigPath, []byte(tesTingConfig), 0644))
+	defer os.Remove(testingConfigPath)
 
 	go func() {
 		time.Sleep(3 * time.Second)
 		test.NoErr(syscall.Kill(syscall.Getpid(), syscall.SIGINT))
 	}()
-	_, err := mockExecute(cmdServer,
+	_, err := testExecute(cmdServer,
 		"server",
-		"--config", tempFile,
+		"--config", testingConfigPath,
 	)
 	test.NoErr(err)
 }
