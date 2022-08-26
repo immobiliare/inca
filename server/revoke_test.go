@@ -1,0 +1,41 @@
+package server
+
+import (
+	"net/http/httptest"
+	"testing"
+
+	"github.com/gofiber/fiber/v2"
+	"github.com/matryer/is"
+)
+
+func TestServerRevoke(t *testing.T) {
+	var (
+		app  = testApp(t)
+		test = is.New(t)
+	)
+
+	response, err := app.Test(
+		httptest.NewRequest("GET", "/"+testingCADomain, nil),
+	)
+	test.NoErr(err)
+	test.Equal(response.StatusCode, fiber.StatusOK)
+
+	response, err = app.Test(
+		httptest.NewRequest("DELETE", "/"+testingCADomain, nil),
+	)
+	test.NoErr(err)
+	test.Equal(response.StatusCode, fiber.StatusOK)
+}
+
+func TestServerRevokeNotFound(t *testing.T) {
+	var (
+		app  = testApp(t)
+		test = is.New(t)
+	)
+
+	response, err := app.Test(
+		httptest.NewRequest("DELETE", "/"+testingCADomain, nil),
+	)
+	test.NoErr(err)
+	test.True(response.StatusCode != fiber.StatusOK)
+}
