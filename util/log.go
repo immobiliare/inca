@@ -1,8 +1,9 @@
 package util
 
 import (
-	"bytes"
 	"fmt"
+	"io"
+	"os"
 
 	"github.com/rs/zerolog"
 )
@@ -11,7 +12,10 @@ type ZStdLogger struct {
 	z zerolog.Logger
 }
 
-func NewZStdLogger(fd ...*bytes.Buffer) ZStdLogger {
+func NewZStdLogger(fd ...io.Writer) ZStdLogger {
+	if len(fd) == 0 {
+		fd = append(fd, os.Stdout)
+	}
 	return ZStdLogger{zerolog.New(fd[0]).With().Timestamp().Logger()}
 }
 
