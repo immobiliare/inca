@@ -9,42 +9,42 @@ import (
 )
 
 var (
-	name      = "domain.tld"
-	address   = "127.0.0.1"
-	altArray  = []string{name, address}
-	altString = fmt.Sprintf("%s,%s", name, address)
-	req       = NewRequest(map[string]any{
-		"cn":  name,
-		"alt": altString,
+	testingName      = "domain.tld"
+	testingAddress   = "127.0.0.1"
+	testingAltArray  = []string{testingName, testingAddress}
+	testingAltString = fmt.Sprintf("%s,%s", testingName, testingAddress)
+	testingReq       = NewRequest(map[string]any{
+		"cn":  testingName,
+		"alt": testingAltString,
 	})
-	testCrt *x509.Certificate
-	testKey *Key
+	testingCrt *x509.Certificate
+	testingKey *Key
 )
 
-func newPair(t *testing.T) {
-	reqCrt, reqKey, err := New(req)
+func testNewPair(t *testing.T) {
+	reqCrt, reqKey, err := New(testingReq)
 	is.New(t).NoErr(err)
-	testCrt = reqCrt
-	testKey = reqKey
+	testingCrt = reqCrt
+	testingKey = reqKey
 }
 
-func crt(t *testing.T) *x509.Certificate {
-	if testCrt == nil {
-		newPair(t)
+func testCrt(t *testing.T) *x509.Certificate {
+	if testingCrt == nil {
+		testNewPair(t)
 	}
-	return testCrt
+	return testingCrt
 }
 
 func key(t *testing.T) *Key {
-	if testKey == nil {
-		newPair(t)
+	if testingKey == nil {
+		testNewPair(t)
 	}
-	return testKey
+	return testingKey
 }
 
 func TestPkiCrtParseBytes(t *testing.T) {
 	var (
-		crt  = crt(t)
+		crt  = testCrt(t)
 		key  = key(t)
 		test = is.New(t)
 	)
@@ -57,7 +57,7 @@ func TestPkiCrtParseBytes(t *testing.T) {
 }
 func TestPkiCrtParseKeyPairBytes(t *testing.T) {
 	var (
-		crt  = crt(t)
+		crt  = testCrt(t)
 		key  = key(t)
 		test = is.New(t)
 	)
@@ -71,19 +71,19 @@ func TestPkiCrtParseKeyPairBytes(t *testing.T) {
 
 func TestPkiCrtNew(t *testing.T) {
 	var (
-		crt  = crt(t)
+		crt  = testCrt(t)
 		test = is.New(t)
 	)
-	test.Equal(crt.Subject.CommonName, req.CN)
-	test.Equal(crt.DNSNames[0], name)
-	test.Equal(crt.IPAddresses[0].String(), address)
+	test.Equal(crt.Subject.CommonName, testingReq.CN)
+	test.Equal(crt.DNSNames[0], testingName)
+	test.Equal(crt.IPAddresses[0].String(), testingAddress)
 }
 
 func TestPkiCrtIsValidCN(t *testing.T) {
 	var (
 		test        = is.New(t)
 		commonNames = map[string]bool{
-			name:                    true,
+			testingName:             true,
 			"dom-ain.tld":           true,
 			"sub.domain.tld":        true,
 			"-domain.tld":           false,
@@ -97,19 +97,19 @@ func TestPkiCrtIsValidCN(t *testing.T) {
 
 func TestPkiCrtAltNames(t *testing.T) {
 	var (
-		crt              = crt(t)
+		crt              = testCrt(t)
 		test             = is.New(t)
 		names, addresses = AltNames(crt)
 	)
-	test.Equal(names, []string{name})
-	test.Equal(addresses, []string{address})
+	test.Equal(names, []string{testingName})
+	test.Equal(addresses, []string{testingAddress})
 }
 
 func TestPkiCrtParseAltNames(t *testing.T) {
 	var (
 		test             = is.New(t)
-		names, addresses = ParseAltNames(altArray)
+		names, addresses = ParseAltNames(testingAltArray)
 	)
-	test.Equal(names, []string{name})
-	test.Equal(addresses, []string{address})
+	test.Equal(names, []string{testingName})
+	test.Equal(addresses, []string{testingAddress})
 }

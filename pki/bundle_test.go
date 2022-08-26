@@ -8,7 +8,7 @@ import (
 
 func TestPkiBundleWrapCrt(t *testing.T) {
 	var (
-		crt  = crt(t)
+		crt  = testCrt(t)
 		key  = key(t)
 		test = is.New(t)
 	)
@@ -31,7 +31,7 @@ func TestPkiBundleWrapKey(t *testing.T) {
 
 func TestPkiBundleWrap(t *testing.T) {
 	var (
-		crt  = crt(t)
+		crt  = testCrt(t)
 		key  = key(t)
 		test = is.New(t)
 	)
