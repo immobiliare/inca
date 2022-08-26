@@ -193,7 +193,7 @@ func AltNames(crt *x509.Certificate) ([]string, []string) {
 	return dnsNames, ipAddresses
 }
 
-func ParseAltNames(altNames []string) (dnsNames []string, ipAddresses []string) {
+func ParseAltNames(altNames []string) (dnsNames, ipAddresses []string) {
 	for _, name := range altNames {
 		name = strings.TrimSpace(name)
 		if ip := net.ParseIP(name); ip == nil && len(name) > 0 {
