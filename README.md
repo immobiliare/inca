@@ -61,7 +61,7 @@ providers:
     crt: /etc/inca.d/crt.pem
     key: /etc/inca.d/key.pem
 storage:
-  type: filesystem
+  type: fs
   path: /etc/inca.d
 EOF
 inca server
