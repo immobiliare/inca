@@ -47,7 +47,7 @@ curl https://inca.it3.ns.farm/whatever-with-details.ns.farm?alt=whatever2.ns.far
 # fetch key
 curl https://inca.it3.ns.farm/whatever.ns.farm/key -o whatever.ns.farm.key
 # remove certificate
-curl -X https://inca.it3.ns.farm/whatever.ns.farm
+curl -X DELETE https://inca.it3.ns.farm/whatever.ns.farm
 ```
 
 #### Custom installation
