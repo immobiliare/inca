@@ -7,7 +7,7 @@ name="${1}"
 
 go run main.go gen --ca -o test -n "${name}"
 go run main.go server -c test/inca.yml &!
-sleep 5
+sleep 10
 
 curl "127.0.0.1:8080/ca/local" > "${name}.crt"
 openssl x509 -in "${name}.crt" -text
