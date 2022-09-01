@@ -8,6 +8,7 @@ import (
 
 	"github.com/getsentry/sentry-go"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"gitlab.rete.farm/sistemi/inca/pki"
@@ -64,6 +65,7 @@ func Spinup(path string) (*Inca, error) {
 		cfg.Storage,
 		cfg.Providers,
 	}
+	inca.Use(compress.New())
 	inca.Use(middleware.Logger(zerolog.New(os.Stdout), func(c *fiber.Ctx) bool {
 		return c.Path() == "/health"
 	}))
