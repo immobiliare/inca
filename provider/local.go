@@ -73,6 +73,10 @@ func (p *Local) Get(name string, options map[string]string) ([]byte, []byte, err
 	}
 }
 
+func (p *Local) Del(name string, data []byte) error {
+	return nil
+}
+
 func (p *Local) CA() ([]byte, error) {
 	crt, err := pki.WrapCrt(p.crt, p.key, p.crt, p.key)
 	if err != nil {

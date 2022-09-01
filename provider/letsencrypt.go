@@ -198,6 +198,21 @@ func (p *LetsEncrypt) Get(name string, options map[string]string) ([]byte, []byt
 	return certificates.Certificate, certificates.PrivateKey, nil
 }
 
+func (p *LetsEncrypt) Del(name string, data []byte) error {
+	targetProvider, err := p.getChallengeProvider(name)
+	if err != nil {
+		return err
+	}
+
+	for envKey, envValue := range targetProvider.environment {
+		if err := os.Setenv(envKey, envValue); err != nil {
+			return err
+		}
+	}
+
+	return p.client.Certificate.Revoke(data)
+}
+
 func (p *LetsEncrypt) CA() ([]byte, error) {
 	response, err := http.Get(p.ca)
 	if err != nil {

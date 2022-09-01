@@ -10,6 +10,7 @@ type Provider interface {
 	Tune(options map[string]interface{}) error
 	For(name string) bool
 	Get(name string, options map[string]string) ([]byte, []byte, error)
+	Del(name string, data []byte) error
 	CA() ([]byte, error)
 }
 
