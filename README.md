@@ -1,4 +1,4 @@
-![Name](http://gitlab.rete.farm/pepita/guideline/docs/raw/master/docs/ReadmeRepository/images/immobiliare-labs.png)
+![Inca](http://gitlab.rete.farm/pepita/guideline/docs/raw/master/.backstage/docs/ReadmeRepository/images/immobiliare-labs.png)
 
 # Inca
 
