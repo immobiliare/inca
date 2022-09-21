@@ -181,6 +181,13 @@ func (s *S3) Find(filters ...string) ([][]byte, error) {
 	return results, nil
 }
 
+func (s *S3) Config() map[string]string {
+	return map[string]string{
+		"Endpoint": *s.config.Endpoint,
+		"Region":   *s.config.Region,
+	}
+}
+
 func nameToBucket(name string) *string {
 	bucket := strings.ReplaceAll(name, ".", "-")
 	return &bucket

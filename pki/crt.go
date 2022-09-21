@@ -13,6 +13,9 @@ import (
 	"sort"
 	"strings"
 	"time"
+
+	"github.com/rs/zerolog/log"
+	"gitlab.rete.farm/sistemi/inca/util"
 )
 
 type Request struct {
@@ -32,7 +35,7 @@ type Request struct {
 
 const DefaultCrtDuration = time.Duration(397 * 24 * time.Hour)
 
-var DomainRegex = regexp.MustCompile(`^(([a-z][a-z0-9-]+)\.)+[a-z]{2,}$`)
+var DomainRegex = regexp.MustCompile(`^[*\.]{0,2}(?:(?:[\*a-z][a-z0-9-]+)\.)+[a-z]{2,}$`)
 
 func Parse(path string) (*x509.Certificate, error) {
 	data, err := os.ReadFile(path)
@@ -118,8 +121,12 @@ func NewRequest(options map[string]any) Request {
 	if algo, ok := options["algo"]; ok {
 		req.Algo = algo.(string)
 	}
-	if duration, ok := options["duration"]; ok {
-		req.Duration = duration.(time.Duration)
+	if durationString, ok := options["duration"]; ok {
+		if duration, err := util.ParseDuration(durationString.(string)); err == nil {
+			req.Duration = duration
+		} else {
+			log.Error().Err(err).Msg("cannot parse duration")
+		}
 	}
 
 	return req

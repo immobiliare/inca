@@ -12,7 +12,10 @@ const (
 	testingConfigPath = "/tmp/.testServerInca.yml"
 	testingCACrtPath  = "/tmp/.testServerInca.crt.pem"
 	testingCAKeyPath  = "/tmp/.testServerInca.key.pem"
-	testingConfig     = `storage:
+	testingConfig     = `bind: :65535
+templates_path: ./views
+environment: production
+storage:
     type: fs
     path: /tmp
 providers:

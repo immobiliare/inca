@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>{% block title %}{% endblock %} — Inca</title>
+  <link rel="shortcut icon" href="/static/favicon.ico"/>
+  <link rel="stylesheet" href="/static/style.css"/>
+  {% block head %}{% endblock %}
+  <style>
+      {% block style %}{% endblock %}
+  </style>
+
+</head>
+
+<body>
+  <!-- Layout was forced before the page was fully loaded. -->
+  <!-- If stylesheets are not yet loaded this may cause a flash of unstyled content. -->
+  <script>0</script>
+
+  <header>
+    <div>
+      <a href="/">Inca</a>
+    </div>
+    <ul>
+        <li><a href="/">home</a></li>
+        <li><a href="/web/config">config</a></li>
+    </ul>
+    <hr/>
+  </header>
+
+  <main>
+{% if error or message %}
+    <div>
+      {% if error %}<output class="danger">{{ error }}</output>{% endif %}
+      {% if message %}<output class="message">{{ message }}</output>{% endif %}
+    </div>
+{% endif %}
+    <article>
+      {% block content %}{% endblock %}
+    </article>
+  </main>
+</body>
+
+<footer>
+{% block footer %}{% endblock %}
+</footer>
+
+</html>

@@ -1,0 +1,30 @@
+{% extends "base.html.j2" %}
+
+{% block title %}
+Configuration
+{% endblock %}
+
+{% block content %}
+<h1>Configuration</h1>
+<form method="POST" action="/">
+  <h3>Storage {{ storage.ID }}</h3>
+{% for key, value in storage.Config %}
+  {% with key_id=key|lower %}
+  <label>{{ key }}</label>
+  <input name="storage_{{ key_id }}" value="{{ value }}" readonly="true"/>
+  {% endwith %}
+{% endfor %}
+
+{% for provider in providers %}
+  {% with id=provider.id|lower %}
+  <h3>CA {{ provider.ID }}</h3>
+    {% for key, value in provider.Config %}
+      {% with key_id=key|lower %}
+  <label>{{ key }}</label>
+  <input name="provider_{{ id }}_{{ key_id }}" value="{{ value }}" readonly="true"/>
+      {% endwith %}
+    {% endfor %}
+  {% endwith %}
+{% endfor %}
+</form>
+{% endblock %}

@@ -15,7 +15,7 @@ type Local struct {
 }
 
 func (p Local) ID() string {
-	return "local"
+	return "Local"
 }
 
 func (p *Local) Tune(options map[string]interface{}) (err error) {
@@ -84,4 +84,13 @@ func (p *Local) CA() ([]byte, error) {
 	}
 
 	return pki.ExportBytes(crt), nil
+}
+
+func (p *Local) Config() map[string]string {
+	return map[string]string{
+		"Subject":           p.crt.Subject.CommonName,
+		"Alternative Names": strings.Join(p.crt.DNSNames, ", "),
+		"Not Before":        p.crt.NotBefore.Format("02/01/2006"),
+		"Not After":         p.crt.NotAfter.Format("02/01/2006"),
+	}
 }

@@ -1,0 +1,52 @@
+{% extends "base.html.j2" %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block content %}
+<h1>Certificates</h1>
+<a class="flying" href="/web/import">import</a>
+<a class="flying" href="/web/issue">issue new</a>
+<table>
+  <thead>
+    <tr>
+      <th>Provider</th>
+      <th>Name</th>
+      <th>
+        <input placeholder="search" onkeyup="onFilter()" autofocus="true"/>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+{% for crt in certificates %}
+    <tr tags="{{ crt.AltNames|join:"," }}">
+      <td>{{ crt.Provider.ID }}</td>
+      <td><pre>{{ crt.CN }}</pre></td>
+      <td>
+          <a href="/web/{{ crt.CN }}">View</a>
+          <form method="POST" action="/web/{{ crt.CN }}/delete" 
+            onsubmit="return confirm('Do you really want to delete {{ crt.CN }}?')">
+            <button>Delete</button>
+          </form>
+      </td>
+      </tr>
+{% endfor %}
+  </tbody>
+</table>
+{% endblock %}
+
+{% block footer %}
+<script>
+  const onFilter = async function () {
+    const query = new RegExp(document.querySelector('thead input').value, "i");
+    for (const e of document.querySelectorAll("table>tbody>tr")) { 
+      if (query.test(e.getAttribute("tags"))) {
+        e.style.display = "";
+      } else {
+        e.style.display = "none";
+      }
+    }
+  }
+</script>
+{% endblock %}

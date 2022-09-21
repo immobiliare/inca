@@ -54,7 +54,7 @@ func (u LetsEncryptUser) GetPrivateKey() crypto.PrivateKey {
 }
 
 func (p LetsEncrypt) ID() string {
-	return "letsencrypt"
+	return "LetsEncrypt"
 }
 
 func (p *LetsEncrypt) Tune(options map[string]interface{}) (err error) {
@@ -220,4 +220,16 @@ func (p *LetsEncrypt) CA() ([]byte, error) {
 	}
 	defer response.Body.Close()
 	return io.ReadAll(response.Body)
+}
+
+func (p *LetsEncrypt) Config() map[string]string {
+	targets := []string{}
+	for _, target := range p.targets {
+		targets = append(targets, fmt.Sprintf("%s (%s)", target.domain, target.provider))
+	}
+	return map[string]string{
+		"CA":      p.ca,
+		"Email":   p.user.email,
+		"Targets": strings.Join(targets, ", "),
+	}
 }

@@ -114,3 +114,9 @@ func (s *FS) Find(filters ...string) ([][]byte, error) {
 
 	return results, nil
 }
+
+func (s *FS) Config() map[string]string {
+	return map[string]string{
+		"Path": s.path,
+	}
+}

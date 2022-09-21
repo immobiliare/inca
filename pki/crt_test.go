@@ -86,6 +86,7 @@ func TestPkiCrtIsValidCN(t *testing.T) {
 			testingName:             true,
 			"dom-ain.tld":           true,
 			"sub.domain.tld":        true,
+			"*.domain.tld":          true,
 			"-domain.tld":           false,
 			"domain.super-long-tld": false,
 		}

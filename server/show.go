@@ -4,6 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/rs/zerolog/log"
 	"gitlab.rete.farm/sistemi/inca/pki"
+	"gitlab.rete.farm/sistemi/inca/provider"
 )
 
 type Certificate struct {
@@ -27,5 +28,5 @@ func (inca *Inca) handlerShow(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 
-	return c.JSON(EncodeCrt(crt))
+	return c.JSON(EncodeCrt(crt, provider.GetByTargetName(crt.Subject.CommonName, nil, inca.Providers)))
 }

@@ -1,0 +1,18 @@
+{% extends "base.html.j2" %}
+
+{% block title %}
+Import
+{% endblock %}
+
+{% block content %}
+<h1>Import</h1>
+<form method="POST" action="/web/import" enctype="multipart/form-data">
+    <label>Certificate <span style="opacity: .5">(or fullchain)</span></label>
+    <input type="file" name="crt"/>
+
+    <label>Private key</label>
+    <input type="file" name="key"/>
+
+    <button type="submit">Import</button>
+</form>
+{% endblock %}

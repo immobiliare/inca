@@ -12,6 +12,7 @@ type Provider interface {
 	Get(name string, options map[string]string) ([]byte, []byte, error)
 	Del(name string, data []byte) error
 	CA() ([]byte, error)
+	Config() map[string]string
 }
 
 func Tune(id string, options map[string]interface{}) (*Provider, error) {

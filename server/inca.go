@@ -1,17 +1,18 @@
 package server
 
 import (
-	"crypto/x509"
 	"fmt"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/getsentry/sentry-go"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/compress"
+	"github.com/gofiber/redirect/v2"
+	"github.com/gofiber/template/django"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
-	"gitlab.rete.farm/sistemi/inca/pki"
 	"gitlab.rete.farm/sistemi/inca/provider"
 	"gitlab.rete.farm/sistemi/inca/server/config"
 	"gitlab.rete.farm/sistemi/inca/server/middleware"
@@ -22,23 +23,6 @@ type Inca struct {
 	*fiber.App
 	Storage   *storage.Storage
 	Providers []*provider.Provider
-}
-
-type Crt struct {
-	CN        string    `json:"name"`
-	AltNames  []string  `json:"alt"`
-	NotBefore time.Time `json:"not_before"`
-	NotAfter  time.Time `json:"not_after"`
-}
-
-func EncodeCrt(crt *x509.Certificate) Crt {
-	dnsNames, ipAddresses := pki.AltNames(crt)
-	return Crt{
-		crt.Subject.CommonName,
-		append(dnsNames, ipAddresses...),
-		crt.NotBefore,
-		crt.NotAfter,
-	}
 }
 
 func Spinup(path string) (*Inca, error) {
@@ -58,23 +42,50 @@ func Spinup(path string) (*Inca, error) {
 		log.Info().Msg("sentry correctly initialized")
 	}
 
+	templateEngine := django.New(cfg.TemplatesPath, ".html.j2")
+	templateEngine.Reload(strings.EqualFold(cfg.Environment, "development"))
+	templateEngine.Debug(strings.EqualFold(cfg.Environment, "development"))
+
 	inca := &Inca{
 		fiber.New(
-			fiber.Config{DisableStartupMessage: true},
+			fiber.Config{
+				DisableStartupMessage: true,
+				Views:                 templateEngine,
+				// Views:                 html.NewFileSystem(http.Dir("./server/views"), ".html.j2"),
+			},
 		),
 		cfg.Storage,
 		cfg.Providers,
 	}
 	inca.Use(compress.New())
 	inca.Use(middleware.Logger(zerolog.New(os.Stdout), func(c *fiber.Ctx) bool {
-		return c.Path() == "/health"
+		return strings.HasPrefix(c.Path(), "/health") ||
+			strings.HasPrefix(c.Path(), "/static/") ||
+			strings.HasPrefix(c.Path(), "/favicon.ico")
 	}))
-	inca.Get("/", inca.handlerEnum)
+	inca.Use(redirect.New(redirect.Config{
+		Rules: map[string]string{
+			"^/web$":         "/",
+			"^/favicon.ico$": "/static/favicon.ico",
+		},
+		StatusCode: 301,
+	}))
+
+	inca.Get("/", inca.handlerWebIndex)
+	inca.Get("/web/config", inca.handlerWebConfig)
+	inca.Get("/web/issue", inca.handlerWebIssueView)
+	inca.Post("/web/issue", inca.handlerWebIssue)
+	inca.Get("/web/import", inca.handlerWebImportView)
+	inca.Post("/web/import", inca.handlerWebImport)
+	inca.Get("/web/:name", inca.handlerWebView)
+	inca.Post("/web/:name/delete", inca.handlerWebDelete)
+	inca.Get("/enum", inca.handlerEnum)
 	inca.Get("/health", inca.handlerHealth)
 	inca.Get("/ca/:filter", inca.handlerCA)
 	inca.Get("/:name", inca.handlerCRT)
 	inca.Get("/:name/key", inca.handlerKey)
 	inca.Get("/:name/show", inca.handlerShow)
 	inca.Delete("/:name", inca.handlerRevoke)
+	inca.Static("/static", "./server/static")
 	return inca, nil
 }

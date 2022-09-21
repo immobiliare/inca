@@ -158,7 +158,7 @@ func init() {
 	cmdGen.Flags().String("locality", "", "Certificate Locality")
 	cmdGen.Flags().String("street-address", "", "Certificate StreetAddress")
 	cmdGen.Flags().String("postal-code", "", "Certificate PostalCode")
-	cmdGen.Flags().Duration("duration", pki.DefaultCrtDuration, "Certificate Duration")
+	cmdGen.Flags().String("duration", "1y", "Certificate Duration")
 	cmdGen.Flags().Bool("ca", false, "CA-enabled certificate")
 	if err := cmdGen.MarkFlagRequired("name"); err != nil {
 		log.Fatal().Err(err).Msg("unable to mark name flag as required")

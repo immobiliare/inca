@@ -1,0 +1,50 @@
+{% extends "base.html.j2" %}
+
+{% block title %}
+Issue
+{% endblock %}
+
+{% block content %}
+<h1>Issue</h1>
+<form method="POST" action="/web/issue">
+    <label>Name<span style="opacity: .5">(s) — separated by comma</span></label>
+    <input name="alt" placeholder="domain.tld, custom.domain.tld, 192.168.1.1" autofocus="true"/>
+
+    <label>Algorithm <span style="opacity: .5"> — only local CAs</span></label>
+    <select name="algo">
+{% for algo in algorithms %}
+        <option value="{{ algo }}" {% if forloop.first %}selected="true"{% endif %}>{{ algo|upper }}</option>
+{% endfor %}
+    </select>
+
+    <label>Validity <span style="opacity: .5"> — only local CAs</span></label>
+    <select name="duration">
+        <option value="1M">1 month</option>
+        <option value="3M">3 months</option>
+        <option value="6M">6 months</option>
+        <option value="1y" selected="true">1 year</option>
+        <option value="5y">5 years</option>
+        <option value="10y">10 year</option>
+    </select>
+
+    <label>Organization</label>
+    <input name="organization" placeholder="Awesome company"/>
+
+    <label>Country</label>
+    <input name="country" placeholder="Italy"/>
+
+    <label>Province</label>
+    <input name="province" placeholder="RM"/>
+
+    <label>Locality</label>
+    <input name="locality" placeholder="Rome"/>
+
+    <label>Street Address</label>
+    <input name="street_address" placeholder="Via dei Fori Imperiali"/>
+
+    <label>Postal Code</label>
+    <input name="postal_code" placeholder="00186"/>
+
+    <button type="submit">Issue</button>
+</form>
+{% endblock %}

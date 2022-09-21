@@ -11,7 +11,8 @@ import (
 
 const (
 	testingConfigPath = "/tmp/.testCmdServer.yml"
-	tesTingConfig     = `storage:
+	testingConfig     = `templates_path: ../server/views
+storage:
     type: fs
     path: ./
 `
@@ -19,7 +20,7 @@ const (
 
 func TestCmdServer(t *testing.T) {
 	test := is.New(t)
-	test.NoErr(os.WriteFile(testingConfigPath, []byte(tesTingConfig), 0644))
+	test.NoErr(os.WriteFile(testingConfigPath, []byte(testingConfig), 0644))
 	defer os.Remove(testingConfigPath)
 
 	go func() {

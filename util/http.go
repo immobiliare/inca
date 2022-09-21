@@ -2,6 +2,7 @@ package util
 
 import (
 	"bytes"
+	"net/url"
 )
 
 func ParseQueryString(queryStrings []byte) map[string]string {
@@ -11,7 +12,11 @@ func ParseQueryString(queryStrings []byte) map[string]string {
 		if len(pts) != 2 {
 			continue
 		}
-		queryStringMap[string(pts[0])] = string(pts[1])
+		data, err := url.QueryUnescape(string(pts[1]))
+		if err != nil {
+			data = string(pts[1])
+		}
+		queryStringMap[string(pts[0])] = data
 	}
 	return queryStringMap
 }

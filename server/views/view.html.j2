@@ -1,0 +1,55 @@
+{% extends "base.html.j2" %}
+
+{% block title %}
+{{ crt.CN }}
+{% endblock %}
+
+{% block content %}
+<h1>Certificate</h1>
+<form method="POST" action="/web/{{ crt.CN }}">
+    <label>Name</label>
+    <input name="name" placeholder="name" value="{{ crt.CN }}" readonly="true"/>
+
+    <label>Validity</label>
+    <input name="not_before" placeholder="not before" value="{{ crt.NotBefore }}" readonly="true"/>
+    <input name="not_after" placeholder="not after" value="{{ crt.NotAfter }}" readonly="true"/>
+
+    <label>Provider</label>
+    <input name="provider" placeholder="provider" value="{{ crt.Provider.ID }}" readonly="true"/>
+
+    <label>SANs</label>
+    <select name="sans" multiple="true" readonly="true">
+{% for san in crt.AltNames %}
+        <option value="{{ san }}">{{ san }}</option>
+{% endfor %}
+    </select>
+
+    <label>Organization</label>
+    <input value="{{ crt.Organization }}" readonly="true"/>
+
+    <label>Country</label>
+    <input value="{{ crt.Country }}" readonly="true"/>
+
+    <label>Province</label>
+    <input value="{{ crt.Province }}" readonly="true"/>
+
+    <label>Locality</label>
+    <input value="{{ crt.Locality }}" readonly="true"/>
+
+    <label>Street Address</label>
+    <input value="{{ crt.StreetAddress }}" readonly="true"/>
+
+    <label>Postal Code</label>
+    <input value="{{ crt.PostalCode }}" readonly="true"/>
+
+    <label>Chain</label>
+    <textarea style="min-height: 300px;" readonly="true">{{ chain }}</textarea>
+
+    <label>Key</label>
+    <textarea style="min-height: 150px;" readonly="true">{{ key }}</textarea>
+</form>
+<form method="POST" action="/web/{{ crt.CN }}/delete"
+    onsubmit="return confirm('Do you really want to delete {{ crt.CN }}?')">
+    <button>Delete</button>
+</form>
+{% endblock %}

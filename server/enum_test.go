@@ -23,7 +23,7 @@ func TestServerEnum(t *testing.T) {
 	test.Equal(response.StatusCode, fiber.StatusOK)
 
 	response, err = app.Test(
-		httptest.NewRequest("GET", "/", nil),
+		httptest.NewRequest("GET", "/enum", nil),
 	)
 	test.NoErr(err)
 	test.Equal(response.StatusCode, fiber.StatusOK)
@@ -59,7 +59,7 @@ func TestServerEnumEmpty(t *testing.T) {
 	)
 
 	response, err := app.Test(
-		httptest.NewRequest("GET", "/", nil),
+		httptest.NewRequest("GET", "/enum", nil),
 	)
 	test.NoErr(err)
 	test.Equal(response.StatusCode, fiber.StatusOK)

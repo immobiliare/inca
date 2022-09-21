@@ -12,6 +12,7 @@ type Storage interface {
 	Get(name string) ([]byte, []byte, error)
 	Del(name string) error
 	Find(filters ...string) ([][]byte, error)
+	Config() map[string]string
 }
 
 func Get(id string, options map[string]interface{}) (*Storage, error) {

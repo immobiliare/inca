@@ -7,7 +7,7 @@ import (
 	"gitlab.rete.farm/sistemi/inca/provider"
 )
 
-func (inca *Inca) handlerEnum(c *fiber.Ctx) error {
+func (inca *Inca) handlerWebIndex(c *fiber.Ctx) error {
 	filter := c.Params("filter", ".*")
 	results, err := (*inca.Storage).Find(filter)
 	if err != nil {
@@ -24,7 +24,7 @@ func (inca *Inca) handlerEnum(c *fiber.Ctx) error {
 		crts = append(crts, EncodeCrt(crt, provider.GetByTargetName(crt.Subject.CommonName, nil, inca.Providers)))
 	}
 
-	return c.JSON(struct {
-		Results []JSONCrt `json:"results"`
-	}{crts})
+	return c.Render("index", fiber.Map{
+		"certificates": crts,
+	})
 }
