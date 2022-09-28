@@ -34,7 +34,10 @@ func ParseKey(path string) (*Key, error) {
 	block, _ := pem.Decode(data)
 	keyData, err := x509.ParsePKCS8PrivateKey(block.Bytes)
 	if err != nil {
-		return nil, err
+		keyData, err = x509.ParseECPrivateKey(block.Bytes)
+		if err != nil {
+			return nil, err
+		}
 	}
 	key := Key{keyData, UnsupportedAlgorithm}
 
