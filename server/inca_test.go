@@ -12,6 +12,7 @@ const (
 	testingConfigPath = "/tmp/.testServerInca.yml"
 	testingCACrtPath  = "/tmp/.testServerInca.crt.pem"
 	testingCAKeyPath  = "/tmp/.testServerInca.key.pem"
+	testingToken      = "awesometoken"
 	testingConfig     = `bind: :65535
 templates_path: ./views
 environment: production
@@ -22,6 +23,9 @@ providers:
     - type: local
       crt: ` + testingCACrtPath + `
       key: ` + testingCAKeyPath + `
+acl:
+    ` + testingToken + `:
+       - .*.ns.farm
 `
 	testingCACrt = `-----BEGIN CERTIFICATE-----
 MIICBDCCAamgAwIBAgIQN4zDrydkUQroRxbD3v1WUjAKBggqhkjOPQQDAjBXMQkw

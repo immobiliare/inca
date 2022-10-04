@@ -22,3 +22,12 @@ func StringSliceDistinct(slice []string) (distinct []string) {
 	}
 	return
 }
+
+func StringSliceContains(slice []string, item string) bool {
+	for _, sliceItem := range slice {
+		if sliceItem == item {
+			return true
+		}
+	}
+	return false
+}

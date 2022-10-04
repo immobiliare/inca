@@ -9,6 +9,7 @@ import (
 	"github.com/getsentry/sentry-go"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/compress"
+	"github.com/gofiber/fiber/v2/middleware/session"
 	"github.com/gofiber/redirect/v2"
 	"github.com/gofiber/template/django"
 	"github.com/rs/zerolog"
@@ -21,9 +22,13 @@ import (
 
 type Inca struct {
 	*fiber.App
-	Storage   *storage.Storage
-	Providers []*provider.Provider
+	Storage      *storage.Storage
+	Providers    []*provider.Provider
+	sessionStore *session.Store
+	ACL          map[string][]string
 }
+
+type ACL map[string][]string
 
 func Spinup(path string) (*Inca, error) {
 	cfg, err := config.Parse(path)
@@ -56,6 +61,8 @@ func Spinup(path string) (*Inca, error) {
 		),
 		cfg.Storage,
 		cfg.Providers,
+		session.New(),
+		cfg.ACL,
 	}
 	inca.Use(compress.New())
 	inca.Use(middleware.Logger(zerolog.New(os.Stdout), func(c *fiber.Ctx) bool {
@@ -65,27 +72,42 @@ func Spinup(path string) (*Inca, error) {
 	}))
 	inca.Use(redirect.New(redirect.Config{
 		Rules: map[string]string{
-			"^/web$":         "/",
+			"^/$":            "/web",
 			"^/favicon.ico$": "/static/favicon.ico",
 		},
 		StatusCode: 301,
 	}))
 
-	inca.Get("/", inca.handlerWebIndex)
-	inca.Get("/web/config", inca.handlerWebConfig)
-	inca.Get("/web/issue", inca.handlerWebIssueView)
-	inca.Post("/web/issue", inca.handlerWebIssue)
-	inca.Get("/web/import", inca.handlerWebImportView)
-	inca.Post("/web/import", inca.handlerWebImport)
-	inca.Get("/web/:name", inca.handlerWebView)
-	inca.Post("/web/:name/delete", inca.handlerWebDelete)
-	inca.Get("/enum", inca.handlerEnum)
-	inca.Get("/health", inca.handlerHealth)
-	inca.Get("/ca/:filter", inca.handlerCA)
-	inca.Get("/:name", inca.handlerCRT)
-	inca.Get("/:name/key", inca.handlerKey)
-	inca.Get("/:name/show", inca.handlerShow)
-	inca.Delete("/:name", inca.handlerRevoke)
-	inca.Static("/static", "./server/static")
+	static := fiber.Static{
+		Compress:      true,
+		CacheDuration: 24 * time.Hour,
+	}
+	if strings.EqualFold(cfg.Environment, "development") {
+		static.Compress = false
+		static.CacheDuration = 5 * time.Second
+	}
+	inca.Static("/static", "./server/static", static)
+	incaWeb := inca.Group("/web")
+	incaWeb.Use(middleware.Session(inca.sessionStore, inca.ACL))
+	incaWeb.Get("/", inca.handlerWebIndex)
+	incaWeb.Get("/login", inca.handlerWebAuthLoginView)
+	incaWeb.Post("/login", inca.handlerWebAuthLogin)
+	incaWeb.Get("/logout", inca.handlerWebAuthLogout)
+	incaWeb.Get("/config", inca.handlerWebConfig)
+	incaWeb.Get("/issue", inca.handlerWebIssueView)
+	incaWeb.Post("/issue", inca.handlerWebIssue)
+	incaWeb.Get("/import", inca.handlerWebImportView)
+	incaWeb.Post("/import", inca.handlerWebImport)
+	incaWeb.Get("/:name", inca.handlerWebView)
+	incaWeb.Post("/:name/delete", inca.handlerWebDelete)
+	incaAPI := inca.Group("/")
+	incaAPI.Use(middleware.Bearer(inca.ACL))
+	incaAPI.Get("/enum", inca.handlerEnum)
+	incaAPI.Get("/health", inca.handlerHealth)
+	incaAPI.Get("/ca/:filter", inca.handlerCA)
+	incaAPI.Get("/:name", inca.handlerCRT)
+	incaAPI.Get("/:name/key", inca.handlerKey)
+	incaAPI.Get("/:name/show", inca.handlerShow)
+	incaAPI.Delete("/:name", inca.handlerRevoke)
 	return inca, nil
 }

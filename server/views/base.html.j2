@@ -22,11 +22,18 @@
 
   <header>
     <div>
+{% if authenticated %}
       <a href="/">Inca</a>
+{% else %}
+      <span>Inca</span>
+{% endif %}
     </div>
     <ul>
+{% if authenticated %}
         <li><a href="/">home</a></li>
         <li><a href="/web/config">config</a></li>
+        <li><a href="/web/logout">logout</a></li>
+{% endif %}
     </ul>
     <hr/>
   </header>

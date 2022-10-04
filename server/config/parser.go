@@ -21,6 +21,7 @@ type Config struct {
 	TemplatesPath string
 	Storage       *storage.Storage
 	Providers     []*provider.Provider
+	ACL           map[string][]string
 }
 
 type Wrapper struct {
@@ -29,6 +30,7 @@ type Wrapper struct {
 	Environment   string                   `yaml:"environment"`
 	Storage       map[string]interface{}   `yaml:"storage"`
 	Providers     []map[string]interface{} `yaml:"providers"`
+	ACL           map[string][]string      `yaml:"acl"`
 }
 
 func Parse(path string) (*Config, error) {
@@ -85,6 +87,10 @@ func Parse(path string) (*Config, error) {
 	cfg.TemplatesPath = defaultTemplatesPath
 	if len(wrapper.TemplatesPath) > 0 {
 		cfg.TemplatesPath = wrapper.TemplatesPath
+	}
+
+	if len(wrapper.ACL) > 0 {
+		cfg.ACL = wrapper.ACL
 	}
 
 	return &cfg, nil
