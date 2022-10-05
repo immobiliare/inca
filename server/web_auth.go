@@ -17,7 +17,7 @@ func (inca *Inca) handlerWebAuthLogin(c *fiber.Ctx) error {
 	if !ok {
 		_ = c.Bind(fiber.Map{"error": "No token is given"})
 		return inca.handlerWebAuthLoginView(c)
-	} else if !helper.IsValidToken(token, inca.ACL) {
+	} else if !helper.IsValidToken(token, inca.acl) {
 		_ = c.Bind(fiber.Map{"error": "Unauthorized token"})
 		return inca.handlerWebAuthLoginView(c)
 

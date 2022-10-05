@@ -8,6 +8,11 @@ import (
 func (inca *Inca) handlerWebDelete(c *fiber.Ctx) error {
 	name := c.Params("name")
 
+	if !inca.authorizedTarget(name, c) {
+		_ = c.Bind(fiber.Map{"error": "Unauthorized to delete the certificate"})
+		return inca.handlerWebIndex(c)
+	}
+
 	data, _, err := (*inca.Storage).Get(name)
 	if err != nil {
 		_ = c.Bind(fiber.Map{"error": "Certificate not found"})

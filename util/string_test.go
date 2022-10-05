@@ -23,3 +23,11 @@ func TestUtilStringRegexesNotMatch(t *testing.T) {
 func TestUtilStringRegexesNotMultipleMatch(t *testing.T) {
 	is.New(t).True(!RegexesMatch(testingString, ".*", "^$"))
 }
+
+func TestUtilStringRegexesAnyMatch(t *testing.T) {
+	is.New(t).True(RegexesAnyMatch(testingString, ".*", "^$"))
+}
+
+func TestUtilStringRegexesNotAnyMatch(t *testing.T) {
+	is.New(t).True(!RegexesAnyMatch(testingString, "^$"))
+}

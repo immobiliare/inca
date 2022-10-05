@@ -29,6 +29,11 @@ func (inca *Inca) handlerWebIssue(c *fiber.Ctx) error {
 		name = strings.Split(names, ",")[0]
 	}
 
+	if !inca.authorizedTarget(name, c) {
+		_ = c.Bind(fiber.Map{"error": "Unauthorized to issue the certificate"})
+		return inca.handlerWebIssueView(c)
+	}
+
 	if !pki.IsValidCN(name) {
 		_ = c.Bind(fiber.Map{"error": "Invalid certificate name"})
 		return inca.handlerWebIssueView(c)

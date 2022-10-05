@@ -19,9 +19,13 @@ func (inca *Inca) handlerWebView(c *fiber.Ctx) error {
 		log.Error().Err(err).Msg("unable to parse certificate")
 	}
 
-	return c.Render("view", fiber.Map{
-		"crt":   EncodeCrt(crt, provider.GetByTargetName(crt.Subject.CommonName, nil, inca.Providers)),
-		"chain": string(chain),
-		"key":   string(key),
-	})
+	viewBinds := fiber.Map{
+		"crt": EncodeCrt(crt, provider.GetByTargetName(crt.Subject.CommonName, nil, inca.Providers)),
+	}
+	if inca.authorizedTarget(crt.Subject.CommonName, c) {
+		viewBinds["chain"] = string(chain)
+		viewBinds["key"] = string(key)
+	}
+
+	return c.Render("view", viewBinds)
 }

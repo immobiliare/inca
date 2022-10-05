@@ -9,7 +9,12 @@ import (
 )
 
 func (inca *Inca) handlerKey(c *fiber.Ctx) error {
-	_, data, err := (*inca.Storage).Get(c.Params("name"))
+	name := c.Params("name")
+	if !inca.authorizedTarget(name, c) {
+		return c.SendStatus(fiber.StatusUnauthorized)
+	}
+
+	_, data, err := (*inca.Storage).Get(name)
 	if err == nil {
 		if strings.EqualFold(c.Get("Accept", "text/plain"), "application/json") {
 			return c.JSON(struct {
@@ -19,6 +24,6 @@ func (inca *Inca) handlerKey(c *fiber.Ctx) error {
 		return c.SendStream(bytes.NewReader(data), len(data))
 	}
 
-	log.Info().Str("name", c.Params("name")).Err(err).Msg("cached key not found")
+	log.Info().Str("name", name).Err(err).Msg("cached key not found")
 	return c.SendStatus(fiber.StatusNotFound)
 }

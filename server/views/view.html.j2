@@ -42,11 +42,15 @@
     <label>Postal Code</label>
     <input value="{{ crt.PostalCode }}" readonly="true"/>
 
+{% if chain %}
     <label>Chain</label>
     <textarea style="min-height: 300px;" readonly="true">{{ chain }}</textarea>
+{% endif %}
 
+{% if key %}
     <label>Key</label>
     <textarea style="min-height: 150px;" readonly="true">{{ key }}</textarea>
+{% endif %}
 </form>
 <form method="POST" action="/web/{{ crt.CN }}/delete"
     onsubmit="return confirm('Do you really want to delete {{ crt.CN }}?')">

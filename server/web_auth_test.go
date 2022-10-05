@@ -18,7 +18,7 @@ const (
 
 func testAuthApp(t *testing.T) *Inca {
 	app := testApp(t)
-	app.ACL = map[string][]string{
+	app.acl = map[string][]string{
 		testingToken: {`.*.ns.farm`},
 	}
 	return app

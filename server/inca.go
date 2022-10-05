@@ -16,8 +16,10 @@ import (
 	"github.com/rs/zerolog/log"
 	"gitlab.rete.farm/sistemi/inca/provider"
 	"gitlab.rete.farm/sistemi/inca/server/config"
+	"gitlab.rete.farm/sistemi/inca/server/helper"
 	"gitlab.rete.farm/sistemi/inca/server/middleware"
 	"gitlab.rete.farm/sistemi/inca/storage"
+	"gitlab.rete.farm/sistemi/inca/util"
 )
 
 type Inca struct {
@@ -25,10 +27,8 @@ type Inca struct {
 	Storage      *storage.Storage
 	Providers    []*provider.Provider
 	sessionStore *session.Store
-	ACL          map[string][]string
+	acl          map[string][]string
 }
-
-type ACL map[string][]string
 
 func Spinup(path string) (*Inca, error) {
 	cfg, err := config.Parse(path)
@@ -88,7 +88,7 @@ func Spinup(path string) (*Inca, error) {
 	}
 	inca.Static("/static", "./server/static", static)
 	incaWeb := inca.Group("/web")
-	incaWeb.Use(middleware.Session(inca.sessionStore, inca.ACL))
+	incaWeb.Use(middleware.Session(inca.sessionStore, inca.acl))
 	incaWeb.Get("/", inca.handlerWebIndex)
 	incaWeb.Get("/login", inca.handlerWebAuthLoginView)
 	incaWeb.Post("/login", inca.handlerWebAuthLogin)
@@ -101,7 +101,7 @@ func Spinup(path string) (*Inca, error) {
 	incaWeb.Get("/:name", inca.handlerWebView)
 	incaWeb.Post("/:name/delete", inca.handlerWebDelete)
 	incaAPI := inca.Group("/")
-	incaAPI.Use(middleware.Bearer(inca.ACL))
+	incaAPI.Use(middleware.Bearer(inca.acl))
 	incaAPI.Get("/enum", inca.handlerEnum)
 	incaAPI.Get("/health", inca.handlerHealth)
 	incaAPI.Get("/ca/:filter", inca.handlerCA)
@@ -110,4 +110,14 @@ func Spinup(path string) (*Inca, error) {
 	incaAPI.Get("/:name/show", inca.handlerShow)
 	incaAPI.Delete("/:name", inca.handlerRevoke)
 	return inca, nil
+}
+
+func (inca *Inca) authorizedTarget(name string, c *fiber.Ctx) bool {
+	if len(inca.acl) == 0 {
+		return true
+	}
+	if targets, ok := inca.acl[helper.GetToken(c, inca.sessionStore)]; ok {
+		return util.RegexesAnyMatch(name, targets...)
+	}
+	return false
 }

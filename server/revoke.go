@@ -8,6 +8,9 @@ import (
 
 func (inca *Inca) handlerRevoke(c *fiber.Ctx) error {
 	name := c.Params("name")
+	if !inca.authorizedTarget(name, c) {
+		return c.SendStatus(fiber.StatusUnauthorized)
+	}
 
 	data, _, err := (*inca.Storage).Get(name)
 	if err != nil {

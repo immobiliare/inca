@@ -16,23 +16,12 @@ func Session(store *session.Store, acl map[string][]string) fiber.Handler {
 			return c.Next()
 		}
 
-		if !IsAuthenticated(c, store, acl) {
+		token := helper.GetToken(c, store)
+		if !helper.IsValidToken(token, acl) {
 			return c.Redirect(fmt.Sprintf("%s?redirect=%s", LoginPath, c.Path()), 302)
 		}
 
 		_ = c.Bind(fiber.Map{"authenticated": true})
 		return c.Next()
 	}
-}
-
-func IsAuthenticated(c *fiber.Ctx, store *session.Store, acl map[string][]string) bool {
-	session, err := store.Get(c)
-	if err != nil {
-		return false
-	}
-
-	if name := session.Get("name"); name == nil || !helper.IsValidToken(name.(string), acl) {
-		return false
-	}
-	return true
 }

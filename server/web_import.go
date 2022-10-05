@@ -59,6 +59,11 @@ func (inca *Inca) handlerWebImport(c *fiber.Ctx) error {
 		return inca.handlerWebImportView(c)
 	}
 
+	if !inca.authorizedTarget(crt.Subject.CommonName, c) {
+		_ = c.Bind(fiber.Map{"error": "Unauthorized to issue the certificate"})
+		return inca.handlerWebIssueView(c)
+	}
+
 	if _, _, err := (*inca.Storage).Get(crt.Subject.CommonName); err == nil {
 		_ = c.Bind(fiber.Map{"error": "Certificate already existing"})
 		return inca.handlerWebImportView(c)
