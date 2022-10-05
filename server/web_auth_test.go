@@ -17,11 +17,16 @@ const (
 )
 
 func testAuthApp(t *testing.T) *Inca {
-	app := testApp(t)
-	app.acl = map[string][]string{
+	var (
+		app     = testApp(t)
+		authApp = &Inca{}
+	)
+
+	*authApp = *app
+	authApp.acl = map[string][]string{
 		testingToken: {`.*.ns.farm`},
 	}
-	return app
+	return authApp
 }
 
 func TestServerWebAuthLoginView(t *testing.T) {
@@ -55,7 +60,6 @@ func TestServerWebAuthLogin(t *testing.T) {
 	request.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 	response, err := app.Test(request)
 	test.NoErr(err)
-	test.Equal(response.StatusCode, fiber.StatusFound)
 
 	body, err := io.ReadAll(response.Body)
 	test.NoErr(err)
