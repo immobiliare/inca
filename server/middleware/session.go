@@ -2,21 +2,17 @@ package middleware
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/session"
 	"gitlab.rete.farm/sistemi/inca/server/helper"
 )
 
-const (
-	invalidSessionName = "invalid"
-	LoginPath          = "/web/login"
-)
+const LoginPath = "/web/login"
 
 func Session(store *session.Store, acl map[string][]string) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		if c.Path() == LoginPath {
+		if c.Path() == LoginPath || len(acl) == 0 {
 			return c.Next()
 		}
 
@@ -35,10 +31,7 @@ func IsAuthenticated(c *fiber.Ctx, store *session.Store, acl map[string][]string
 		return false
 	}
 
-	if name := session.Get("name"); name == nil ||
-		len(name.(string)) == 0 ||
-		strings.EqualFold(name.(string), invalidSessionName) ||
-		!helper.IsValidToken(name.(string), acl) {
+	if name := session.Get("name"); name == nil || !helper.IsValidToken(name.(string), acl) {
 		return false
 	}
 	return true

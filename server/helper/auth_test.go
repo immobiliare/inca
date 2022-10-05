@@ -11,11 +11,13 @@ const (
 )
 
 var (
-	testingACL      = map[string][]string{testingToken: nil}
-	testingACLEmpty = map[string][]string{}
+	testingACLValid   = map[string][]string{testingToken: nil}
+	testingACLInvalid = map[string][]string{"world": nil}
+	testingACLEmpty   = map[string][]string{}
 )
 
 func TestServerHelperIsValidToken(t *testing.T) {
-	is.New(t).True(IsValidToken(testingToken, testingACL))
+	is.New(t).True(IsValidToken(testingToken, testingACLValid))
+	is.New(t).True(!IsValidToken(testingToken, testingACLInvalid))
 	is.New(t).True(!IsValidToken(testingToken, testingACLEmpty))
 }

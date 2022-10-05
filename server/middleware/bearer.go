@@ -9,6 +9,10 @@ import (
 
 func Bearer(acl map[string][]string) fiber.Handler {
 	return func(c *fiber.Ctx) error {
+		if len(acl) == 0 {
+			return c.Next()
+		}
+
 		authorization := c.Get("authorization")
 		if len(authorization) == 0 {
 			return c.SendStatus(400)

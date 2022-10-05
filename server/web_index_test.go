@@ -20,6 +20,12 @@ func TestServerWebIndex(t *testing.T) {
 		httptest.NewRequest("GET", "/", nil),
 	)
 	test.NoErr(err)
+	test.Equal(response.StatusCode, fiber.StatusMovedPermanently)
+
+	response, err = app.Test(
+		httptest.NewRequest("GET", "/web", nil),
+	)
+	test.NoErr(err)
 	test.Equal(response.StatusCode, fiber.StatusOK)
 
 	body, err := io.ReadAll(response.Body)

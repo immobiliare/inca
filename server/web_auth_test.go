@@ -12,9 +12,21 @@ import (
 	"gitlab.rete.farm/sistemi/inca/util"
 )
 
+const (
+	testingToken = "awesometoken"
+)
+
+func testAuthApp(t *testing.T) *Inca {
+	app := testApp(t)
+	app.ACL = map[string][]string{
+		testingToken: {`.*.ns.farm`},
+	}
+	return app
+}
+
 func TestServerWebAuthLoginView(t *testing.T) {
 	var (
-		app  = testApp(t)
+		app  = testAuthApp(t)
 		test = is.New(t)
 	)
 
@@ -33,7 +45,7 @@ func TestServerWebAuthLoginView(t *testing.T) {
 
 func TestServerWebAuthLogin(t *testing.T) {
 	var (
-		app  = testApp(t)
+		app  = testAuthApp(t)
 		test = is.New(t)
 	)
 
@@ -54,7 +66,7 @@ func TestServerWebAuthLogin(t *testing.T) {
 
 func TestServerWebAuthLogout(t *testing.T) {
 	var (
-		app  = testApp(t)
+		app  = testAuthApp(t)
 		test = is.New(t)
 	)
 
