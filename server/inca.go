@@ -100,15 +100,13 @@ func Spinup(path string) (*Inca, error) {
 	incaWeb.Post("/import", inca.handlerWebImport)
 	incaWeb.Get("/:name", inca.handlerWebView)
 	incaWeb.Post("/:name/delete", inca.handlerWebDelete)
-	incaAPI := inca.Group("/")
-	incaAPI.Use(middleware.Bearer(inca.acl))
-	incaAPI.Get("/enum", inca.handlerEnum)
-	incaAPI.Get("/health", inca.handlerHealth)
-	incaAPI.Get("/ca/:filter", inca.handlerCA)
-	incaAPI.Get("/:name", inca.handlerCRT)
-	incaAPI.Get("/:name/key", inca.handlerKey)
-	incaAPI.Get("/:name/show", inca.handlerShow)
-	incaAPI.Delete("/:name", inca.handlerRevoke)
+	inca.Get("/enum", inca.handlerEnum)
+	inca.Get("/health", inca.handlerHealth)
+	inca.Get("/ca/:filter", inca.handlerCA)
+	inca.Get("/:name", inca.handlerCRT)
+	inca.Get("/:name/key", inca.handlerKey)
+	inca.Get("/:name/show", inca.handlerShow)
+	inca.Delete("/:name", inca.handlerRevoke)
 	return inca, nil
 }
 
