@@ -5,8 +5,8 @@ import (
 	"io"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/immobiliare/inca/pki"
 	"github.com/rs/zerolog/log"
-	"gitlab.rete.farm/sistemi/inca/pki"
 )
 
 func (inca *Inca) handlerWebImportView(c *fiber.Ctx) error {

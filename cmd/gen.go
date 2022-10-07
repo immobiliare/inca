@@ -9,11 +9,11 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/immobiliare/inca/pki"
+	"github.com/immobiliare/inca/util"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
-	"gitlab.rete.farm/sistemi/inca/pki"
-	"gitlab.rete.farm/sistemi/inca/util"
 )
 
 var cmdGen = &cobra.Command{

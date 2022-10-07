@@ -6,8 +6,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"gitlab.rete.farm/sistemi/inca/pki"
-	"gitlab.rete.farm/sistemi/inca/util"
+	"github.com/immobiliare/inca/pki"
+	"github.com/immobiliare/inca/util"
 )
 
 const (

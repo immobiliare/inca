@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"gitlab.rete.farm/sistemi/inca/pki"
+	"github.com/immobiliare/inca/pki"
 )
 
 type Local struct {

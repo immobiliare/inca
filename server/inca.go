@@ -12,14 +12,14 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/session"
 	"github.com/gofiber/redirect/v2"
 	"github.com/gofiber/template/django"
+	"github.com/immobiliare/inca/provider"
+	"github.com/immobiliare/inca/server/config"
+	"github.com/immobiliare/inca/server/helper"
+	"github.com/immobiliare/inca/server/middleware"
+	"github.com/immobiliare/inca/storage"
+	"github.com/immobiliare/inca/util"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
-	"gitlab.rete.farm/sistemi/inca/provider"
-	"gitlab.rete.farm/sistemi/inca/server/config"
-	"gitlab.rete.farm/sistemi/inca/server/helper"
-	"gitlab.rete.farm/sistemi/inca/server/middleware"
-	"gitlab.rete.farm/sistemi/inca/storage"
-	"gitlab.rete.farm/sistemi/inca/util"
 )
 
 type Inca struct {

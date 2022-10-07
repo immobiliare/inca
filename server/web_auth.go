@@ -2,10 +2,10 @@ package server
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/immobiliare/inca/server/helper"
+	"github.com/immobiliare/inca/server/middleware"
+	"github.com/immobiliare/inca/util"
 	"github.com/rs/zerolog/log"
-	"gitlab.rete.farm/sistemi/inca/server/helper"
-	"gitlab.rete.farm/sistemi/inca/server/middleware"
-	"gitlab.rete.farm/sistemi/inca/util"
 )
 
 func (inca *Inca) handlerWebAuthLogin(c *fiber.Ctx) error {

@@ -2,9 +2,9 @@ package server
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/immobiliare/inca/pki"
+	"github.com/immobiliare/inca/provider"
 	"github.com/rs/zerolog/log"
-	"gitlab.rete.farm/sistemi/inca/pki"
-	"gitlab.rete.farm/sistemi/inca/provider"
 )
 
 func (inca *Inca) handlerWebView(c *fiber.Ctx) error {

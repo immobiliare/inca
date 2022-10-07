@@ -6,8 +6,8 @@ import (
 	"testing"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/immobiliare/inca/util"
 	"github.com/matryer/is"
-	"gitlab.rete.farm/sistemi/inca/util"
 )
 
 func TestServerWebConfig(t *testing.T) {

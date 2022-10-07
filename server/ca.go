@@ -5,8 +5,8 @@ import (
 	"strings"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/immobiliare/inca/provider"
 	"github.com/rs/zerolog/log"
-	"gitlab.rete.farm/sistemi/inca/provider"
 )
 
 func (inca *Inca) handlerCA(c *fiber.Ctx) error {

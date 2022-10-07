@@ -2,7 +2,7 @@ package server
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"gitlab.rete.farm/sistemi/inca/provider"
+	"github.com/immobiliare/inca/provider"
 )
 
 func (inca *Inca) handlerWebDelete(c *fiber.Ctx) error {

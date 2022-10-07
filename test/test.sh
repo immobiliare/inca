@@ -22,14 +22,7 @@ curl "127.0.0.1:8080/enum" | jq -r '.results|length' | grep 1
 curl "127.0.0.1:8080/test.${name}/key" > "test.${name}.key"
 curl "127.0.0.1:8080/test.${name}/show" | jq
 
-go run test/test.go "test.${name}.crt" "test.${name}.key" &!
-echo -e "127.0.1.1\ttest.${name}" >> /etc/hosts
-until $(curl --cacert "${name}.crt" -sfI -o /dev/null https://test.${name}:8081); do
-    echo "waiting for server to come up..."
-    sleep 1
-done
-curl --cacert "${name}.crt" "https://test.${name}:8081"
-kill %2
+openssl verify -verbose -CAfile "${name}.crt" "test.${name}.crt"
 
 curl "127.0.0.1:8080/test.${name}" -X DELETE
 test -f "test/test.${name} /crt.pem" && exit 1 || echo -n

@@ -5,7 +5,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/session"
-	"gitlab.rete.farm/sistemi/inca/server/helper"
+	"github.com/immobiliare/inca/server/helper"
 )
 
 const LoginPath = "/web/login"

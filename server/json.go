@@ -4,9 +4,9 @@ import (
 	"crypto/x509"
 	"strings"
 
-	"gitlab.rete.farm/sistemi/inca/pki"
-	"gitlab.rete.farm/sistemi/inca/provider"
-	"gitlab.rete.farm/sistemi/inca/storage"
+	"github.com/immobiliare/inca/pki"
+	"github.com/immobiliare/inca/provider"
+	"github.com/immobiliare/inca/storage"
 )
 
 const (

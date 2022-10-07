@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"testing"
 
+	"github.com/immobiliare/inca/pki"
 	"github.com/matryer/is"
-	"gitlab.rete.farm/sistemi/inca/pki"
 )
 
 const (

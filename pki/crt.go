@@ -14,8 +14,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/immobiliare/inca/util"
 	"github.com/rs/zerolog/log"
-	"gitlab.rete.farm/sistemi/inca/util"
 )
 
 type Request struct {

@@ -2,8 +2,8 @@ package server
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/immobiliare/inca/provider"
 	"github.com/rs/zerolog/log"
-	"gitlab.rete.farm/sistemi/inca/provider"
 )
 
 func (inca *Inca) handlerRevoke(c *fiber.Ctx) error {

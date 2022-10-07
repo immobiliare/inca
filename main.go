@@ -1,6 +1,6 @@
 package main
 
-import "gitlab.rete.farm/sistemi/inca/cmd"
+import "github.com/immobiliare/inca/cmd"
 
 func main() {
 	cmd.Execute()

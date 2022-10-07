@@ -4,9 +4,9 @@ import (
 	"os"
 	"os/signal"
 
+	"github.com/immobiliare/inca/server"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
-	"gitlab.rete.farm/sistemi/inca/server"
 )
 
 var (

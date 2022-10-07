@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"os"
 
-	"gitlab.rete.farm/sistemi/inca/provider"
-	"gitlab.rete.farm/sistemi/inca/storage"
+	"github.com/immobiliare/inca/provider"
+	"github.com/immobiliare/inca/storage"
 	"gopkg.in/yaml.v2"
 )
 

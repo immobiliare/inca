@@ -15,8 +15,8 @@ import (
 	"github.com/go-acme/lego/v4/log"
 	"github.com/go-acme/lego/v4/providers/dns"
 	"github.com/go-acme/lego/v4/registration"
-	"gitlab.rete.farm/sistemi/inca/pki"
-	"gitlab.rete.farm/sistemi/inca/util"
+	"github.com/immobiliare/inca/pki"
+	"github.com/immobiliare/inca/util"
 )
 
 type LetsEncrypt struct {

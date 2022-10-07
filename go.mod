@@ -1,4 +1,4 @@
-module gitlab.rete.farm/sistemi/inca
+module github.com/immobiliare/inca
 
 go 1.18
 

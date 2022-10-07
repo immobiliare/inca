@@ -6,8 +6,8 @@ import (
 	"testing"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/immobiliare/inca/pki"
 	"github.com/matryer/is"
-	"gitlab.rete.farm/sistemi/inca/pki"
 )
 
 func TestServerCrt(t *testing.T) {
