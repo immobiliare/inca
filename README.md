@@ -40,14 +40,15 @@ docker run -it -v --network host ${PWD}/inca.yml:/etc/inca:ro \
 ## Usage
 
 ```sh
+alias curl='curl -H "Authorization:Bearer REDACTED"'
 # fetch certificate
-curl https://inca.it3.ns.farm/whatever.ns.farm -o whatever.ns.farm.pem
+curl https://inca.domain.tld/domain.tld.farm -o whatever.domain.tld.pem
 # fetch certificate with further params
-curl https://inca.it3.ns.farm/whatever-with-details.ns.farm?alt=whatever2.ns.farm&duration=2y
+curl https://inca.domain.tld/whatever-with-details.domain.tld?alt=whatever2.domain.tld&duration=2y
 # fetch key
-curl https://inca.it3.ns.farm/whatever.ns.farm/key -o whatever.ns.farm.key
+curl https://inca.domain.tld/whatever.domain.tld/key -o whatever.domain.tld.key
 # remove certificate
-curl -X DELETE https://inca.it3.ns.farm/whatever.ns.farm
+curl -X DELETE https://inca.domain.tld/whatever.domain.tld
 ```
 
 #### Custom installation
@@ -63,6 +64,10 @@ providers:
 storage:
   type: fs
   path: /etc/inca.d
+acl:
+  REDACTED:
+    - ^nice.domain.tld$
+    - .*.notsonice.domain.tld$
 EOF
 inca server
 ```
@@ -70,6 +75,6 @@ inca server
 #### Generate certificates
 
 ```sh
-curl http://localhost:80/crt.domain.tld -o crt.domain.tld.pem
-curl http://localhost:80/crt.domain.tld/key -o crt.domain.tld.key
+curl -H "Authorization:Bearer REDACTED" http://localhost:80/crt.domain.tld -o crt.domain.tld.pem
+curl -H "Authorization:Bearer REDACTED" http://localhost:80/crt.domain.tld/key -o crt.domain.tld.key
 ```

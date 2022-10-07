@@ -24,7 +24,7 @@ func testAuthApp(t *testing.T) *Inca {
 
 	*authApp = *app
 	authApp.acl = map[string][]string{
-		testingToken: {`.*.ns.farm`},
+		testingToken: {`.*.domain.tld`},
 	}
 	return authApp
 }
