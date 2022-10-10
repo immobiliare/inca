@@ -33,10 +33,12 @@ Given it's minimal semantic, Inca is super easy to integrate into third-party to
 
 - [Install](#install)
 - [Usage](#usage)
+  - [Custom installation](#custom-installation)
+  - [Generate certificates](#generate-certificates)
 - [Changelog](#changelog)
 - [Contributing](#contributing)
-- [Issues](#issues)
-- [Powering](#powering)
+- [Powered apps](#powered-apps)
+- [Support](#support)
 
 ## Install
 
@@ -109,15 +111,14 @@ See [changelog](./CHANGELOG.md).
 
 See [contributing](./CONTRIBUTING.md).
 
-
 ## Powered apps
 
 Inca was created by ImmobiliareLabs, the technology department of [Immobiliare.it](https://www.immobiliare.it), the #1 real estate company in Italy.
 
 **If you are using Inca [drop us a message](mailto:opensource@immobiliare.it)**.
 
-## Support & Contribute
+## Support
 
-Made with ❤️ by [ImmobiliareLabs](https://github.com/immobiliare) & [Contributors](./CONTRIBUTING.md#contributors)
+Made with ❤️ by [ImmobiliareLabs](https://github.com/immobiliare) and all the [contributors](./CONTRIBUTING.md#contributors)
 
 If you have any question on how to use Inca, bugs and enhancement please feel free to reach us out by opening a [GitHub Issue](https://github.com/immobiliare/inca/issues).
