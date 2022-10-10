@@ -3,6 +3,7 @@ package server
 import (
 	"bytes"
 	"strings"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/immobiliare/inca/pki"
@@ -38,6 +39,8 @@ func (inca *Inca) handlerCRT(c *fiber.Ctx) error {
 				util.StringSlicesEqual(crtIPAddresses, ipAddresses)) {
 				log.Info().Str("name", name).Msg("cached certificate needs flush")
 				queryStrings["alt"] = strings.Join(append(dnsNames, ipAddresses...), ",")
+			} else if crt.NotAfter.Before(time.Now()) {
+				log.Info().Str("name", name).Msg("certificate is expired: going to renew it")
 			} else {
 				log.Info().Str("name", name).Msg("returning cached certificate")
 				if strings.EqualFold(c.Get("Accept", "text/plain"), "application/json") {
