@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="/static/style.css"/>
   {% block head %}{% endblock %}
   <style>
-      {% block style %}{% endblock %}
+    {% block style %}{% endblock %}
   </style>
 
 </head>
@@ -22,17 +22,19 @@
 
   <header>
     <div>
-{% if authenticated %}
+{% if authenticated or unprotected %}
       <a href="/">Inca</a>
 {% else %}
       <span>Inca</span>
 {% endif %}
     </div>
     <ul>
-{% if authenticated %}
+{% if authenticated or unprotected %}
         <li><a href="/">home</a></li>
         <li><a href="/web/config">config</a></li>
+  {% if not unprotected %}
         <li><a href="/web/logout">logout</a></li>
+  {% endif %}
 {% endif %}
     </ul>
     <hr/>

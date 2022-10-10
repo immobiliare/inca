@@ -13,6 +13,7 @@ const LoginPath = "/web/login"
 func Session(store *session.Store, acl map[string][]string) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		if c.Path() == LoginPath || len(acl) == 0 {
+			_ = c.Bind(fiber.Map{"unprotected": true})
 			return c.Next()
 		}
 
