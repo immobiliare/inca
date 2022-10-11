@@ -41,6 +41,7 @@ func TestServerWebIssue(t *testing.T) {
 
 	form := url.Values{}
 	form.Add("alt", testDomain)
+	form.Add("algo", testingCAAlgorithm)
 	request := httptest.NewRequest("POST", "/web/issue", strings.NewReader(form.Encode()))
 	request.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 	response, err := app.Test(request)

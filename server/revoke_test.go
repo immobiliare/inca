@@ -15,7 +15,7 @@ func TestServerRevoke(t *testing.T) {
 	)
 
 	response, err := app.Test(
-		httptest.NewRequest("GET", "/"+testingCADomain, nil),
+		httptest.NewRequest("GET", "/"+testingCADomain+"?algo="+testingCAAlgorithm, nil),
 	)
 	test.NoErr(err)
 	test.Equal(response.StatusCode, fiber.StatusOK)

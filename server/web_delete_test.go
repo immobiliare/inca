@@ -32,7 +32,7 @@ func TestServerWebDelete(t *testing.T) {
 	test.True(strings.Contains(string(body), "not found"))
 
 	response, err = app.Test(
-		httptest.NewRequest("GET", "/"+testingCADomain, nil),
+		httptest.NewRequest("GET", "/"+testingCADomain+"?algo="+testingCAAlgorithm, nil),
 	)
 	test.NoErr(err)
 	test.Equal(response.StatusCode, fiber.StatusOK)

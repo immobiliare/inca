@@ -8,11 +8,12 @@ import (
 )
 
 const (
-	testingCADomain   = "domain.tld"
-	testingConfigPath = ".testServerInca.yml"
-	testingCACrtPath  = ".testServerInca.crt.pem"
-	testingCAKeyPath  = ".testServerInca.key.pem"
-	testingConfig     = `bind: :65535
+	testingCADomain    = "domain.tld"
+	testingCAAlgorithm = "ecdsa"
+	testingConfigPath  = ".testServerInca.yml"
+	testingCACrtPath   = ".testServerInca.crt.pem"
+	testingCAKeyPath   = ".testServerInca.key.pem"
+	testingConfig      = `bind: :65535
 templates_path: ./views
 environment: production
 storage:
