@@ -113,7 +113,8 @@ func NewRequest(options map[string]any) Request {
 		req.CN = cn.(string)
 	}
 	if alt, ok := options["alt"]; ok {
-		req.DNSNames, req.IPAddresses = ParseAltNames(strings.Split(alt.(string), ","))
+		req.DNSNames, req.IPAddresses = ParseAltNames(
+			append([]string{req.CN}, strings.Split(alt.(string), ",")...))
 	}
 	if ca, ok := options["ca"]; ok {
 		req.CA = ca.(bool)
@@ -183,7 +184,7 @@ func AltNames(crt *x509.Certificate) ([]string, []string) {
 		dnsNames    = []string{}
 		ipAddresses = []string{}
 	)
-	for _, name := range crt.DNSNames {
+	for _, name := range append([]string{crt.Subject.CommonName}, crt.DNSNames...) {
 		name = strings.TrimSpace(name)
 		if len(name) > 0 {
 			dnsNames = append(dnsNames, name)
@@ -195,6 +196,8 @@ func AltNames(crt *x509.Certificate) ([]string, []string) {
 			ipAddresses = append(ipAddresses, ip.String())
 		}
 	}
+	dnsNames = util.StringSliceDistinct(dnsNames)
+	ipAddresses = util.StringSliceDistinct(ipAddresses)
 	sort.Strings(dnsNames)
 	sort.Strings(ipAddresses)
 	return dnsNames, ipAddresses
@@ -209,6 +212,8 @@ func ParseAltNames(altNames []string) (dnsNames, ipAddresses []string) {
 			ipAddresses = append(ipAddresses, name)
 		}
 	}
+	dnsNames = util.StringSliceDistinct(dnsNames)
+	ipAddresses = util.StringSliceDistinct(ipAddresses)
 	sort.Strings(dnsNames)
 	sort.Strings(ipAddresses)
 	return

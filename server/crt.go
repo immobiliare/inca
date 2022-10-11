@@ -16,6 +16,7 @@ func (inca *Inca) handlerCRT(c *fiber.Ctx) error {
 	var (
 		name         = c.Params("name")
 		queryStrings = util.ParseQueryString(c.Request().URI().QueryString())
+		alt          = append([]string{name}, queryStringAlt(queryStrings)...)
 	)
 	if !inca.authorizedTarget(name, c) {
 		return c.SendStatus(fiber.StatusUnauthorized)
@@ -32,7 +33,7 @@ func (inca *Inca) handlerCRT(c *fiber.Ctx) error {
 			log.Error().Str("name", name).Msg("unable to parse cached certificate")
 		} else {
 			crtDNSNames, crtIPAddresses := pki.AltNames(crt)
-			reqDNSNames, reqIPAddresses := pki.ParseAltNames(queryStringAlt(queryStrings))
+			reqDNSNames, reqIPAddresses := pki.ParseAltNames(alt)
 			dnsNames, ipAddresses := util.StringSliceDistinct(append(crtDNSNames, reqDNSNames...)),
 				util.StringSliceDistinct(append(crtIPAddresses, reqIPAddresses...))
 			if !(util.StringSlicesEqual(crtDNSNames, dnsNames) &&

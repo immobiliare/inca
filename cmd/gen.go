@@ -36,7 +36,7 @@ var cmdGen = &cobra.Command{
 		reqOptions := make(map[string]any)
 		reqOptions["cn"] = names[0]
 		if len(names) > 1 {
-			reqOptions["alt"] = names[1:]
+			reqOptions["alt"] = names
 		}
 
 		if duration, err := cmd.Flags().GetDuration("duration"); err == nil {
