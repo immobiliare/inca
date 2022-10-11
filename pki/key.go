@@ -18,7 +18,7 @@ type Key struct {
 }
 
 const (
-	DefaultCrtAlgo       = ECDSA
+	DefaultCrtAlgo       = RSA
 	UnsupportedAlgorithm = ""
 	EDDSA                = "eddsa"
 	ECDSA                = "ecdsa"
