@@ -99,6 +99,7 @@ func Spinup(path string) (*Inca, error) {
 	incaWeb.Get("/import", inca.handlerWebImportView)
 	incaWeb.Post("/import", inca.handlerWebImport)
 	incaWeb.Get("/:name", inca.handlerWebView)
+	incaWeb.Get("/:name/download", inca.handlerWebDownload)
 	incaWeb.Post("/:name/delete", inca.handlerWebDelete)
 	inca.Get("/enum", inca.handlerEnum)
 	inca.Get("/health", inca.handlerHealth)

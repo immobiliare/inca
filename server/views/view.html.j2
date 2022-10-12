@@ -56,4 +56,9 @@
     onsubmit="return confirm('Do you really want to delete {{ crt.CN }}?')">
     <button>Delete</button>
 </form>
+{% if chain and key %}
+<form method="GET" action="/web/{{ crt.CN }}/download">
+    <button>Download</button>
+</form>
+{% endif %}
 {% endblock %}
