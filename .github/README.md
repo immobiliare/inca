@@ -5,6 +5,17 @@
 Inca stands for INternal CA, and it's primary aim is self-explained: handling certificate-wise flows with regards to a local and private CA.
 On the flip side, its ambitious vocation is to eliminate all the complexity on maintaining a PKI within a company.
 
+### Alternatives
+
+Alternatives to Inca that don't have all the required features:
+
+- [OpenXPKI](https://www.openxpki.org/)
+- [EJBCA](https://www.ejbca.org/)
+- [step-ca](https://github.com/smallstep/certificates)
+- [Locksmith](https://github.com/kenmoini/locksmith)
+- [Certbot](https://certbot.eff.org/) - The recommended LetsEncrypt client
+- [Lego](https://github.com/go-acme/lego) - Let's Encrypt client and ACME library written in Go
+
 ### Internal CA
 
 Given a CA keypair, Inca exposes a set of endpoints usable to interact with the aforementioned CA to issue, revoke, extend valid certificates.
