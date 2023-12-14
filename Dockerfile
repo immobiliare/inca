@@ -1,4 +1,4 @@
-FROM golang:alpine3.14 as builder
+FROM golang:alpine3.19 as builder
 ENV GOOS=linux
 ENV GOARCH=amd64
 WORKDIR /workspace
@@ -8,7 +8,7 @@ RUN go mod download
 COPY . .
 RUN go build
 
-FROM alpine:3.14
+FROM alpine:3.19
 WORKDIR /tmp
 COPY --from=builder /workspace/inca /usr/sbin/
 COPY --from=builder /workspace/server/views /tmp/server/views

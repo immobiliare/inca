@@ -1,2 +1,12 @@
 .test
 .vscode
+/inca
+/domain.tld.crt
+/test.domain.tld.crt
+/test.domain.tld.key
+/test/crt.pem
+/test/key.pem
+/server/domain.tld/crt.pem
+/server/domain.tld/key.pem
+/server/foreign.tld/crt.pem
+/server/foreign.tld/key.pem
