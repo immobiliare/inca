@@ -8,7 +8,7 @@ require (
 	github.com/go-acme/lego/v4 v4.14.2
 	github.com/gofiber/fiber/v2 v2.51.0
 	github.com/gofiber/redirect/v2 v2.1.33
-	github.com/gofiber/template v1.8.1
+	github.com/gofiber/template/django/v3 v3.1.7
 	github.com/google/uuid v1.5.0
 	github.com/matryer/is v1.4.1
 	github.com/rs/zerolog v1.31.0
@@ -79,6 +79,7 @@ require (
 	github.com/fatih/structs v1.1.0 // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
 	github.com/flosch/pongo2/v4 v4.0.2 // indirect
+	github.com/flosch/pongo2/v6 v6.0.0 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.3 // indirect
 	github.com/ghodss/yaml v1.0.0 // indirect
@@ -93,6 +94,8 @@ require (
 	github.com/go-playground/validator/v10 v10.16.0 // indirect
 	github.com/go-resty/resty/v2 v2.10.0 // indirect
 	github.com/goccy/go-json v0.10.2 // indirect
+	github.com/gofiber/template v1.8.2 // indirect
+	github.com/gofiber/utils v1.1.0 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
 	github.com/golang-jwt/jwt/v5 v5.0.0 // indirect
