@@ -1,12 +1,13 @@
 name: publish
 
 on:
-  push:
-    tags:
-      - '*'
+  release:
+    types: [published]
+
 env:
   TEST_TAG: ghcr.io/immobiliare/inca:test
   LATEST_TAG: ghcr.io/immobiliare/inca:latest
+  NEW_TAG: ghcr.io/immobiliare/inca:${{ github.event.release.tag_name }}
 
 jobs:
   publish:
@@ -34,5 +35,5 @@ jobs:
         with:
           context: .
           platforms: linux/amd64,linux/arm64
-          tags: ghcr.io/immobiliare/inca:${{ env.GITHUB_REF_NAME }}, ${{ env.LATEST_TAG }}
+          tags: ${{ env.NEW_TAG }}, ${{ env.LATEST_TAG }}
           push: true
