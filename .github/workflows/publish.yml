@@ -7,7 +7,7 @@ on:
 env:
   TEST_TAG: ghcr.io/immobiliare/inca:test
   LATEST_TAG: ghcr.io/immobiliare/inca:latest
-  NEW_TAG: ghcr.io/immobiliare/inca:${{ GITHUB_REF_NAME }}
+  NEW_TAG: ghcr.io/immobiliare/inca:${{ env.GITHUB_REF_NAME }}
 
 jobs:
   publish:
