@@ -1,0 +1,39 @@
+name: publish
+
+on:
+  push:
+    tags:
+      - '*'
+env:
+  TEST_TAG: ghcr.io/immobiliare/inca:test
+  LATEST_TAG: ghcr.io/immobiliare/inca:latest
+  NEW_TAG: ghcr.io/immobiliare/inca:${{ GITHUB_REF_NAME }}
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-qemu-action@v3
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GH_SRE_TOKEN }}
+      - name: Build and export to Docker
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          load: true
+          tags: ${{ env.TEST_TAG }}
+      - name: Test Docker Image
+        run: |
+          docker run --rm ${{ env.TEST_TAG }}
+      - name: Build and push Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          tags: ${{ env.NEW_TAGNEW_TAG }}, ${{ env.LATEST_TAG }}
+          push: true
