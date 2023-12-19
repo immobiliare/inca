@@ -11,7 +11,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/gofiber/fiber/v2/middleware/session"
 	"github.com/gofiber/redirect/v2"
-	"github.com/gofiber/template/django"
+	"github.com/gofiber/template/django/v3"
 	"github.com/immobiliare/inca/provider"
 	"github.com/immobiliare/inca/server/config"
 	"github.com/immobiliare/inca/server/helper"

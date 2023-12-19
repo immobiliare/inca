@@ -13,9 +13,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-go@v3
+      - uses: actions/setup-go@v4
         with:
-          go-version: "1.18.0-rc.1"
+          go-version: "1.21"
       - uses: golangci/golangci-lint-action@v3
         with:
           version: latest
@@ -24,9 +24,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-go@v3
+      - uses: actions/setup-go@v4
         with:
-          go-version: "1.18.0-rc.1"
+          go-version: "1.21"
       - run: go build -v ./...
       - run: go test -v ./...
       - run: test/test.sh domain.tld

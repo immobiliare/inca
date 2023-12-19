@@ -2,38 +2,24 @@ package server
 
 import (
 	"bytes"
+	"crypto/ecdsa"
+	"crypto/elliptic"
+	"crypto/rand"
+	"crypto/x509"
+	"crypto/x509/pkix"
+	"encoding/pem"
 	"fmt"
 	"io"
+	"math/big"
 	"mime/multipart"
 	"net/http/httptest"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/immobiliare/inca/util"
 	"github.com/matryer/is"
-)
-
-const (
-	testingImportDomain = "foreign.tld"
-	testingImportCrt    = `-----BEGIN CERTIFICATE-----
-MIIB4zCCAYmgAwIBAgIQOow+W10AzEJL0mVd4zQogTAKBggqhkjOPQQDAjBYMQkw
-BwYDVQQGEwAxCTAHBgNVBAgTADEJMAcGA1UEBxMAMQkwBwYDVQQJEwAxCTAHBgNV
-BBETADEJMAcGA1UEChMAMRQwEgYDVQQDEwtmb3JlaWduLnRsZDAeFw0yMjEwMDMx
-MzE4MTJaFw0yMzExMDQxMzE4MTJaMFgxCTAHBgNVBAYTADEJMAcGA1UECBMAMQkw
-BwYDVQQHEwAxCTAHBgNVBAkTADEJMAcGA1UEERMAMQkwBwYDVQQKEwAxFDASBgNV
-BAMTC2ZvcmVpZ24udGxkMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEVQcXumlM
-nSoZEmU+Yd47agAo76oi9lVrPYaGNNw9PPgOSLa7fnPAXQsq9teEZ5hHnEZnpfbo
-jRGkwLU8dVbtb6M1MDMwDgYDVR0PAQH/BAQDAgeAMBMGA1UdJQQMMAoGCCsGAQUF
-BwMBMAwGA1UdEwEB/wQCMAAwCgYIKoZIzj0EAwIDSAAwRQIgdcq630BYzpjJwcY8
-6K8rMbSu0SjDqRek865/+wQOwKwCIQCqXIKAXlRoFtxX7sMobmZVuNBVz7a/QPpX
-rbRKCJDQ9w==
------END CERTIFICATE-----`
-	testingImportKey = `-----BEGIN PRIVATE KEY-----
-MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgC+8lxEP1SSy9P9JO
-Ant8Ven+h/a6kICfo/gi++doWBihRANCAARVBxe6aUydKhkSZT5h3jtqACjvqiL2
-VWs9hoY03D08+A5Itrt+c8BdCyr214RnmEecRmel9uiNEaTAtTx1Vu1v
------END PRIVATE KEY-----`
 )
 
 func TestServerWebImportView(t *testing.T) {
@@ -57,9 +43,15 @@ func TestServerWebImportView(t *testing.T) {
 
 func TestServerWebImport(t *testing.T) {
 	var (
-		app  = testApp(t)
-		test = is.New(t)
+		app                 = testApp(t)
+		test                = is.New(t)
+		testingImportDomain = "foreign.tld"
 	)
+
+	testingImportCrt, testingImportKey, err := generateKeyPair(testingImportDomain)
+	if err != nil {
+		t.Error(err.Error())
+	}
 
 	bodyWriter := &bytes.Buffer{}
 	writer := multipart.NewWriter(bodyWriter)
@@ -105,4 +97,54 @@ func TestServerWebImport(t *testing.T) {
 	)
 	test.NoErr(err)
 	test.Equal(response.StatusCode, fiber.StatusOK)
+}
+
+func generateKeyPair(domain string) (publicX509 string, privateX509 string, err error) {
+	privateKey, err := ecdsa.GenerateKey(elliptic.P384(), rand.Reader)
+	if err != nil {
+		return
+	}
+
+	privBytes, err := x509.MarshalECPrivateKey(privateKey)
+	if err != nil {
+		return
+	}
+
+	privateX509 = string(pem.EncodeToMemory(&pem.Block{
+		Type:  "EC PRIVATE KEY",
+		Bytes: privBytes,
+	}))
+
+	publicKey := &privateKey.PublicKey
+
+	subject := pkix.Name{
+		CommonName: domain,
+	}
+
+	notBefore := time.Now()
+	notAfter := notBefore.Add(time.Duration(30) * 24 * time.Hour)
+
+	certTemplate := x509.Certificate{
+		Subject:      subject,
+		SerialNumber: big.NewInt(1),
+		NotBefore:    notBefore,
+		NotAfter:     notAfter,
+	}
+
+	certDER, err := x509.CreateCertificate(
+		rand.Reader,
+		&certTemplate,
+		&certTemplate,
+		publicKey,
+		privateKey,
+	)
+	if err != nil {
+		return
+	}
+
+	publicX509 = string(pem.EncodeToMemory(&pem.Block{
+		Type:  "CERTIFICATE",
+		Bytes: certDER,
+	}))
+	return
 }
