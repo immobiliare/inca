@@ -34,6 +34,5 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          platforms: linux/amd64,linux/arm64
           tags: ${{ env.NEW_TAG }}, ${{ env.LATEST_TAG }}
           push: true
