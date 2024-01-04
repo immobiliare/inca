@@ -3,7 +3,7 @@ module github.com/immobiliare/inca
 go 1.21
 
 require (
-	github.com/aws/aws-sdk-go v1.49.4
+	github.com/aws/aws-sdk-go v1.49.14
 	github.com/getsentry/sentry-go v0.25.0
 	github.com/go-acme/lego/v4 v4.14.2
 	github.com/gofiber/fiber/v2 v2.51.0
