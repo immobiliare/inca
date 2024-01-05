@@ -36,6 +36,9 @@ type Inca struct {
 //go:embed static/**
 var embedStatic embed.FS
 
+//go:embed views/**
+var embedViews embed.FS
+
 func Spinup(path string) (*Inca, error) {
 	cfg, err := config.Parse(path)
 	if err != nil {
@@ -53,16 +56,15 @@ func Spinup(path string) (*Inca, error) {
 		log.Info().Msg("sentry correctly initialized")
 	}
 
-	templateEngine := django.New(cfg.TemplatesPath, ".html.j2")
-	templateEngine.Reload(strings.EqualFold(cfg.Environment, "development"))
-	templateEngine.Debug(strings.EqualFold(cfg.Environment, "development"))
-
 	inca := &Inca{
 		fiber.New(
 			fiber.Config{
 				DisableStartupMessage: true,
-				Views:                 templateEngine,
-				// Views:                 html.NewFileSystem(http.Dir("./server/views"), ".html.j2"),
+				Views: django.NewPathForwardingFileSystem(
+					http.FS(embedViews),
+					"/views",
+					".html.j2",
+				),
 			},
 		),
 		cfg.Storage,
