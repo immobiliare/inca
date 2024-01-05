@@ -928,8 +928,6 @@ github.com/goccy/go-json v0.10.2/go.mod h1:6MelG93GURQebXPDq3khkgXZkazVtN9CRI+MG
 github.com/godbus/dbus/v5 v5.0.4/go.mod h1:xhWf0FNVPg57R7Z0UbKHbJfkEywrmjJnf7w5xrFpKfA=
 github.com/gofiber/fiber/v2 v2.51.0 h1:JNACcZy5e2tGApWB2QrRpenTWn0fq0hkFm6k0C86gKQ=
 github.com/gofiber/fiber/v2 v2.51.0/go.mod h1:xaQRZQJGqnKOQnbQw+ltvku3/h8QxvNi8o6JiJ7Ll0U=
-github.com/gofiber/redirect/v2 v2.1.33 h1:Y/adwnv+/VkeFkcRmnJWS/2+VgXCiSzMikY79vMBGq8=
-github.com/gofiber/redirect/v2 v2.1.33/go.mod h1:LjHTKSu5JHiUY7GjboUC3N9fn9OrVDOUVjvS2bWYeW0=
 github.com/gofiber/template v1.8.2 h1:PIv9s/7Uq6m+Fm2MDNd20pAFFKt5wWs7ZBd8iV9pWwk=
 github.com/gofiber/template v1.8.2/go.mod h1:bs/2n0pSNPOkRa5VJ8zTIvedcI/lEYxzV3+YPXdBvq8=
 github.com/gofiber/template/django/v3 v3.1.7 h1:Z2vU4LGQwnFy0g1+vNrE3P/7mnUVPvDrIb3RNuOTRV0=

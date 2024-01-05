@@ -7,7 +7,6 @@ require (
 	github.com/getsentry/sentry-go v0.25.0
 	github.com/go-acme/lego/v4 v4.14.2
 	github.com/gofiber/fiber/v2 v2.51.0
-	github.com/gofiber/redirect/v2 v2.1.33
 	github.com/gofiber/template/django/v3 v3.1.7
 	github.com/google/uuid v1.5.0
 	github.com/matryer/is v1.4.1
