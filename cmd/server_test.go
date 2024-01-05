@@ -14,7 +14,7 @@ const (
 	testingConfig     = `templates_path: ../server/views
 storage:
     type: fs
-    path: ./
+    path: /tmp
 `
 )
 
