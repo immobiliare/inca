@@ -68,7 +68,8 @@ func Spinup(path string) (*Inca, error) {
 	inca.Use(middleware.Logger(zerolog.New(os.Stdout), func(c *fiber.Ctx) bool {
 		return strings.HasPrefix(c.Path(), "/health") ||
 			strings.HasPrefix(c.Path(), "/static/") ||
-			strings.HasPrefix(c.Path(), "/favicon.ico")
+			strings.HasPrefix(c.Path(), "/favicon.ico") ||
+			strings.HasPrefix(c.Path(), "/.well-known/acme-challenge/")
 	}))
 	inca.Use(redirect.New(redirect.Config{
 		Rules: map[string]string{
@@ -87,6 +88,7 @@ func Spinup(path string) (*Inca, error) {
 		static.CacheDuration = 5 * time.Second
 	}
 	inca.Static("/static", "./server/static", static)
+	inca.Static("/.well-known/acme-challenge/", "./server/webroot")
 	incaWeb := inca.Group("/web")
 	incaWeb.Use(middleware.Session(inca.sessionStore, inca.acl))
 	incaWeb.Get("/", inca.handlerWebIndex)

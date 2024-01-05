@@ -11,6 +11,7 @@ RUN go build
 FROM alpine:3.19
 WORKDIR /tmp
 COPY --from=builder /workspace/inca /usr/sbin/
+RUN mkdir -p /tmp/server/webroot
 COPY --from=builder /workspace/server/views /tmp/server/views
 COPY --from=builder /workspace/server/static /tmp/server/static
 ENTRYPOINT ["/usr/sbin/inca"]
