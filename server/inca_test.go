@@ -18,7 +18,7 @@ const (
 	testingConfig      = `bind: :65535
 storage:
     type: fs
-    path: ./
+    path: /tmp
 providers:
     - type: local
       crt: ` + testingCACrtPath + `
