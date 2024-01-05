@@ -8,7 +8,11 @@
 
 Simply run `go test -v ./...`.
 
+## Commit guidelines
+
+Please see the [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## Contributors
 
 * [`@streambinder`](https://github.com/streambinder)
-* [`@fabfurnari`](https://github.com/fabfurnari)
+* [`@tgragnato`](https://github.com/tgragnato)
