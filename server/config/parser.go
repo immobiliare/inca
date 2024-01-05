@@ -10,27 +10,18 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-const (
-	defaultEnvironment   = "development"
-	defaultTemplatesPath = "./server/views"
-)
-
 type Config struct {
-	Sentry        string
-	Environment   string
-	TemplatesPath string
-	Storage       *storage.Storage
-	Providers     []*provider.Provider
-	ACL           map[string][]string
+	Sentry    string
+	Storage   *storage.Storage
+	Providers []*provider.Provider
+	ACL       map[string][]string
 }
 
 type Wrapper struct {
-	Sentry        string                   `yaml:"sentry"`
-	TemplatesPath string                   `yaml:"templates_path"`
-	Environment   string                   `yaml:"environment"`
-	Storage       map[string]interface{}   `yaml:"storage"`
-	Providers     []map[string]interface{} `yaml:"providers"`
-	ACL           map[string][]string      `yaml:"acl"`
+	Sentry    string                   `yaml:"sentry"`
+	Storage   map[string]interface{}   `yaml:"storage"`
+	Providers []map[string]interface{} `yaml:"providers"`
+	ACL       map[string][]string      `yaml:"acl"`
 }
 
 func Parse(path string) (*Config, error) {
@@ -77,16 +68,6 @@ func Parse(path string) (*Config, error) {
 
 	if len(wrapper.Sentry) > 0 {
 		cfg.Sentry = wrapper.Sentry
-	}
-
-	cfg.Environment = defaultEnvironment
-	if len(wrapper.Environment) > 0 {
-		cfg.Environment = wrapper.Environment
-	}
-
-	cfg.TemplatesPath = defaultTemplatesPath
-	if len(wrapper.TemplatesPath) > 0 {
-		cfg.TemplatesPath = wrapper.TemplatesPath
 	}
 
 	if len(wrapper.ACL) > 0 {

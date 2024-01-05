@@ -16,19 +16,21 @@ jobs:
         id: changelog
         uses: TriPSs/conventional-changelog-action@v5
         with:
+          preset: conventionalcommits
           github-token: ${{ secrets.GH_SRE_TOKEN }}
+          git-user-name: ${{ github.actor }}
+          git-user-email: ${{ github.actor }}@users.noreply.github.com
           tag-prefix: ''
-          release-count: 0
+          input-file: '.github/CHANGELOG.md'
+          output-file: '.github/CHANGELOG.md'
+          release-count: 10000
           skip-on-empty: false
           skip-version-file: true
-          output-file: '.github/CHANGELOG.md'
 
       - name: Create Release
-        uses: actions/create-release@v1
+        uses: softprops/action-gh-release@v1
         if: ${{ steps.changelog.outputs.skipped == 'false' }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_SRE_TOKEN }}
         with:
           tag_name: ${{ steps.changelog.outputs.tag }}
-          release_name: ${{ steps.changelog.outputs.tag }}
           body: ${{ steps.changelog.outputs.clean_changelog }}
+          token: ${{ secrets.GH_SRE_TOKEN }}

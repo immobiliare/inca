@@ -1,9 +1,11 @@
 package server
 
 import (
+	"net/http/httptest"
 	"os"
 	"testing"
 
+	"github.com/gofiber/fiber/v2"
 	"github.com/matryer/is"
 )
 
@@ -14,11 +16,9 @@ const (
 	testingCACrtPath   = ".testServerInca.crt.pem"
 	testingCAKeyPath   = ".testServerInca.key.pem"
 	testingConfig      = `bind: :65535
-templates_path: ./views
-environment: production
 storage:
     type: fs
-    path: ./
+    path: /tmp
 providers:
     - type: local
       crt: ` + testingCACrtPath + `
@@ -64,4 +64,23 @@ func testApp(t *testing.T) *Inca {
 		testingApp = testApp
 	}
 	return testingApp
+}
+
+func TestStatic(t *testing.T) {
+	var (
+		app  = testApp(t)
+		test = is.New(t)
+	)
+
+	response, err := app.Test(
+		httptest.NewRequest("GET", "/static/favicon.ico", nil),
+	)
+	test.NoErr(err)
+	test.Equal(response.StatusCode, fiber.StatusOK)
+
+	response, err = app.Test(
+		httptest.NewRequest("GET", "/static/style.css", nil),
+	)
+	test.NoErr(err)
+	test.Equal(response.StatusCode, fiber.StatusOK)
 }

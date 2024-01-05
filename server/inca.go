@@ -1,7 +1,9 @@
 package server
 
 import (
+	"embed"
 	"fmt"
+	"net/http"
 	"os"
 	"strings"
 	"time"
@@ -9,8 +11,9 @@ import (
 	"github.com/getsentry/sentry-go"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/compress"
+	"github.com/gofiber/fiber/v2/middleware/filesystem"
+	"github.com/gofiber/fiber/v2/middleware/redirect"
 	"github.com/gofiber/fiber/v2/middleware/session"
-	"github.com/gofiber/redirect/v2"
 	"github.com/gofiber/template/django/v3"
 	"github.com/immobiliare/inca/provider"
 	"github.com/immobiliare/inca/server/config"
@@ -30,6 +33,12 @@ type Inca struct {
 	acl          map[string][]string
 }
 
+//go:embed static/**
+var embedStatic embed.FS
+
+//go:embed views/**
+var embedViews embed.FS
+
 func Spinup(path string) (*Inca, error) {
 	cfg, err := config.Parse(path)
 	if err != nil {
@@ -47,16 +56,15 @@ func Spinup(path string) (*Inca, error) {
 		log.Info().Msg("sentry correctly initialized")
 	}
 
-	templateEngine := django.New(cfg.TemplatesPath, ".html.j2")
-	templateEngine.Reload(strings.EqualFold(cfg.Environment, "development"))
-	templateEngine.Debug(strings.EqualFold(cfg.Environment, "development"))
-
 	inca := &Inca{
 		fiber.New(
 			fiber.Config{
 				DisableStartupMessage: true,
-				Views:                 templateEngine,
-				// Views:                 html.NewFileSystem(http.Dir("./server/views"), ".html.j2"),
+				Views: django.NewPathForwardingFileSystem(
+					http.FS(embedViews),
+					"/views",
+					".html.j2",
+				),
 			},
 		),
 		cfg.Storage,
@@ -79,16 +87,16 @@ func Spinup(path string) (*Inca, error) {
 		StatusCode: 301,
 	}))
 
-	static := fiber.Static{
-		Compress:      true,
-		CacheDuration: 24 * time.Hour,
-	}
-	if strings.EqualFold(cfg.Environment, "development") {
-		static.Compress = false
-		static.CacheDuration = 5 * time.Second
-	}
-	inca.Static("/static", "./server/static", static)
-	inca.Static("/.well-known/acme-challenge/", "./server/webroot")
+	inca.Use(
+		"/static",
+		filesystem.New(filesystem.Config{
+			Root:       http.FS(embedStatic),
+			PathPrefix: "/static",
+			Browse:     false,
+			MaxAge:     86400,
+		}),
+	)
+  inca.Static("/.well-known/acme-challenge/", "./server/webroot")
 	incaWeb := inca.Group("/web")
 	incaWeb.Use(middleware.Session(inca.sessionStore, inca.acl))
 	incaWeb.Get("/", inca.handlerWebIndex)

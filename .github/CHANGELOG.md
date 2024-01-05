@@ -1,8 +1,15 @@
-# Changelog
+## [1.2.0](https://github.com/immobiliare/inca/compare/1.1.1...1.2.0) (2024-01-05)
 
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### Features
+
+* **ci:** generate release from github action and update changelog ([e19e433](https://github.com/immobiliare/inca/commit/e19e4331c436bf22afb8e4d113cd9970b4b8039e))
+* **ci:** introduce an automatic dependency managament based on dependabot ([ae4d919](https://github.com/immobiliare/inca/commit/ae4d919c784df01329a0e9faab8f3e8ff92ac353))
+
+
+### Bug Fixes
+
+* **ci:** action release now it's ready to run ([4e1bd37](https://github.com/immobiliare/inca/commit/4e1bd37de9e0a896dacca594fbdbefc04f528609))
 
 ## [1.1.1](https://github.com/immobiliare/inca/compare/1.1.0...1.1.1) (2023-12-19)
 
