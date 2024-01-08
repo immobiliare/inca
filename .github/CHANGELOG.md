@@ -1,3 +1,15 @@
+## [1.3.0](https://github.com/immobiliare/inca/compare/1.2.0...1.3.0) (2024-01-08)
+
+
+### Features
+
+* **provider:** support for the HTTP-01 challenge ([#29](https://github.com/immobiliare/inca/issues/29)) ([f89dd6b](https://github.com/immobiliare/inca/commit/f89dd6bedbb1337431749de79d1d5919370caf6a))
+
+
+### Bug Fixes
+
+* **test:** switch the path for unit testing to an absolute one ([65492c5](https://github.com/immobiliare/inca/commit/65492c5891bb22502f982a759fbd9c8d45e67be1))
+
 ## [1.2.0](https://github.com/immobiliare/inca/compare/1.1.1...1.2.0) (2024-01-05)
 
 
