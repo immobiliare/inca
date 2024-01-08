@@ -11,5 +11,6 @@ RUN go build
 FROM alpine:3.19
 WORKDIR /tmp
 COPY --from=builder /workspace/inca /usr/sbin/
+RUN mkdir -p /tmp/server/webroot
 ENTRYPOINT ["/usr/sbin/inca"]
 LABEL org.opencontainers.image.source=https://github.com/immobiliare/inca

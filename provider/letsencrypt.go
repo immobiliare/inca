@@ -14,6 +14,7 @@ import (
 	"github.com/go-acme/lego/v4/lego"
 	"github.com/go-acme/lego/v4/log"
 	"github.com/go-acme/lego/v4/providers/dns"
+	"github.com/go-acme/lego/v4/providers/http/webroot"
 	"github.com/go-acme/lego/v4/registration"
 	"github.com/immobiliare/inca/pki"
 	"github.com/immobiliare/inca/util"
@@ -171,12 +172,7 @@ func (p *LetsEncrypt) Get(name string, options map[string]string) ([]byte, []byt
 		}
 	}
 
-	provider, err := dns.NewDNSChallengeProviderByName(targetProvider.provider)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	if err := p.client.Challenge.SetDNS01Provider(provider); err != nil {
+	if err := p.SetChallengeProvider(targetProvider.provider); err != nil {
 		return nil, nil, err
 	}
 
@@ -196,6 +192,24 @@ func (p *LetsEncrypt) Get(name string, options map[string]string) ([]byte, []byt
 	}
 
 	return certificates.Certificate, certificates.PrivateKey, nil
+}
+
+func (p *LetsEncrypt) SetChallengeProvider(providerId string) error {
+	if providerId == "webroot" {
+		provider, err := webroot.NewHTTPProvider("./server/webroot")
+		if err != nil {
+			return err
+		}
+
+		return p.client.Challenge.SetHTTP01Provider(provider)
+	}
+
+	provider, err := dns.NewDNSChallengeProviderByName(providerId)
+	if err != nil {
+		return err
+	}
+
+	return p.client.Challenge.SetDNS01Provider(provider)
 }
 
 func (p *LetsEncrypt) Del(name string, data []byte) error {
