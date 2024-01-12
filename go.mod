@@ -192,7 +192,7 @@ require (
 	github.com/stretchr/testify v1.8.4 // indirect
 	github.com/tdewolff/minify/v2 v2.20.12 // indirect
 	github.com/tdewolff/parse/v2 v2.7.7 // indirect
-	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common v1.0.839 // indirect
+	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common v1.0.840 // indirect
 	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/dnspod v1.0.837 // indirect
 	github.com/transip/gotransip/v6 v6.23.0 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
