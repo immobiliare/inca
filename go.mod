@@ -4,7 +4,7 @@ go 1.21
 
 require (
 	github.com/aws/aws-sdk-go v1.49.17
-	github.com/getsentry/sentry-go v0.25.0
+	github.com/getsentry/sentry-go v0.26.0
 	github.com/go-acme/lego/v4 v4.14.2
 	github.com/gofiber/fiber/v2 v2.52.0
 	github.com/gofiber/template/django/v3 v3.1.9
