@@ -770,8 +770,8 @@ github.com/chzyer/readline v0.0.0-20180603132655-2972be24d48e/go.mod h1:nSuG5e5P
 github.com/chzyer/test v0.0.0-20180213035817-a1ea475d72b1/go.mod h1:Q3SI9o4m/ZMnBNeIyt5eFwwo7qiLfzFZmjNmxjkiQlU=
 github.com/circonus-labs/circonus-gometrics v2.3.1+incompatible/go.mod h1:nmEj6Dob7S7YxXgwXpfOuvO54S+tGdZdw9fuRZt25Ag=
 github.com/circonus-labs/circonusllhist v0.1.3/go.mod h1:kMXHVDlOchFAehlya5ePtbp5jckzBHf4XRpQvBOLI+I=
-github.com/civo/civogo v0.3.57 h1:KotP07TE6ZbYPmo+oOty5YAPDD8CCxLwmD8Ii10D6Ns=
-github.com/civo/civogo v0.3.57/go.mod h1:54lv/FOf7gh6wE9ZwVdw4yBehk8V1CvU9aWa4v6dvW0=
+github.com/civo/civogo v0.3.58 h1:FikCbwAKB5ovD8+NmSi7rzYBSpC4nUpGVpCyngEkTo4=
+github.com/civo/civogo v0.3.58/go.mod h1:54lv/FOf7gh6wE9ZwVdw4yBehk8V1CvU9aWa4v6dvW0=
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
 github.com/cloudflare/cloudflare-go v0.87.0 h1:hLuXnDneECNpen4YwfA4+kcjyv8gsj30kOJsHPyw9pI=
 github.com/cloudflare/cloudflare-go v0.87.0/go.mod h1:wYW/5UP02TUfBToa/yKbQHV+r6h1NnJ1Je7XjuGM4Jw=
