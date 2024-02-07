@@ -1,3 +1,15 @@
+## [1.4.0](https://github.com/immobiliare/inca/compare/1.3.0...1.4.0) (2024-02-07)
+
+
+### Features
+
+* **ci:** introduce a conventional commits linter ([e851834](https://github.com/immobiliare/inca/commit/e8518348701ac4d2e16cb4ab4bcf33f02027833e))
+
+
+### Bug Fixes
+
+* **provider:** trim whitespaces in SAN fields [letsencrypt] ([11575d9](https://github.com/immobiliare/inca/commit/11575d94dea1364e2591c71bf35dfc9bec1eba0a))
+
 ## [1.3.0](https://github.com/immobiliare/inca/compare/1.2.0...1.3.0) (2024-01-08)
 
 
