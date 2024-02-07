@@ -178,6 +178,7 @@ func (p *LetsEncrypt) Get(name string, options map[string]string) ([]byte, []byt
 
 	names := []string{name}
 	if alt, ok := options["alt"]; ok {
+		alt = strings.ReplaceAll(alt, " ", "")
 		names = append(names, strings.Split(alt, ",")...)
 	}
 
