@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/immobiliare/inca/compare/1.4.0...1.4.1) (2024-03-08)
+
+
+### Bug Fixes
+
+* **storage:** missing validation for s3 bucket names ([b5a0dcc](https://github.com/immobiliare/inca/commit/b5a0dcc410be5e3574e790608d43a87589019641))
+
 ## [1.4.0](https://github.com/immobiliare/inca/compare/1.3.0...1.4.0) (2024-02-07)
 
 
