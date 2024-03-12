@@ -48,6 +48,7 @@ Given it's minimal semantic, Inca is super easy to integrate into third-party to
   - [Generate certificates](#generate-certificates)
 - [Changelog](#changelog)
 - [Contributing](#contributing)
+- [Documentation](#documentation)
 - [Powered apps](#powered-apps)
 - [Support](#support)
 
@@ -121,6 +122,10 @@ See [changelog](./CHANGELOG.md).
 ## Contributing
 
 See [contributing](./CONTRIBUTING.md).
+
+## Documentation
+
+See [configuration](../documentation/configuration.md).
 
 ## Powered apps
 
