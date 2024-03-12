@@ -59,6 +59,8 @@ providers:
 While using the webroot challenge (an http-01 challenge), it is the administrators' responsibility to route HTTP traffic for the prefix `/.well-known/acme-challenge/` to Inca.
 Any challenge ID other than webroot is interpreted as a provider capable of handling a dns-01 challenge.
 
+The variables required for configuring the DNS provider are those of Lego, the library used by Inca: [https://go-acme.github.io/lego/dns/](https://go-acme.github.io/lego/dns/).
+
 ## Sentry
 
 It is possible to associate a string specifying a DSN with the sentry key.
