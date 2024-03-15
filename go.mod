@@ -7,7 +7,7 @@ require (
 	github.com/getsentry/sentry-go v0.27.0
 	github.com/go-acme/lego/v4 v4.15.0
 	github.com/gofiber/fiber/v2 v2.52.1
-	github.com/gofiber/template/django/v3 v3.1.9
+	github.com/gofiber/template/django/v3 v3.1.10
 	github.com/google/uuid v1.6.0
 	github.com/matryer/is v1.4.1
 	github.com/rs/zerolog v1.32.0
@@ -93,7 +93,7 @@ require (
 	github.com/go-playground/validator/v10 v10.17.0 // indirect
 	github.com/go-resty/resty/v2 v2.11.0 // indirect
 	github.com/goccy/go-json v0.10.2 // indirect
-	github.com/gofiber/template v1.8.2 // indirect
+	github.com/gofiber/template v1.8.3 // indirect
 	github.com/gofiber/utils v1.1.0 // indirect
 	github.com/gofrs/uuid v4.4.0+incompatible // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
