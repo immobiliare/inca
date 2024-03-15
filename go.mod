@@ -131,7 +131,7 @@ require (
 	github.com/kataras/sitemap v0.0.6 // indirect
 	github.com/kataras/tunnel v0.0.4 // indirect
 	github.com/klauspost/compress v1.17.4 // indirect
-	github.com/klauspost/cpuid/v2 v2.2.6 // indirect
+	github.com/klauspost/cpuid/v2 v2.2.7 // indirect
 	github.com/kolo/xmlrpc v0.0.0-20220921171641-a4b6fa1dd06b // indirect
 	github.com/kylelemons/godebug v1.1.0 // indirect
 	github.com/labbsr0x/bindman-dns-webhook v1.0.2 // indirect
