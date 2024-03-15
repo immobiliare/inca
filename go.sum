@@ -718,8 +718,8 @@ github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.11.5 h1:K/NXvIftO
 github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.11.5/go.mod h1:cl9HGLV66EnCmMNzq4sYOti+/xo8w34CsgzVtm2GgsY=
 github.com/aws/aws-sdk-go-v2/service/lightsail v1.36.2 h1:fS2jKiRNSEaRUdwFnxJK9OaWVihqBWYdMyYgUu9s/tY=
 github.com/aws/aws-sdk-go-v2/service/lightsail v1.36.2/go.mod h1:zSt2KNPzZLr6H9DcdPuA1T5Sq6MfHeXGP60HIm0YID0=
-github.com/aws/aws-sdk-go-v2/service/route53 v1.37.1 h1:U7OksynDSIFScG+7sGqOuJh+fP1USMkNtjxzGFZYG34=
-github.com/aws/aws-sdk-go-v2/service/route53 v1.37.1/go.mod h1:8qqfpG4mug2JLlEyWPSFhEGvJiaZ9iPmMDDMYc5Xtas=
+github.com/aws/aws-sdk-go-v2/service/route53 v1.40.2 h1:YXQQJm3KnxabBHGNU8iC0GSvKRLtUSNUfP2R7L+Z/Tg=
+github.com/aws/aws-sdk-go-v2/service/route53 v1.40.2/go.mod h1:ORinaAeDvAI7L7zPyE2RmG0RpwHKZDaQ7ALO8/dXFtY=
 github.com/aws/aws-sdk-go-v2/service/sso v1.20.2 h1:XOPfar83RIRPEzfihnp+U6udOveKZJvPQ76SKWrLRHc=
 github.com/aws/aws-sdk-go-v2/service/sso v1.20.2/go.mod h1:Vv9Xyk1KMHXrR3vNQe8W5LMFdTjSeWk0gBZBzvf3Qa0=
 github.com/aws/aws-sdk-go-v2/service/ssooidc v1.23.2 h1:pi0Skl6mNl2w8qWZXcdOyg197Zsf4G97U7Sso9JXGZE=
