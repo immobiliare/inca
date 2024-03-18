@@ -713,8 +713,8 @@ github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.11.1 h1:EyBZibR
 github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.11.1/go.mod h1:JKpmtYhhPs7D97NL/ltqz7yCkERFW5dOlHyVl66ZYF8=
 github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.11.5 h1:K/NXvIftOlX+oGgWGIa3jDyYLDNsdVhsjHmsBH2GLAQ=
 github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.11.5/go.mod h1:cl9HGLV66EnCmMNzq4sYOti+/xo8w34CsgzVtm2GgsY=
-github.com/aws/aws-sdk-go-v2/service/lightsail v1.36.2 h1:fS2jKiRNSEaRUdwFnxJK9OaWVihqBWYdMyYgUu9s/tY=
-github.com/aws/aws-sdk-go-v2/service/lightsail v1.36.2/go.mod h1:zSt2KNPzZLr6H9DcdPuA1T5Sq6MfHeXGP60HIm0YID0=
+github.com/aws/aws-sdk-go-v2/service/lightsail v1.36.3 h1:Xgmk7IJjeXcCWNC0L2v7qapbDBwg9d8lHaIS01eAKTE=
+github.com/aws/aws-sdk-go-v2/service/lightsail v1.36.3/go.mod h1:gW5ikkvZZgbdBVQX3O2/5/IYrQl8ncFYHF8tl5tncSg=
 github.com/aws/aws-sdk-go-v2/service/route53 v1.40.2 h1:YXQQJm3KnxabBHGNU8iC0GSvKRLtUSNUfP2R7L+Z/Tg=
 github.com/aws/aws-sdk-go-v2/service/route53 v1.40.2/go.mod h1:ORinaAeDvAI7L7zPyE2RmG0RpwHKZDaQ7ALO8/dXFtY=
 github.com/aws/aws-sdk-go-v2/service/sso v1.20.3 h1:mnbuWHOcM70/OFUlZZ5rcdfA8PflGXXiefU/O+1S3+8=
