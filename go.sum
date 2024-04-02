@@ -921,8 +921,8 @@ github.com/gofiber/fiber/v2 v2.52.4 h1:P+T+4iK7VaqUsq2PALYEfBBo6bJZ4q3FP8cZ84Egg
 github.com/gofiber/fiber/v2 v2.52.4/go.mod h1:KEOE+cXMhXG0zHc9d8+E38hoX+ZN7bhOtgeF2oT6jrQ=
 github.com/gofiber/template v1.8.3 h1:hzHdvMwMo/T2kouz2pPCA0zGiLCeMnoGsQZBTSYgZxc=
 github.com/gofiber/template v1.8.3/go.mod h1:bs/2n0pSNPOkRa5VJ8zTIvedcI/lEYxzV3+YPXdBvq8=
-github.com/gofiber/template/django/v3 v3.1.10 h1:U5z65ihGqd774tO4mq3+xVva4o57zTnMUOu8t4BVAfM=
-github.com/gofiber/template/django/v3 v3.1.10/go.mod h1:MRY/CU3zOJr0AXLY7z3z9fkjU+DNCf6TQ+vpD7gyIT0=
+github.com/gofiber/template/django/v3 v3.1.11 h1:wE5k/wWNKGKxfeopaeB6IBijMiEVAxKHJVf1WMH5iNw=
+github.com/gofiber/template/django/v3 v3.1.11/go.mod h1:sEUp0cr1iCuFx4GEtHEA7yRXgJmRdAVXwGMR3Q5JnyI=
 github.com/gofiber/utils v1.1.0 h1:vdEBpn7AzIUJRhe+CiTOJdUcTg4Q9RK+pEa0KPbLdrM=
 github.com/gofiber/utils v1.1.0/go.mod h1:poZpsnhBykfnY1Mc0KeEa6mSHrS3dV0+oBWyeQmb2e0=
 github.com/gofrs/uuid v4.4.0+incompatible h1:3qXRTX8/NbyulANqlc0lchS1gqAVxRgsuW1YrTJupqA=
