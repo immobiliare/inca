@@ -1,6 +1,7 @@
 module github.com/immobiliare/inca
 
 go 1.21
+toolchain go1.22.2
 
 require (
 	github.com/aws/aws-sdk-go v1.51.12
@@ -125,7 +126,7 @@ require (
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/k0kubun/go-ansi v0.0.0-20180517002512-3bf9e2903213 // indirect
 	github.com/kataras/blocks v0.0.8 // indirect
-	github.com/kataras/golog v0.1.11 // indirect
+	github.com/kataras/golog v0.1.12 // indirect
 	github.com/kataras/iris/v12 v12.2.10 // indirect
 	github.com/kataras/pio v0.0.13 // indirect
 	github.com/kataras/sitemap v0.0.6 // indirect
