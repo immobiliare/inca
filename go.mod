@@ -109,7 +109,7 @@ require (
 	github.com/google/s2a-go v0.1.7 // indirect
 	github.com/googleapis/enterprise-certificate-proxy v0.3.2 // indirect
 	github.com/googleapis/gax-go/v2 v2.12.3 // indirect
-	github.com/gophercloud/gophercloud v1.11.0 // indirect
+	github.com/gophercloud/gophercloud v1.12.0 // indirect
 	github.com/gophercloud/utils v0.0.0-20231010081019-80377eca5d56 // indirect
 	github.com/gorilla/css v1.0.1 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
