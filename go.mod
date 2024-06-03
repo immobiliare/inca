@@ -200,7 +200,7 @@ require (
 	github.com/transip/gotransip/v6 v6.23.0 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.2.12 // indirect
-	github.com/ultradns/ultradns-go-sdk v1.6.1-20231103022937-8589b6a // indirect
+	github.com/ultradns/ultradns-go-sdk v1.6.2-20240501171831-432d643 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.54.0 // indirect
 	github.com/valyala/fasttemplate v1.2.2 // indirect
