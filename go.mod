@@ -1,11 +1,12 @@
 module github.com/immobiliare/inca
 
 go 1.21
+toolchain go1.22.3
 
 require (
 	github.com/aws/aws-sdk-go v1.52.2
 	github.com/getsentry/sentry-go v0.27.0
-	github.com/go-acme/lego/v4 v4.16.1
+	github.com/go-acme/lego/v4 v4.17.3
 	github.com/gofiber/fiber/v2 v2.52.4
 	github.com/gofiber/template/django/v3 v3.1.11
 	github.com/google/uuid v1.6.0
@@ -24,6 +25,7 @@ require (
 	github.com/Azure/azure-sdk-for-go/sdk/internal v1.9.0 // indirect
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dns/armdns v1.2.0 // indirect
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/privatedns/armprivatedns v1.2.0 // indirect
+	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resourcegraph/armresourcegraph v0.9.0 // indirect
 	github.com/Azure/go-autorest v14.2.0+incompatible // indirect
 	github.com/Azure/go-autorest/autorest v0.11.29 // indirect
 	github.com/Azure/go-autorest/autorest/adal v0.9.23 // indirect
@@ -66,7 +68,7 @@ require (
 	github.com/bytedance/sonic/loader v0.1.1 // indirect
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
 	github.com/civo/civogo v0.3.69 // indirect
-	github.com/cloudflare/cloudflare-go v0.92.0 // indirect
+	github.com/cloudflare/cloudflare-go v0.93.0 // indirect
 	github.com/cloudwego/base64x v0.1.4 // indirect
 	github.com/cloudwego/iasm v0.2.0 // indirect
 	github.com/cpu/goacmedns v0.1.1 // indirect
@@ -96,6 +98,7 @@ require (
 	github.com/goccy/go-json v0.10.2 // indirect
 	github.com/gofiber/template v1.8.3 // indirect
 	github.com/gofiber/utils v1.1.0 // indirect
+	github.com/gofrs/flock v0.8.1 // indirect
 	github.com/gofrs/uuid v4.4.0+incompatible // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
@@ -157,7 +160,7 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/namedotcom/go v0.0.0-20180403034216-08470befbe04 // indirect
 	github.com/nrdcg/auroradns v1.1.0 // indirect
-	github.com/nrdcg/bunny-go v0.0.0-20230728143221-c9dda82568d9 // indirect
+	github.com/nrdcg/bunny-go v0.0.0-20240207213615-dde5bf4577a3 // indirect
 	github.com/nrdcg/desec v0.8.0 // indirect
 	github.com/nrdcg/dnspod-go v0.4.0 // indirect
 	github.com/nrdcg/freemyip v0.2.0 // indirect
@@ -168,7 +171,7 @@ require (
 	github.com/nrdcg/porkbun v0.3.0 // indirect
 	github.com/nzdjb/go-metaname v1.0.0 // indirect
 	github.com/opentracing/opentracing-go v1.2.1-0.20220228012449-10b1cf09e00b // indirect
-	github.com/oracle/oci-go-sdk v24.3.0+incompatible // indirect
+	github.com/oracle/oci-go-sdk/v65 v65.63.1 // indirect
 	github.com/ovh/go-ovh v1.5.1 // indirect
 	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
 	github.com/pelletier/go-toml/v2 v2.2.2 // indirect
@@ -184,11 +187,14 @@ require (
 	github.com/sacloud/packages-go v0.0.10 // indirect
 	github.com/scaleway/scaleway-sdk-go v1.0.0-beta.25 // indirect
 	github.com/schollz/closestmatch v2.1.0+incompatible // indirect
+	github.com/selectel/domains-go v1.0.2 // indirect
+	github.com/selectel/go-selvpcclient/v3 v3.1.1 // indirect
 	github.com/shopspring/decimal v1.4.0 // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/smartystreets/go-aws-auth v0.0.0-20180515143844-0c1422d1fdb9 // indirect
 	github.com/softlayer/softlayer-go v1.1.3 // indirect
 	github.com/softlayer/xmlrpc v0.0.0-20200409220501-5f089df7cb7e // indirect
+	github.com/sony/gobreaker v0.5.0 // indirect
 	github.com/spf13/cast v1.6.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/stretchr/objx v0.5.2 // indirect
@@ -209,8 +215,8 @@ require (
 	github.com/vmihailenco/msgpack/v5 v5.4.1 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/vultr/govultr/v2 v2.17.2 // indirect
-	github.com/yandex-cloud/go-genproto v0.0.0-20231211085611-a3e19093611a // indirect
-	github.com/yandex-cloud/go-sdk v0.0.0-20231211090035-aae4a3056dce // indirect
+	github.com/yandex-cloud/go-genproto v0.0.0-20240318083951-4fe6125f286e // indirect
+	github.com/yandex-cloud/go-sdk v0.0.0-20240318084659-dfa50323a0b4 // indirect
 	github.com/yosssi/ace v0.0.5 // indirect
 	go.opencensus.io v0.24.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.52.0 // indirect
