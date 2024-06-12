@@ -1,3 +1,15 @@
+## [1.5.0](https://github.com/immobiliare/inca/compare/1.4.1...1.5.0) (2024-06-12)
+
+
+### Features
+
+* **docs:** introduce a documentation for the configuration yaml ([b371587](https://github.com/immobiliare/inca/commit/b371587b1f001bbbb783fb23cc415e7c2d90db61))
+
+
+### Bug Fixes
+
+* **deps:** manually bump the baseline - security patches ([95a05ca](https://github.com/immobiliare/inca/commit/95a05ca020ab164750cd572aa16369efcb727414))
+
 ## [1.4.1](https://github.com/immobiliare/inca/compare/1.4.0...1.4.1) (2024-03-08)
 
 
