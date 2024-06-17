@@ -22,7 +22,7 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GH_SRE_TOKEN }}
       - name: Build and export to Docker
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           load: true
@@ -31,7 +31,7 @@ jobs:
         run: |
           docker run --rm ${{ env.TEST_TAG }}
       - name: Build and push Docker Image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           tags: ${{ env.NEW_TAG }}, ${{ env.LATEST_TAG }}
