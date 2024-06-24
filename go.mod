@@ -61,7 +61,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/lightsail v1.39.1 // indirect
 	github.com/aws/aws-sdk-go-v2/service/route53 v1.40.10 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sso v1.20.11 // indirect
-	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.24.5 // indirect
+	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.25.1 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sts v1.28.12 // indirect
 	github.com/aws/smithy-go v1.20.2 // indirect
 	github.com/aymerick/douceur v0.2.0 // indirect
