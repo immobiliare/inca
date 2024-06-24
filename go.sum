@@ -1554,8 +1554,8 @@ github.com/tdewolff/test v1.0.11-0.20231101010635-f1265d231d52/go.mod h1:6DAvZli
 github.com/tdewolff/test v1.0.11-0.20240106005702-7de5f7df4739 h1:IkjBCtQOOjIn03u/dMQK9g+Iw9ewps4mCl1nB8Sscbo=
 github.com/tdewolff/test v1.0.11-0.20240106005702-7de5f7df4739/go.mod h1:XPuWBzvdUzhCuxWO1ojpXsyzsA5bFoS3tO/Q3kFuTG8=
 github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common v1.0.940/go.mod h1:r5r4xbfxSaeR04b166HGsBa/R4U3SueirEUpXGuw+Q0=
-github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common v1.0.943 h1:fLV75qMzi+uyJEjaGnXEv2DRFyIeOxaF+OWO1nDvCrc=
-github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common v1.0.943/go.mod h1:r5r4xbfxSaeR04b166HGsBa/R4U3SueirEUpXGuw+Q0=
+github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common v1.0.948 h1:/jlUtar7yweJ862P77MXbUMdDiT4Efz5L1vfx0ftNHI=
+github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common v1.0.948/go.mod h1:r5r4xbfxSaeR04b166HGsBa/R4U3SueirEUpXGuw+Q0=
 github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/dnspod v1.0.940 h1:+KuStC3htAe4k892tHiA6WiANUBAN4PwFBUHbZde5zc=
 github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/dnspod v1.0.940/go.mod h1:u4PLuqyTmxsRA5coX+CIbqCbJDLClFbcxv8utTLdX5Y=
 github.com/tmc/grpc-websocket-proxy v0.0.0-20190109142713-0ad062ec5ee5/go.mod h1:ncp9v5uamzpCO7NfCPTXjqaC+bZgJeR0sMTm6dMHP7U=
