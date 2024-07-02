@@ -1,3 +1,10 @@
+## [1.5.1](https://github.com/immobiliare/inca/compare/1.5.0...1.5.1) (2024-07-02)
+
+
+### Bug Fixes
+
+* **security:** patch for a session middleware injection vulnerability in gofiber (CVE-2024-38513) ([1aaa0ce](https://github.com/immobiliare/inca/commit/1aaa0ceb38a3e8b3f81f7179fd065e18b775766a))
+
 ## [1.5.0](https://github.com/immobiliare/inca/compare/1.4.1...1.5.0) (2024-06-12)
 
 
