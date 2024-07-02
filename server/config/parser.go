@@ -7,7 +7,7 @@ import (
 
 	"github.com/immobiliare/inca/provider"
 	"github.com/immobiliare/inca/storage"
-	"gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v3"
 )
 
 type Config struct {
