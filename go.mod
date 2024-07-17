@@ -5,7 +5,7 @@ go 1.22.0
 toolchain go1.22.4
 
 require (
-	github.com/aws/aws-sdk-go v1.54.12
+	github.com/aws/aws-sdk-go v1.54.19
 	github.com/getsentry/sentry-go v0.28.1
 	github.com/go-acme/lego/v4 v4.17.4
 	github.com/gofiber/fiber/v2 v2.52.5
