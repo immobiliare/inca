@@ -226,7 +226,7 @@ require (
 	go.opentelemetry.io/otel/metric v1.28.0 // indirect
 	go.opentelemetry.io/otel/trace v1.28.0 // indirect
 	go.uber.org/ratelimit v0.3.1 // indirect
-	golang.org/x/arch v0.8.0 // indirect
+	golang.org/x/arch v0.9.0 // indirect
 	golang.org/x/crypto v0.25.0 // indirect
 	golang.org/x/exp v0.0.0-20240604190554-fc45aab8b7f8 // indirect
 	golang.org/x/mod v0.20.0 // indirect
