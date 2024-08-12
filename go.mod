@@ -197,7 +197,7 @@ require (
 	github.com/softlayer/softlayer-go v1.1.5 // indirect
 	github.com/softlayer/xmlrpc v0.0.0-20200409220501-5f089df7cb7e // indirect
 	github.com/sony/gobreaker v1.0.0 // indirect
-	github.com/spf13/cast v1.6.0 // indirect
+	github.com/spf13/cast v1.7.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/stretchr/objx v0.5.2 // indirect
 	github.com/stretchr/testify v1.9.0 // indirect
