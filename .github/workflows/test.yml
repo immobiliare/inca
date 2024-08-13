@@ -9,6 +9,7 @@ on:
       - main
 
 jobs:
+
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -20,6 +21,7 @@ jobs:
         with:
           version: latest
           args: --timeout=5m
+
   test:
     runs-on: ubuntu-latest
     steps:
@@ -30,6 +32,7 @@ jobs:
       - run: go build -v ./...
       - run: go test -v ./...
       - run: test/test.sh domain.tld
+
   docker:
     needs: [lint, test]
     if: success() && github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -48,3 +51,6 @@ jobs:
           context: .
           tags: ghcr.io/immobiliare/inca:next
           push: true
+      - uses: dataaxiom/ghcr-cleanup-action@v1
+        with:
+          token: ${{ secrets.GH_SRE_TOKEN }}
