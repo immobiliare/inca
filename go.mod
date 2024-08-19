@@ -83,6 +83,7 @@ require (
 	github.com/flosch/pongo2/v4 v4.0.2 // indirect
 	github.com/flosch/pongo2/v6 v6.0.0 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
+	github.com/fxamacker/cbor/v2 v2.7.0 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.5 // indirect
 	github.com/ghodss/yaml v1.0.0 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
@@ -215,6 +216,7 @@ require (
 	github.com/vmihailenco/msgpack/v5 v5.4.1 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/vultr/govultr/v2 v2.17.2 // indirect
+	github.com/x448/float16 v0.8.4 // indirect
 	github.com/yandex-cloud/go-genproto v0.0.0-20240529120826-df2b24336f42 // indirect
 	github.com/yandex-cloud/go-sdk v0.0.0-20240529122015-8b0dc5b8bcbf // indirect
 	github.com/yosssi/ace v0.0.5 // indirect
@@ -246,9 +248,9 @@ require (
 	gopkg.in/ns1/ns1-go.v2 v2.12.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	k8s.io/api v0.30.1 // indirect
-	k8s.io/apimachinery v0.30.3 // indirect
+	k8s.io/apimachinery v0.31.0 // indirect
 	k8s.io/klog/v2 v2.130.1 // indirect
-	k8s.io/utils v0.0.0-20240502163921-fe8a2dddb1d0 // indirect
+	k8s.io/utils v0.0.0-20240711033017-18e509b52bc8 // indirect
 	sigs.k8s.io/json v0.0.0-20221116044647-bc3834ca7abd // indirect
 	sigs.k8s.io/structured-merge-diff/v4 v4.4.1 // indirect
 )
