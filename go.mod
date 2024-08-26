@@ -57,7 +57,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.11.4 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.11.18 // indirect
 	github.com/aws/aws-sdk-go-v2/service/lightsail v1.40.4 // indirect
-	github.com/aws/aws-sdk-go-v2/service/route53 v1.42.4 // indirect
+	github.com/aws/aws-sdk-go-v2/service/route53 v1.43.0 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sso v1.22.5 // indirect
 	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.26.5 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sts v1.30.4 // indirect
