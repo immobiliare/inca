@@ -1577,8 +1577,8 @@ github.com/uber/jaeger-lib v2.4.1+incompatible h1:td4jdvLcExb4cBISKIpHuGoVXh+dVK
 github.com/uber/jaeger-lib v2.4.1+incompatible/go.mod h1:ComeNDZlWwrWnDv8aPp0Ba6+uUTzImX/AauajbLI56U=
 github.com/ugorji/go/codec v1.2.12 h1:9LC83zGrHhuUA9l16C9AHXAqEV/2wBQ4nkvumAE65EE=
 github.com/ugorji/go/codec v1.2.12/go.mod h1:UNopzCgEMSXjBc6AOMqYvWC1ktqTAfzJZUZgYf6w6lg=
-github.com/ultradns/ultradns-go-sdk v1.6.2-20240501171831-432d643 h1:Y2gOdFNdP0QrXN7HkhrT42686bxBmDPqq5Xu8RgeU2s=
-github.com/ultradns/ultradns-go-sdk v1.6.2-20240501171831-432d643/go.mod h1:mqka31zT/P4yfNKj1qbOXUqamham/YO05GgUc/dOrl8=
+github.com/ultradns/ultradns-go-sdk v1.7.0-20240913052650-970ca9a h1:R6IR+Vj/RnGZLnX8PpPQsbbQthctO7Ah2q4tj5eoe2o=
+github.com/ultradns/ultradns-go-sdk v1.7.0-20240913052650-970ca9a/go.mod h1:BZr7Qs3ku1ckpqed8tCRSqTlp8NAeZfAVpfx4OzXMss=
 github.com/valyala/bytebufferpool v1.0.0 h1:GqA5TC/0021Y/b9FG4Oi9Mr3q7XYx6KllzawFIhcdPw=
 github.com/valyala/bytebufferpool v1.0.0/go.mod h1:6bBcMArwyJ5K/AmCkWv1jt77kVWyCJ6HpOuEn7z0Csc=
 github.com/valyala/fasthttp v1.55.0 h1:Zkefzgt6a7+bVKHnu/YaYSOPfNYNisSVBo/unVCf8k8=
