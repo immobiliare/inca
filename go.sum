@@ -721,8 +721,8 @@ github.com/aws/aws-sdk-go-v2/service/lightsail v1.41.3 h1:4aA0MaOMfvaYlPoPNFqG3h
 github.com/aws/aws-sdk-go-v2/service/lightsail v1.41.3/go.mod h1:HM7L3Ylzj/7ZYVNchhnCZaPj8veuI38ICccD2nZI2EQ=
 github.com/aws/aws-sdk-go-v2/service/route53 v1.44.3 h1:vYmafsIZWxc0EkIovYfjyfekHJogJjnIUXso5o7YPIA=
 github.com/aws/aws-sdk-go-v2/service/route53 v1.44.3/go.mod h1:l2ABSKg3AibEJeR/l60cfeGU54UqF3VTgd51pq+vYhU=
-github.com/aws/aws-sdk-go-v2/service/sso v1.23.1 h1:2jrVsMHqdLD1+PA4BA6Nh1eZp0Gsy3mFSB5MxDvcJtU=
-github.com/aws/aws-sdk-go-v2/service/sso v1.23.1/go.mod h1:XRlMvmad0ZNL+75C5FYdMvbbLkd6qiqz6foR1nA1PXY=
+github.com/aws/aws-sdk-go-v2/service/sso v1.23.3 h1:rs4JCczF805+FDv2tRhZ1NU0RB2H6ryAvsWPanAr72Y=
+github.com/aws/aws-sdk-go-v2/service/sso v1.23.3/go.mod h1:XRlMvmad0ZNL+75C5FYdMvbbLkd6qiqz6foR1nA1PXY=
 github.com/aws/aws-sdk-go-v2/service/ssooidc v1.27.1 h1:0L7yGCg3Hb3YQqnSgBTZM5wepougtL1aEccdcdYhHME=
 github.com/aws/aws-sdk-go-v2/service/ssooidc v1.27.1/go.mod h1:FnvDM4sfa+isJ3kDXIzAB9GAwVSzFzSy97uZ3IsHo4E=
 github.com/aws/aws-sdk-go-v2/service/sts v1.31.3 h1:VzudTFrDCIDakXtemR7l6Qzt2+JYsVqo2MxBPt5k8T8=
