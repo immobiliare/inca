@@ -799,8 +799,8 @@ github.com/envoyproxy/protoc-gen-validate v0.1.0/go.mod h1:iSmxcyjqTsJpI2R4NaDN7
 github.com/envoyproxy/protoc-gen-validate v0.6.7/go.mod h1:dyJXwwfPK2VSqiB9Klm1J6romD608Ba7Hij42vrOBCo=
 github.com/envoyproxy/protoc-gen-validate v0.9.1/go.mod h1:OKNgG7TCp5pF4d6XftA0++PMirau2/yoOwVac3AbF2w=
 github.com/envoyproxy/protoc-gen-validate v0.10.0/go.mod h1:DRjgyB0I43LtJapqN6NiRwroiAU2PaFuvk/vjgh61ss=
-github.com/exoscale/egoscale/v3 v3.1.5 h1:Nsfmqiq/CQJM3Ukqg9/u4rc9Q0QBeTQc3JFPMpFkhJg=
-github.com/exoscale/egoscale/v3 v3.1.5/go.mod h1:GHKucK/J26v8PGWztGdhxWNMjrjG9PbelxKCJ4YI11Q=
+github.com/exoscale/egoscale/v3 v3.1.7 h1:Q6p9tOVY0IiOW0fUpaPQWY7ggGEuSPZLAGxFgDd2sCE=
+github.com/exoscale/egoscale/v3 v3.1.7/go.mod h1:GHKucK/J26v8PGWztGdhxWNMjrjG9PbelxKCJ4YI11Q=
 github.com/fatih/color v1.7.0/go.mod h1:Zm6kSWBoL9eyXnKyktHP6abPY2pDugNf5KwzbycvMj4=
 github.com/fatih/color v1.9.0/go.mod h1:eQcE1qtQxscV5RaZvpXrrb8Drkc3/DdQ+uUYCNjL+zU=
 github.com/fatih/color v1.13.0/go.mod h1:kLAiJbzzSOZDVNGyDpeOxJ47H46qBXwg5ILebYFFOfk=
