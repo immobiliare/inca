@@ -61,7 +61,7 @@ func (p *Local) Get(name string, options map[string]string) ([]byte, []byte, err
 	}
 
 	req := pki.NewRequest(reqOptions)
-	crt, key, err := pki.New(req)
+	crt, key, err := pki.New(req, true)
 	if err != nil {
 		return nil, nil, err
 	}

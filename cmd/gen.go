@@ -63,7 +63,7 @@ var cmdGen = &cobra.Command{
 			Str("algo", string(req.Algo)).
 			Msg("generating certificate")
 
-		crt, key, err := pki.New(req)
+		crt, key, err := pki.New(req, false)
 		if err != nil {
 			log.Fatal().Err(err).Msg("unable to generate certificate")
 		}

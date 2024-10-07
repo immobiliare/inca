@@ -22,7 +22,7 @@ var (
 )
 
 func testNewPair(t *testing.T) {
-	reqCrt, reqKey, err := New(testingReq)
+	reqCrt, reqKey, err := New(testingReq, false)
 	is.New(t).NoErr(err)
 	testingCrt = reqCrt
 	testingKey = reqKey

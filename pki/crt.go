@@ -133,7 +133,7 @@ func NewRequest(options map[string]any) Request {
 	return req
 }
 
-func New(req Request) (*x509.Certificate, *Key, error) {
+func New(req Request, mTLS bool) (*x509.Certificate, *Key, error) {
 	var crt = x509.Certificate{}
 	crt.Subject = pkix.Name{
 		CommonName:    req.CN,
@@ -158,6 +158,9 @@ func New(req Request) (*x509.Certificate, *Key, error) {
 	crt.ExtKeyUsage = []x509.ExtKeyUsage{x509.ExtKeyUsageServerAuth}
 	if req.Algo == RSA {
 		crt.KeyUsage |= x509.KeyUsageKeyEncipherment
+	}
+	if mTLS {
+		crt.ExtKeyUsage = append(crt.ExtKeyUsage, x509.ExtKeyUsageClientAuth)
 	}
 
 	if serialNumber, err := rand.Int(rand.Reader, new(big.Int).Lsh(big.NewInt(1), 128)); err != nil {
