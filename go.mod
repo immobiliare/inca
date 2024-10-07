@@ -48,7 +48,7 @@ require (
 	github.com/andybalholm/brotli v1.1.0 // indirect
 	github.com/apapsch/go-jsonmerge/v2 v2.0.0 // indirect
 	github.com/aws/aws-sdk-go-v2 v1.32.1 // indirect
-	github.com/aws/aws-sdk-go-v2/config v1.27.39 // indirect
+	github.com/aws/aws-sdk-go-v2/config v1.27.42 // indirect
 	github.com/aws/aws-sdk-go-v2/credentials v1.17.40 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.16.16 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/configsources v1.3.20 // indirect
