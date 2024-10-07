@@ -155,7 +155,7 @@ require (
 	github.com/sacloud/go-http v0.1.8 // indirect
 	github.com/sacloud/iaas-api-go v1.12.0 // indirect
 	github.com/sacloud/packages-go v0.0.10 // indirect
-	github.com/sagikazarmark/locafero v0.4.0 // indirect
+	github.com/sagikazarmark/locafero v0.6.0 // indirect
 	github.com/sagikazarmark/slog-shim v0.1.0 // indirect
 	github.com/scaleway/scaleway-sdk-go v1.0.0-beta.30 // indirect
 	github.com/selectel/domains-go v1.1.0 // indirect
