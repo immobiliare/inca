@@ -186,7 +186,7 @@ require (
 	github.com/x448/float16 v0.8.4 // indirect
 	github.com/yandex-cloud/go-genproto v0.0.0-20240911120709-1fa0cb6f47c2 // indirect
 	github.com/yandex-cloud/go-sdk v0.0.0-20240911121212-e4e74d0d02f5 // indirect
-	go.mongodb.org/mongo-driver v1.12.0 // indirect
+	go.mongodb.org/mongo-driver v1.17.1 // indirect
 	go.opencensus.io v0.24.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.55.0 // indirect
 	go.opentelemetry.io/otel v1.30.0 // indirect
