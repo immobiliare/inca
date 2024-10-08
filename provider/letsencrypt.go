@@ -59,11 +59,6 @@ func (p LetsEncrypt) ID() string {
 }
 
 func (p *LetsEncrypt) Tune(options map[string]interface{}) (err error) {
-	caURL, ok := options["ca"]
-	if !ok {
-		caURL = "https://letsencrypt.org/certs/isrgrootx1.pem"
-	}
-
 	keyPath, ok := options["key"]
 	if !ok {
 		return fmt.Errorf("provider %s: key not defined", p.ID())
@@ -122,8 +117,18 @@ func (p *LetsEncrypt) Tune(options map[string]interface{}) (err error) {
 	switch pki.DefaultCrtAlgo {
 	case pki.ECDSA:
 		config.Certificate.KeyType = certcrypto.EC256
+		if caURL, ok := options["ca"]; ok {
+			p.ca = caURL.(string)
+		} else {
+			p.ca = "https://letsencrypt.org/certs/isrg-root-x2.pem"
+		}
 	case pki.RSA:
 		config.Certificate.KeyType = certcrypto.RSA2048
+		if caURL, ok := options["ca"]; ok {
+			p.ca = caURL.(string)
+		} else {
+			p.ca = "https://letsencrypt.org/certs/isrgrootx1.pem"
+		}
 	default:
 		return errors.New("unsupported key algorithm")
 	}
@@ -139,7 +144,6 @@ func (p *LetsEncrypt) Tune(options map[string]interface{}) (err error) {
 	}
 
 	user.registration = registration
-	p.ca = caURL.(string)
 	p.user = user
 	p.client = client
 	p.targets = targets
