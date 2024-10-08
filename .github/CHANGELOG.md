@@ -1,3 +1,16 @@
+## [1.6.0](https://github.com/immobiliare/inca/compare/1.5.1...1.6.0) (2024-10-08)
+
+
+### Features
+
+* add mTLS support and ensure backward compatibility ([87fe565](https://github.com/immobiliare/inca/commit/87fe565d382889fc78887a6b8b2ef6543485722a))
+
+
+### Bug Fixes
+
+* **provider:** patch CA URL handling in LetsEncrypt Tune function ([d8f697c](https://github.com/immobiliare/inca/commit/d8f697c7700f26a705553d585b42456c02d995a2))
+* **provider:** patch type assertion in LetsEncrypt.Tune method ([f7988aa](https://github.com/immobiliare/inca/commit/f7988aa31f0db12283cdc4f798b6a9c89f41031c))
+
 ## [1.5.1](https://github.com/immobiliare/inca/compare/1.5.0...1.5.1) (2024-07-02)
 
 
