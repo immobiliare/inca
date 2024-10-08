@@ -77,7 +77,7 @@ func (p *LetsEncrypt) Tune(options map[string]interface{}) (err error) {
 	for _, configTarget := range configTargets.([]interface{}) {
 		var (
 			target          = LetsEncryptTarget{environment: make(map[string]string)}
-			configTargetMap = configTarget.(map[interface{}]interface{})
+			configTargetMap = configTarget.(map[string]interface{})
 		)
 		domain, ok := configTargetMap["domain"]
 		if !ok {
@@ -89,7 +89,7 @@ func (p *LetsEncrypt) Tune(options map[string]interface{}) (err error) {
 		if !ok {
 			return fmt.Errorf("provider %s: target %s challenge not defined", p.ID(), target.domain)
 		}
-		challengeMap := challenge.(map[interface{}]interface{})
+		challengeMap := challenge.(map[string]interface{})
 
 		challengeProvider, ok := challengeMap["id"]
 		if !ok {
@@ -97,11 +97,11 @@ func (p *LetsEncrypt) Tune(options map[string]interface{}) (err error) {
 		}
 		target.provider = challengeProvider.(string)
 
-		for key, value := range challenge.(map[interface{}]interface{}) {
-			if strings.EqualFold(key.(string), "id") {
+		for key, value := range challenge.(map[string]interface{}) {
+			if strings.EqualFold(key, "id") {
 				continue
 			}
-			target.environment[strings.ToUpper(key.(string))] = value.(string)
+			target.environment[strings.ToUpper(key)] = value.(string)
 		}
 
 		targets = append(targets, &target)
