@@ -182,7 +182,7 @@ require (
 	github.com/valyala/fasthttp v1.57.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	github.com/vinyldns/go-vinyldns v0.9.16 // indirect
-	github.com/vultr/govultr/v3 v3.11.1 // indirect
+	github.com/vultr/govultr/v3 v3.11.2 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
 	github.com/yandex-cloud/go-genproto v0.0.0-20240911120709-1fa0cb6f47c2 // indirect
 	github.com/yandex-cloud/go-sdk v0.0.0-20240911121212-e4e74d0d02f5 // indirect
