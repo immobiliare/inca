@@ -201,7 +201,7 @@ func (p *LetsEncrypt) Get(name string, options map[string]string) ([]byte, []byt
 
 func (p *LetsEncrypt) SetChallengeProvider(providerId string) error {
 	if providerId == "webroot" {
-		provider, err := webroot.NewHTTPProvider("./server/webroot")
+		provider, err := webroot.NewHTTPProvider("/tmp/server/webroot")
 		if err != nil {
 			return err
 		}

@@ -96,7 +96,7 @@ func Spinup(path string) (*Inca, error) {
 			MaxAge:     86400,
 		}),
 	)
-  inca.Static("/.well-known/acme-challenge/", "./server/webroot")
+	inca.Static("/.well-known/acme-challenge/", "/tmp/server/webroot")
 	incaWeb := inca.Group("/web")
 	incaWeb.Use(middleware.Session(inca.sessionStore, inca.acl))
 	incaWeb.Get("/", inca.handlerWebIndex)
