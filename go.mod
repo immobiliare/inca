@@ -160,7 +160,7 @@ require (
 	github.com/sagikazarmark/slog-shim v0.1.0 // indirect
 	github.com/scaleway/scaleway-sdk-go v1.0.0-beta.30 // indirect
 	github.com/selectel/domains-go v1.1.0 // indirect
-	github.com/selectel/go-selvpcclient/v3 v3.1.1 // indirect
+	github.com/selectel/go-selvpcclient/v3 v3.2.1 // indirect
 	github.com/shopspring/decimal v1.4.0 // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/smartystreets/go-aws-auth v0.0.0-20180515143844-0c1422d1fdb9 // indirect
