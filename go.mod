@@ -134,7 +134,7 @@ require (
 	github.com/nrdcg/bunny-go v0.0.0-20240207213615-dde5bf4577a3 // indirect
 	github.com/nrdcg/desec v0.8.0 // indirect
 	github.com/nrdcg/dnspod-go v0.4.0 // indirect
-	github.com/nrdcg/freemyip v0.2.0 // indirect
+	github.com/nrdcg/freemyip v0.3.0 // indirect
 	github.com/nrdcg/goinwx v0.10.0 // indirect
 	github.com/nrdcg/mailinabox v0.2.0 // indirect
 	github.com/nrdcg/namesilo v0.2.1 // indirect
