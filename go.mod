@@ -4,7 +4,7 @@ go 1.23.0
 
 require (
 	github.com/aws/aws-sdk-go v1.55.5
-	github.com/getsentry/sentry-go v0.29.1
+	github.com/getsentry/sentry-go v0.30.0
 	github.com/go-acme/lego/v4 v4.20.4
 	github.com/gofiber/fiber/v2 v2.52.5
 	github.com/gofiber/template/django/v3 v3.1.12
