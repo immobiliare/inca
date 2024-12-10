@@ -43,6 +43,8 @@ func key(t *testing.T) *Key {
 }
 
 func TestPkiCrtParseBytes(t *testing.T) {
+	t.Parallel()
+
 	var (
 		crt  = testCrt(t)
 		key  = key(t)
@@ -56,6 +58,8 @@ func TestPkiCrtParseBytes(t *testing.T) {
 	test.NoErr(err)
 }
 func TestPkiCrtParseKeyPairBytes(t *testing.T) {
+	t.Parallel()
+
 	var (
 		crt  = testCrt(t)
 		key  = key(t)
@@ -70,6 +74,8 @@ func TestPkiCrtParseKeyPairBytes(t *testing.T) {
 }
 
 func TestPkiCrtNew(t *testing.T) {
+	t.Parallel()
+
 	var (
 		crt  = testCrt(t)
 		test = is.New(t)
@@ -80,6 +86,8 @@ func TestPkiCrtNew(t *testing.T) {
 }
 
 func TestPkiCrtIsValidCN(t *testing.T) {
+	t.Parallel()
+
 	var (
 		test        = is.New(t)
 		commonNames = map[string]bool{
@@ -97,6 +105,8 @@ func TestPkiCrtIsValidCN(t *testing.T) {
 }
 
 func TestPkiCrtAltNames(t *testing.T) {
+	t.Parallel()
+
 	var (
 		crt              = testCrt(t)
 		test             = is.New(t)
@@ -107,6 +117,8 @@ func TestPkiCrtAltNames(t *testing.T) {
 }
 
 func TestPkiCrtParseAltNames(t *testing.T) {
+	t.Parallel()
+
 	var (
 		test             = is.New(t)
 		names, addresses = ParseAltNames(testingAltArray)

@@ -7,6 +7,8 @@ import (
 )
 
 func TestPkiBundleWrapCrt(t *testing.T) {
+	t.Parallel()
+
 	var (
 		crt  = testCrt(t)
 		key  = key(t)
@@ -19,6 +21,8 @@ func TestPkiBundleWrapCrt(t *testing.T) {
 }
 
 func TestPkiBundleWrapKey(t *testing.T) {
+	t.Parallel()
+
 	var (
 		key  = key(t)
 		test = is.New(t)
@@ -30,6 +34,8 @@ func TestPkiBundleWrapKey(t *testing.T) {
 }
 
 func TestPkiBundleWrap(t *testing.T) {
+	t.Parallel()
+
 	var (
 		crt  = testCrt(t)
 		key  = key(t)

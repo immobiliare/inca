@@ -11,6 +11,8 @@ import (
 )
 
 func TestServerCA(t *testing.T) {
+	t.Parallel()
+
 	var (
 		app  = testApp(t)
 		test = is.New(t)
@@ -32,6 +34,8 @@ func TestServerCA(t *testing.T) {
 }
 
 func TestServerCANotFound(t *testing.T) {
+	t.Parallel()
+
 	var (
 		app  = testApp(t)
 		test = is.New(t)

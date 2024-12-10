@@ -23,21 +23,29 @@ func testExecute(subcmd *cobra.Command, args ...string) (output string, err erro
 }
 
 func TestCmdRootHelp(t *testing.T) {
+	t.Parallel()
+
 	cmdRoot.SetArgs([]string{"--help"})
 	is.New(t).NoErr(cmdRoot.Execute())
 }
 
 func TestCmdRootHelpP(t *testing.T) {
+	t.Parallel()
+
 	cmdRoot.SetArgs([]string{"-h"})
 	is.New(t).NoErr(cmdRoot.Execute())
 }
 
 func TestCmdRootHelpS(t *testing.T) {
+	t.Parallel()
+
 	cmdRoot.SetArgs([]string{"help"})
 	is.New(t).NoErr(cmdRoot.Execute())
 }
 
 func TestCmdRootAutocomplete(t *testing.T) {
+	t.Parallel()
+
 	cmdRoot.SetArgs([]string{"completion", "bash"})
 	is.New(t).NoErr(cmdRoot.Execute())
 }

@@ -67,6 +67,8 @@ func testApp(t *testing.T) *Inca {
 }
 
 func TestStatic(t *testing.T) {
+	t.Parallel()
+
 	var (
 		app  = testApp(t)
 		test = is.New(t)

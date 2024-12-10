@@ -7,6 +7,8 @@ import (
 )
 
 func TestUtilHTML(t *testing.T) {
+	t.Parallel()
+
 	test := is.New(t)
 	test.True(IsValidHTML([]byte(`<html></html>`)))
 	test.True(!IsValidHTML([]byte(`<html></div>`)))

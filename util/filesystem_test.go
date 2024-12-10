@@ -12,6 +12,8 @@ const (
 )
 
 func TestUtilFilesystemIsDir(t *testing.T) {
+	t.Parallel()
+
 	test := is.New(t)
 
 	test.NoErr(os.MkdirAll(testingDirPath, os.ModePerm))
@@ -21,5 +23,7 @@ func TestUtilFilesystemIsDir(t *testing.T) {
 }
 
 func TestUtilFilesystemIsNotDir(t *testing.T) {
+	t.Parallel()
+
 	is.New(t).True(!IsDir(testingDirPath))
 }

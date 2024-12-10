@@ -13,6 +13,8 @@ import (
 )
 
 func TestServerWebView(t *testing.T) {
+	t.Parallel()
+
 	var (
 		app  = testApp(t)
 		test = is.New(t)

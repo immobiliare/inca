@@ -17,25 +17,37 @@ var (
 )
 
 func TestUtilSliceEqual(t *testing.T) {
+	t.Parallel()
+
 	is.New(t).True(StringSlicesEqual(testingSlice, testingSlice))
 }
 
 func TestUtilSliceNotEqual(t *testing.T) {
+	t.Parallel()
+
 	is.New(t).True(!StringSlicesEqual(testingSlice, testingSliceEmpty))
 }
 
 func TestUtilSliceDistinct(t *testing.T) {
+	t.Parallel()
+
 	is.New(t).Equal(StringSliceDistinct(testingSlice), testingSlice)
 }
 
 func TestUtilSliceDistinctDouble(t *testing.T) {
+	t.Parallel()
+
 	is.New(t).Equal(StringSliceDistinct(append(testingSlice, testingSliceData)), testingSlice)
 }
 
 func TestUtilSliceContains(t *testing.T) {
+	t.Parallel()
+
 	is.New(t).True(StringSliceContains(testingSlice, testingSliceData))
 }
 
 func TestUtilSliceNotContains(t *testing.T) {
+	t.Parallel()
+
 	is.New(t).True(!StringSliceContains(testingSlice, fmt.Sprintf("%s.world", testingSliceData)))
 }

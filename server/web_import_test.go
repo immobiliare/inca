@@ -23,6 +23,8 @@ import (
 )
 
 func TestServerWebImportView(t *testing.T) {
+	t.Parallel()
+
 	var (
 		app  = testApp(t)
 		test = is.New(t)
@@ -42,6 +44,8 @@ func TestServerWebImportView(t *testing.T) {
 }
 
 func TestServerWebImport(t *testing.T) {
+	t.Parallel()
+
 	var (
 		app                 = testApp(t)
 		test                = is.New(t)

@@ -19,6 +19,8 @@ const (
 )
 
 func TestCmdGen(t *testing.T) {
+	t.Parallel()
+
 	test := is.New(t)
 	output, err := testExecute(cmdGen,
 		"gen",

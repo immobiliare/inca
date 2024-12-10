@@ -9,6 +9,8 @@ import (
 )
 
 func TestUtilZStdLogger(t *testing.T) {
+	t.Parallel()
+
 	const data = "hello"
 
 	var (

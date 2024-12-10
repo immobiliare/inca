@@ -8,6 +8,8 @@ import (
 )
 
 func TestUtilTimeParseDuration(t *testing.T) {
+	t.Parallel()
+
 	test := is.New(t)
 	for _, testCase := range []struct {
 		representation string
@@ -45,6 +47,8 @@ func TestUtilTimeParseDuration(t *testing.T) {
 }
 
 func TestUtilTimeParseDurationString(t *testing.T) {
+	t.Parallel()
+
 	test := is.New(t)
 	for _, duration := range []time.Duration{
 		time.Duration(time.Hour + time.Minute + time.Second + time.Millisecond + time.Microsecond + time.Nanosecond),

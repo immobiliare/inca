@@ -19,6 +19,8 @@ storage:
 )
 
 func TestCmdServer(t *testing.T) {
+	t.Parallel()
+
 	test := is.New(t)
 	test.NoErr(os.WriteFile(testingConfigPath, []byte(testingConfig), 0644))
 	defer os.Remove(testingConfigPath)

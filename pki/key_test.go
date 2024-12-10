@@ -7,6 +7,8 @@ import (
 )
 
 func TestPkiKeyNew(t *testing.T) {
+	t.Parallel()
+
 	var (
 		test = is.New(t)
 	)

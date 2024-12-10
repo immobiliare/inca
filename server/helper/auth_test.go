@@ -17,6 +17,8 @@ var (
 )
 
 func TestServerHelperIsValidToken(t *testing.T) {
+	t.Parallel()
+
 	is.New(t).True(IsValidToken(testingToken, testingACLValid))
 	is.New(t).True(!IsValidToken(testingToken, testingACLInvalid))
 	is.New(t).True(!IsValidToken(testingToken, testingACLEmpty))

@@ -12,6 +12,8 @@ const (
 )
 
 func TestUtilHttpParseQueryStringOk(t *testing.T) {
+	t.Parallel()
+
 	var (
 		test        = is.New(t)
 		queryString = ParseQueryString([]byte(testingQueryStringOk))
@@ -30,5 +32,7 @@ func TestUtilHttpParseQueryStringOk(t *testing.T) {
 }
 
 func TestUtilHttpParseQueryStringNok(t *testing.T) {
+	t.Parallel()
+
 	is.New(t).True(len(ParseQueryString([]byte(testingQueryStringNok))) == 0)
 }

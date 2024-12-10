@@ -30,6 +30,8 @@ func testAuthApp(t *testing.T) *Inca {
 }
 
 func TestServerWebAuthLoginView(t *testing.T) {
+	t.Parallel()
+
 	var (
 		app  = testAuthApp(t)
 		test = is.New(t)
@@ -49,6 +51,8 @@ func TestServerWebAuthLoginView(t *testing.T) {
 }
 
 func TestServerWebAuthLogin(t *testing.T) {
+	t.Parallel()
+
 	var (
 		app  = testAuthApp(t)
 		test = is.New(t)
@@ -69,6 +73,8 @@ func TestServerWebAuthLogin(t *testing.T) {
 }
 
 func TestServerWebAuthLogout(t *testing.T) {
+	t.Parallel()
+
 	var (
 		app  = testAuthApp(t)
 		test = is.New(t)

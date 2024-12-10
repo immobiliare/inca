@@ -11,6 +11,8 @@ import (
 )
 
 func TestServerCrt(t *testing.T) {
+	t.Parallel()
+
 	var (
 		app  = testApp(t)
 		test = is.New(t)
@@ -39,6 +41,8 @@ func TestServerCrt(t *testing.T) {
 }
 
 func TestServerCrtBad(t *testing.T) {
+	t.Parallel()
+
 	var (
 		app  = testApp(t)
 		test = is.New(t)

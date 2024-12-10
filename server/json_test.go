@@ -9,6 +9,8 @@ import (
 )
 
 func TestServerJSONCrt(t *testing.T) {
+	t.Parallel()
+
 	var (
 		test = is.New(t)
 		crt  = EncodeCrt(&x509.Certificate{
