@@ -154,7 +154,7 @@ require (
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/sacloud/api-client-go v0.2.10 // indirect
 	github.com/sacloud/go-http v0.1.8 // indirect
-	github.com/sacloud/iaas-api-go v1.12.0 // indirect
+	github.com/sacloud/iaas-api-go v1.14.0 // indirect
 	github.com/sacloud/packages-go v0.0.10 // indirect
 	github.com/sagikazarmark/locafero v0.6.0 // indirect
 	github.com/sagikazarmark/slog-shim v0.1.0 // indirect
