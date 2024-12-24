@@ -46,6 +46,6 @@ jobs:
     steps:
       - uses: "fastify/github-action-merge-dependabot@v3"
         with:
-          github-token: ${{ secrets.GH_SRE_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           approve-only: true
           use-github-auto-merge: false
