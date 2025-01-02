@@ -3,6 +3,7 @@ package pki
 import (
 	"crypto/x509"
 	"fmt"
+	"os"
 	"testing"
 
 	"github.com/matryer/is"
@@ -125,4 +126,66 @@ func TestPkiCrtParseAltNames(t *testing.T) {
 	)
 	test.Equal(names, []string{testingName})
 	test.Equal(addresses, []string{testingAddress})
+}
+
+func TestPkiCrtParse(t *testing.T) {
+	t.Parallel()
+
+	var (
+		crt  = testCrt(t)
+		key  = key(t)
+		test = is.New(t)
+	)
+
+	wrap, err := WrapCrt(crt, key, crt, key)
+	test.NoErr(err)
+
+	f, err := os.CreateTemp("", "test-cert-*.pem")
+	test.NoErr(err)
+	defer os.Remove(f.Name())
+
+	err = os.WriteFile(f.Name(), ExportBytes(wrap), 0644)
+	test.NoErr(err)
+
+	parsedCrt, err := Parse(f.Name())
+	test.NoErr(err)
+	test.Equal(parsedCrt.Subject.CommonName, crt.Subject.CommonName)
+
+	_, err = Parse("non-existent-file.pem")
+	test.True(err != nil)
+}
+
+func TestPkiCrtParseKeyPair(t *testing.T) {
+	t.Parallel()
+
+	var (
+		crt  = testCrt(t)
+		key  = key(t)
+		test = is.New(t)
+	)
+
+	wrapCrt, wrapKey, err := Wrap(crt, key, crt, key)
+	test.NoErr(err)
+
+	crtFile, err := os.CreateTemp("", "test-cert-*.pem")
+	test.NoErr(err)
+	defer os.Remove(crtFile.Name())
+
+	keyFile, err := os.CreateTemp("", "test-key-*.pem")
+	test.NoErr(err)
+	defer os.Remove(keyFile.Name())
+
+	err = os.WriteFile(crtFile.Name(), ExportBytes(wrapCrt), 0644)
+	test.NoErr(err)
+
+	err = os.WriteFile(keyFile.Name(), ExportBytes(wrapKey), 0644)
+	test.NoErr(err)
+
+	parsedCrt, parsedKey, err := ParseKeyPair(crtFile.Name(), keyFile.Name())
+	test.NoErr(err)
+	test.Equal(parsedCrt.Subject.CommonName, crt.Subject.CommonName)
+	test.True(parsedKey != nil)
+
+	_, _, err = ParseKeyPair("non-existent-cert.pem", "non-existent-key.pem")
+	test.True(err != nil)
 }
