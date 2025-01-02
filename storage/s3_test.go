@@ -201,3 +201,58 @@ func Test_nameToBucket(t *testing.T) {
 		})
 	}
 }
+
+func Test_matchFilters(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		bucket  string
+		filters []string
+		want    bool
+	}{
+		{
+			name:    "match direct name",
+			bucket:  "example.com",
+			filters: []string{"example.com"},
+			want:    true,
+		},
+		{
+			name:    "match name with hyphen",
+			bucket:  "example-com",
+			filters: []string{"example.com"},
+			want:    true,
+		},
+		{
+			name:    "no match",
+			bucket:  "example-com",
+			filters: []string{"different.com"},
+			want:    false,
+		},
+		{
+			name:    "match regex filter",
+			bucket:  "test-example-com",
+			filters: []string{".+\\.example\\.com"},
+			want:    true,
+		},
+		{
+			name:    "math wildcard filter",
+			bucket:  "test-example-com",
+			filters: []string{"*.example.com"},
+		},
+		{
+			name:    "empty filters",
+			bucket:  "example-com",
+			filters: []string{},
+			want:    true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			test := is.New(t)
+			got := matchFilters(&tt.bucket, tt.filters)
+			test.Equal(got, tt.want)
+		})
+	}
+}
