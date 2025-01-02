@@ -1,6 +1,7 @@
 package pki
 
 import (
+	"os"
 	"testing"
 
 	"github.com/matryer/is"
@@ -46,4 +47,32 @@ func TestPkiBundleWrap(t *testing.T) {
 	test.NoErr(err)
 	test.True(len(ExportBytes(wrapCrt)) > 0)
 	test.True(len(ExportBytes(wrapKey)) > 0)
+}
+
+func TestPkiBundleExport(t *testing.T) {
+	t.Parallel()
+
+	var (
+		crt  = testCrt(t)
+		key  = key(t)
+		test = is.New(t)
+	)
+
+	crtBlock, err := WrapCrt(crt, key, crt, key)
+	test.NoErr(err)
+	test.NoErr(Export(crtBlock, "test.crt"))
+	defer os.Remove("test.crt")
+
+	keyBlock, err := WrapKey(key)
+	test.NoErr(err)
+	test.NoErr(Export(keyBlock, "test.key"))
+	defer os.Remove("test.key")
+
+	crtInfo, err := os.Stat("test.crt")
+	test.NoErr(err)
+	test.Equal(crtInfo.Mode(), os.FileMode(0644))
+
+	keyInfo, err := os.Stat("test.key")
+	test.NoErr(err)
+	test.Equal(keyInfo.Mode(), os.FileMode(0600))
 }
