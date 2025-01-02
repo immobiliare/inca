@@ -19,6 +19,7 @@ func Get(id string, options map[string]interface{}) (*Storage, error) {
 	for _, storage := range []Storage{
 		new(FS),
 		new(S3),
+		new(PostgreSQL),
 	} {
 		if !strings.EqualFold(id, storage.ID()) {
 			continue

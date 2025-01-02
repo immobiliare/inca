@@ -91,3 +91,15 @@ storage:
     path: <...>
     type: fs
 ```
+
+This is the expected structure of the postgresql storage:
+
+```
+storage:
+    host: <...>
+    port: <...>
+    user: <...>
+    password: <...>
+    dbname: <...>
+    type: postgresql
+```
