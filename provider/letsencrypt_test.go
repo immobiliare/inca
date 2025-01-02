@@ -3,6 +3,8 @@ package provider
 import (
 	"reflect"
 	"testing"
+
+	"github.com/go-acme/lego/v4/lego"
 )
 
 func TestLetsEncrypt_ID(t *testing.T) {
@@ -106,5 +108,15 @@ func TestLetsEncrypt_Config(t *testing.T) {
 				t.Errorf("Config() = %v, want %v", got, tt.want)
 			}
 		})
+	}
+}
+
+func TestLetsEncrypt_SetChallengeProvider(t *testing.T) {
+	t.Parallel()
+	p := &LetsEncrypt{
+		client: &lego.Client{},
+	}
+	if err := p.SetChallengeProvider("invalid"); err.Error() != "unrecognized DNS provider: invalid" {
+		t.Errorf("SetChallengeProvider() error = %s, wantErr ", err.Error())
 	}
 }
