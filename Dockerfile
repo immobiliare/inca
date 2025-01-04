@@ -1,4 +1,4 @@
-FROM golang:alpine3.20 as builder
+FROM golang:alpine3.21 as builder
 ENV GOOS=linux
 ENV GOARCH=amd64
 WORKDIR /workspace
@@ -8,7 +8,7 @@ RUN go mod download
 COPY . .
 RUN go build
 
-FROM alpine:3.20
+FROM alpine:3.21
 WORKDIR /tmp
 COPY --from=builder /workspace/inca /usr/sbin/
 RUN mkdir -p /tmp/server/webroot
