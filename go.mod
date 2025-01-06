@@ -7,7 +7,7 @@ require (
 	github.com/aws/aws-sdk-go v1.55.5
 	github.com/getsentry/sentry-go v0.30.0
 	github.com/go-acme/lego/v4 v4.21.0
-	github.com/gofiber/fiber/v2 v2.52.5
+	github.com/gofiber/fiber/v2 v2.52.6
 	github.com/gofiber/template/django/v3 v3.1.12
 	github.com/google/uuid v1.6.0
 	github.com/jackc/pgx/v5 v5.7.2
