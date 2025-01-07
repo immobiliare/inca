@@ -1,3 +1,16 @@
+## [1.7.0](https://github.com/immobiliare/inca/compare/1.6.0...1.7.0) (2025-01-07)
+
+
+### Features
+
+* **storage:** add postgresql storage implementation ([c26a105](https://github.com/immobiliare/inca/commit/c26a105d71aff801079acff5a28331bf466b9d04))
+
+
+### Bug Fixes
+
+* **http-01:** switch from relative to absolute paths ([ef43c90](https://github.com/immobiliare/inca/commit/ef43c90c1404a6b3e442fa60242f66b4a69663bc))
+* **http-01:** the provider is creating the directory structure ([8362e1b](https://github.com/immobiliare/inca/commit/8362e1be287385c87ee6399a1333ee4b037183b1))
+
 ## [1.6.0](https://github.com/immobiliare/inca/compare/1.5.1...1.6.0) (2024-10-08)
 
 
