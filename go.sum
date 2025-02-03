@@ -1508,8 +1508,8 @@ github.com/sagikazarmark/locafero v0.7.0 h1:5MqpDsTGNDhY8sGp0Aowyf0qKsPrhewaLSsF
 github.com/sagikazarmark/locafero v0.7.0/go.mod h1:2za3Cg5rMaTMoG/2Ulr9AwtFaIppKXTRYnozin4aB5k=
 github.com/sagikazarmark/slog-shim v0.1.0 h1:diDBnUNK9N/354PgrxMywXnAwEr1QZcOr6gto+ugjYE=
 github.com/sagikazarmark/slog-shim v0.1.0/go.mod h1:SrcSrq8aKtyuqEI1uvTDTK1arOWRIczQRv+GVI1AkeQ=
-github.com/scaleway/scaleway-sdk-go v1.0.0-beta.31 h1:Fj7jPyu9TQjqfXcLylINK5PANSzOWXIX4QtGmfp67AY=
-github.com/scaleway/scaleway-sdk-go v1.0.0-beta.31/go.mod h1:kzh+BSAvpoyHHdHBCDhmSWtBc1NbLMZ2lWHqnBoxFks=
+github.com/scaleway/scaleway-sdk-go v1.0.0-beta.32 h1:4+LP7qmsLSGbmc66m1s5dKRMBwztRppfxFKlYqYte/c=
+github.com/scaleway/scaleway-sdk-go v1.0.0-beta.32/go.mod h1:kzh+BSAvpoyHHdHBCDhmSWtBc1NbLMZ2lWHqnBoxFks=
 github.com/sean-/seed v0.0.0-20170313163322-e2103e2c3529/go.mod h1:DxrIzT+xaE7yg65j358z/aeFdxmN0P9QXhEzd20vsDc=
 github.com/selectel/domains-go v1.1.0 h1:futG50J43ALLKQAnZk9H9yOtLGnSUh7c5hSvuC5gSHo=
 github.com/selectel/domains-go v1.1.0/go.mod h1:SugRKfq4sTpnOHquslCpzda72wV8u0cMBHx0C0l+bzA=
