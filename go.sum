@@ -1629,8 +1629,8 @@ github.com/valyala/tcplisten v1.0.0 h1:rBHj/Xf+E1tRGZyWIWwJDiRY0zc1Js+CV5DqwacVS
 github.com/valyala/tcplisten v1.0.0/go.mod h1:T0xQ8SeCZGxckz9qRXTfG43PvQ/mcWh7FwZEA7Ioqkc=
 github.com/vinyldns/go-vinyldns v0.9.16 h1:GZJStDkcCk1F1AcRc64LuuMh+ENL8pHA0CVd4ulRMcQ=
 github.com/vinyldns/go-vinyldns v0.9.16/go.mod h1:5qIJOdmzAnatKjurI+Tl4uTus7GJKJxb+zitufjHs3Q=
-github.com/volcengine/volc-sdk-golang v1.0.194 h1:3o0INQzdtYJWvdGrtX02booCqPL5TsWSq2W1Ur7Bzlo=
-github.com/volcengine/volc-sdk-golang v1.0.194/go.mod h1:u0VtPvlXWpXDTmc9IHkaW1q+5Jjwus4oAqRhNMDRInE=
+github.com/volcengine/volc-sdk-golang v1.0.195 h1:hKX4pBhmKcB3652BTdcAmtgizEPBnoQUpTM+j5blMA4=
+github.com/volcengine/volc-sdk-golang v1.0.195/go.mod h1:stZX+EPgv1vF4nZwOlEe8iGcriUPRBKX8zA19gXycOQ=
 github.com/vultr/govultr/v3 v3.14.1 h1:9BpyZgsWasuNoR39YVMcq44MSaF576Z4D+U3ro58eJQ=
 github.com/vultr/govultr/v3 v3.14.1/go.mod h1:q34Wd76upKmf+vxFMgaNMH3A8BbsPBmSYZUGC8oZa5w=
 github.com/x448/float16 v0.8.4 h1:qLwI1I70+NjRFUR3zs1JPUCgaCXSh3SW62uAKT1mSBM=
