@@ -13,7 +13,7 @@ func testExecute(subcmd *cobra.Command, args ...string) (output string, err erro
 		outputBuffer = new(bytes.Buffer)
 		command      = &cobra.Command{}
 	)
-	command.SetOutput(outputBuffer)
+	command.SetOut(outputBuffer)
 	command.SetErr(outputBuffer)
 	command.SetArgs(args)
 	command.AddCommand(subcmd)
