@@ -44,9 +44,9 @@ require (
 	github.com/aliyun/alibaba-cloud-sdk-go v1.63.92 // indirect
 	github.com/andybalholm/brotli v1.1.1 // indirect
 	github.com/aws/aws-sdk-go-v2 v1.36.3 // indirect
-	github.com/aws/aws-sdk-go-v2/config v1.29.7 // indirect
-	github.com/aws/aws-sdk-go-v2/credentials v1.17.60 // indirect
-	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.16.29 // indirect
+	github.com/aws/aws-sdk-go-v2/config v1.29.8 // indirect
+	github.com/aws/aws-sdk-go-v2/credentials v1.17.61 // indirect
+	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.16.30 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/configsources v1.3.34 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.6.34 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/ini v1.8.3 // indirect
@@ -55,7 +55,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/lightsail v1.42.17 // indirect
 	github.com/aws/aws-sdk-go-v2/service/route53 v1.48.8 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sso v1.25.0 // indirect
-	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.28.15 // indirect
+	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.29.0 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sts v1.33.16 // indirect
 	github.com/aws/smithy-go v1.22.3 // indirect
 	github.com/benbjohnson/clock v1.3.5 // indirect
