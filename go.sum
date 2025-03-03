@@ -1604,8 +1604,9 @@ github.com/subosito/gotenv v1.2.0/go.mod h1:N0PQaV/YGNqwC0u51sEeR/aUtSLEXKX9iv69
 github.com/subosito/gotenv v1.4.2/go.mod h1:ayKnFf/c6rvx/2iiLrJUk1e6plDbT3edrFNGqEflhK0=
 github.com/subosito/gotenv v1.6.0 h1:9NlTDc1FTs4qu0DDq7AEtTPNw6SVm7uBMsUCUjABIf8=
 github.com/subosito/gotenv v1.6.0/go.mod h1:Dk4QP5c2W3ibzajGcXpNraDfq2IrhjMIvMSWPKKo0FU=
-github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common v1.0.1105 h1:lCs0dmezU6/8JcfNwEaam1Pm1RS/5MhXvNhf/X2y65s=
 github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common v1.0.1105/go.mod h1:r5r4xbfxSaeR04b166HGsBa/R4U3SueirEUpXGuw+Q0=
+github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common v1.0.1112 h1:RvCaNXTpRUBw9Fsv8SyDc2Spd3k4ULxNHaZO7Chk5Yo=
+github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common v1.0.1112/go.mod h1:r5r4xbfxSaeR04b166HGsBa/R4U3SueirEUpXGuw+Q0=
 github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/dnspod v1.0.1105 h1:fiNnPjwrsFIXzVGFEg5ImuU7ixYaLEw/JF3bx3hZqBM=
 github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/dnspod v1.0.1105/go.mod h1:fW3WQkc3W6k0Ox9yu5gaN5k7OZNcCwN9kSvLr+urVNY=
 github.com/tjfoc/gmsm v1.4.1 h1:aMe1GlZb+0bLjn+cKTPEvvn9oUEBlJitaZiiBwsbgho=
