@@ -10,7 +10,7 @@ require (
 	github.com/gofiber/fiber/v2 v2.52.6
 	github.com/gofiber/template/django/v3 v3.1.13
 	github.com/google/uuid v1.6.0
-	github.com/jackc/pgx/v5 v5.7.2
+	github.com/jackc/pgx/v5 v5.7.3
 	github.com/matryer/is v1.4.1
 	github.com/rs/zerolog v1.33.0
 	github.com/spf13/cobra v1.9.1
