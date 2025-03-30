@@ -15,5 +15,7 @@ func main() {
 }
 
 func httpRequestHandler(w http.ResponseWriter, req *http.Request) {
-	fmt.Fprintf(w, "Hello, World!\n")
+	if _, err := fmt.Fprintf(w, "Hello, World!\n"); err != nil {
+		log.Fatalf("Error writing response: %s\n", err.Error())
+	}
 }
