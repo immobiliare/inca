@@ -4,6 +4,7 @@ import (
 	"crypto/rand"
 	"crypto/x509"
 	"encoding/pem"
+	"errors"
 	"io/fs"
 	"os"
 	"strings"
@@ -57,11 +58,6 @@ func Export(block *pem.Block, path string) (err error) {
 	if err != nil {
 		return err
 	}
-	defer output.Close()
 
-	if err := pem.Encode(output, block); err != nil {
-		return err
-	}
-
-	return
+	return errors.Join(pem.Encode(output, block), output.Close())
 }
