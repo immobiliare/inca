@@ -51,13 +51,27 @@ func testApp(t *testing.T) *Inca {
 		test := is.New(t)
 		test.NoErr(
 			os.WriteFile(testingConfigPath, []byte(testingConfig), 0644))
-		defer os.Remove(testingConfigPath)
+		defer func() {
+			if err := os.Remove(testingConfigPath); err != nil {
+				t.Logf("Failed to remove test config file: %v", err)
+			}
+		}()
+
 		test.NoErr(
 			os.WriteFile(testingCACrtPath, []byte(testingCACrt), 0644))
-		defer os.Remove(testingCACrtPath)
+		defer func() {
+			if err := os.Remove(testingCACrtPath); err != nil {
+				t.Logf("Failed to remove test CA certificate file: %v", err)
+			}
+		}()
+
 		test.NoErr(
 			os.WriteFile(testingCAKeyPath, []byte(testingCAKey), 0644))
-		defer os.Remove(testingCAKeyPath)
+		defer func() {
+			if err := os.Remove(testingCAKeyPath); err != nil {
+				t.Logf("Failed to remove test CA key file: %v", err)
+			}
+		}()
 
 		testApp, err := Spinup(testingConfigPath)
 		is.New(t).NoErr(err)

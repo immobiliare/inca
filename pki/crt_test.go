@@ -142,7 +142,11 @@ func TestPkiCrtParse(t *testing.T) {
 
 	f, err := os.CreateTemp("", "test-cert-*.pem")
 	test.NoErr(err)
-	defer os.Remove(f.Name())
+	defer func() {
+		if err := os.Remove(f.Name()); err != nil {
+			t.Logf("Failed to remove temporary file: %v", err)
+		}
+	}()
 
 	err = os.WriteFile(f.Name(), ExportBytes(wrap), 0644)
 	test.NoErr(err)
@@ -169,11 +173,19 @@ func TestPkiCrtParseKeyPair(t *testing.T) {
 
 	crtFile, err := os.CreateTemp("", "test-cert-*.pem")
 	test.NoErr(err)
-	defer os.Remove(crtFile.Name())
+	defer func() {
+		if err := os.Remove(crtFile.Name()); err != nil {
+			t.Logf("Failed to remove certificate file: %v", err)
+		}
+	}()
 
 	keyFile, err := os.CreateTemp("", "test-key-*.pem")
 	test.NoErr(err)
-	defer os.Remove(keyFile.Name())
+	defer func() {
+		if err := os.Remove(keyFile.Name()); err != nil {
+			t.Logf("Failed to remove key file: %v", err)
+		}
+	}()
 
 	err = os.WriteFile(crtFile.Name(), ExportBytes(wrapCrt), 0644)
 	test.NoErr(err)

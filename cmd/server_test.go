@@ -23,7 +23,11 @@ func TestCmdServer(t *testing.T) {
 
 	test := is.New(t)
 	test.NoErr(os.WriteFile(testingConfigPath, []byte(testingConfig), 0644))
-	defer os.Remove(testingConfigPath)
+	defer func() {
+		if err := os.Remove(testingConfigPath); err != nil {
+			t.Logf("Failed to remove test config file: %v", err)
+		}
+	}()
 
 	go func() {
 		time.Sleep(3 * time.Second)

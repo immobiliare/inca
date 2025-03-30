@@ -30,7 +30,11 @@ func TestServerEnum(t *testing.T) {
 
 	body, err := io.ReadAll(response.Body)
 	test.NoErr(err)
-	defer response.Body.Close()
+	defer func() {
+		if err := response.Body.Close(); err != nil {
+			t.Logf("Failed to close response body: %v", err)
+		}
+	}()
 
 	bodyJson := make(map[string]interface{})
 	err = json.Unmarshal(body, &bodyJson)
@@ -66,7 +70,11 @@ func TestServerEnumEmpty(t *testing.T) {
 
 	body, err := io.ReadAll(response.Body)
 	test.NoErr(err)
-	defer response.Body.Close()
+	defer func() {
+		if err := response.Body.Close(); err != nil {
+			t.Logf("Failed to close response body: %v", err)
+		}
+	}()
 
 	bodyJson := make(map[string]interface{})
 	err = json.Unmarshal(body, &bodyJson)

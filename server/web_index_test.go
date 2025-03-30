@@ -32,7 +32,11 @@ func TestServerWebIndex(t *testing.T) {
 
 	body, err := io.ReadAll(response.Body)
 	test.NoErr(err)
-	defer response.Body.Close()
+	defer func() {
+		if err := response.Body.Close(); err != nil {
+			t.Logf("Failed to close response body: %v", err)
+		}
+	}()
 
 	test.True(util.IsValidHTML(body))
 }

@@ -61,12 +61,20 @@ func TestPkiBundleExport(t *testing.T) {
 	crtBlock, err := WrapCrt(crt, key, crt, key)
 	test.NoErr(err)
 	test.NoErr(Export(crtBlock, "test.crt"))
-	defer os.Remove("test.crt")
+	defer func() {
+		if err := os.Remove("test.crt"); err != nil {
+			t.Logf("Failed to remove test file: %v", err)
+		}
+	}()
 
 	keyBlock, err := WrapKey(key)
 	test.NoErr(err)
 	test.NoErr(Export(keyBlock, "test.key"))
-	defer os.Remove("test.key")
+	defer func() {
+		if err := os.Remove("test.key"); err != nil {
+			t.Logf("Failed to remove test file: %v", err)
+		}
+	}()
 
 	crtInfo, err := os.Stat("test.crt")
 	test.NoErr(err)
