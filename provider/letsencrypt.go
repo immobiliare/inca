@@ -232,13 +232,14 @@ func (p *LetsEncrypt) Del(name string, data []byte) error {
 	return p.client.Certificate.Revoke(data)
 }
 
-func (p *LetsEncrypt) CA() ([]byte, error) {
+func (p *LetsEncrypt) CA() (b []byte, e error) {
 	response, err := http.Get(p.ca)
 	if err != nil {
 		return nil, err
 	}
-	defer response.Body.Close()
-	return io.ReadAll(response.Body)
+	b, e = io.ReadAll(response.Body)
+	e = errors.Join(e, response.Body.Close())
+	return
 }
 
 func (p *LetsEncrypt) Config() map[string]string {
