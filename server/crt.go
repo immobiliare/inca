@@ -36,8 +36,8 @@ func (inca *Inca) handlerCRT(c *fiber.Ctx) error {
 			reqDNSNames, reqIPAddresses := pki.ParseAltNames(alt)
 			dnsNames, ipAddresses := util.StringSliceDistinct(append(crtDNSNames, reqDNSNames...)),
 				util.StringSliceDistinct(append(crtIPAddresses, reqIPAddresses...))
-			if !(util.StringSlicesEqual(crtDNSNames, dnsNames) &&
-				util.StringSlicesEqual(crtIPAddresses, ipAddresses)) {
+			if !util.StringSlicesEqual(crtDNSNames, dnsNames) ||
+				!util.StringSlicesEqual(crtIPAddresses, ipAddresses) {
 				log.Info().Str("name", name).Msg("cached certificate needs flush")
 				queryStrings["alt"] = strings.Join(append(dnsNames, ipAddresses...), ",")
 			} else if crt.NotAfter.Before(time.Now()) {

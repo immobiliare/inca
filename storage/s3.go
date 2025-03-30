@@ -84,9 +84,11 @@ func (s *S3) Get(name string) ([]byte, []byte, error) {
 		return nil, nil, err
 	} else {
 		if _, err := io.Copy(crtData, data.Body); err != nil {
+			return nil, nil, errors.Join(err, data.Body.Close())
+		}
+		if err := data.Body.Close(); err != nil {
 			return nil, nil, err
 		}
-		data.Body.Close()
 	}
 
 	keyData := bytes.NewBuffer(nil)
@@ -97,12 +99,10 @@ func (s *S3) Get(name string) ([]byte, []byte, error) {
 		return nil, nil, err
 	} else {
 		if _, err := io.Copy(keyData, data.Body); err != nil {
-			return nil, nil, err
+			return nil, nil, errors.Join(err, data.Body.Close())
 		}
-		data.Body.Close()
+		return crtData.Bytes(), keyData.Bytes(), data.Body.Close()
 	}
-
-	return crtData.Bytes(), keyData.Bytes(), nil
 }
 
 func (s *S3) Put(name string, crtData, keyData []byte) error {
@@ -275,7 +275,7 @@ func validateBucketName(name string) bool {
 
 		// Each label can contain lowercase letters, numbers, and hyphens
 		for _, char := range label {
-			if !('a' <= char && char <= 'z') && !('0' <= char && char <= '9') && char != '-' {
+			if (char < 'a' || char > 'z') && (char < '0' || char > '9') && char != '-' {
 				return false
 			}
 		}

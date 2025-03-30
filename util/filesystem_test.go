@@ -17,7 +17,11 @@ func TestUtilFilesystemIsDir(t *testing.T) {
 	test := is.New(t)
 
 	test.NoErr(os.MkdirAll(testingDirPath, os.ModePerm))
-	defer os.RemoveAll(testingDirPath)
+	defer func() {
+		if err := os.RemoveAll(testingDirPath); err != nil {
+			t.Logf("Failed to clean up temp directory: %v", err)
+		}
+	}()
 
 	test.True(IsDir(testingDirPath))
 }

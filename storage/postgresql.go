@@ -2,6 +2,7 @@ package storage
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 
 	"github.com/immobiliare/inca/pki"
@@ -124,26 +125,22 @@ func (s *PostgreSQL) Find(filters ...string) ([][]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer rows.Close()
 
 	var results [][]byte
 	for rows.Next() {
 		var name string
 		var crtData []byte
 		if err := rows.Scan(&name, &crtData); err != nil {
-			return nil, err
+			return nil, errors.Join(err, rows.Close())
 		}
-
 		if pki.IsValidCN(name) && util.RegexesMatch(name, filters...) {
 			results = append(results, crtData)
 		}
 	}
-
 	if err = rows.Err(); err != nil {
-		return nil, err
+		return nil, errors.Join(err, rows.Close())
 	}
-
-	return results, nil
+	return results, rows.Close()
 }
 
 func (s *PostgreSQL) Config() map[string]string {

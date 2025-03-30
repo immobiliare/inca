@@ -170,7 +170,11 @@ func TestPostgreSQL_Connect(t *testing.T) {
 			if err != nil {
 				t.Fatalf("failed to create mock: %v", err)
 			}
-			defer db.Close()
+			defer func() {
+				if err := db.Close(); err != nil {
+					t.Logf("Failed to close database: %v", err)
+				}
+			}()
 
 			tt.dbSetup(mock)
 
@@ -250,7 +254,11 @@ func TestPostgreSQL_Get(t *testing.T) {
 			if err != nil {
 				t.Fatalf("failed to create mock: %v", err)
 			}
-			defer db.Close()
+			defer func() {
+				if err := db.Close(); err != nil {
+					t.Logf("Failed to close database: %v", err)
+				}
+			}()
 
 			tt.dbSetup(mock)
 
@@ -334,7 +342,11 @@ func TestPostgreSQL_Put(t *testing.T) {
 			if err != nil {
 				t.Fatalf("failed to create mock: %v", err)
 			}
-			defer db.Close()
+			defer func() {
+				if err := db.Close(); err != nil {
+					t.Logf("Failed to close database: %v", err)
+				}
+			}()
 
 			tt.dbSetup(mock)
 
@@ -407,7 +419,11 @@ func TestPostgreSQL_Del(t *testing.T) {
 			if err != nil {
 				t.Fatalf("failed to create mock: %v", err)
 			}
-			defer db.Close()
+			defer func() {
+				if err := db.Close(); err != nil {
+					t.Logf("Failed to close database: %v", err)
+				}
+			}()
 
 			tt.dbSetup(mock)
 
@@ -500,7 +516,11 @@ func TestPostgreSQL_Find(t *testing.T) {
 			if err != nil {
 				t.Fatalf("failed to create mock: %v", err)
 			}
-			defer db.Close()
+			defer func() {
+				if err := db.Close(); err != nil {
+					t.Logf("Failed to close database: %v", err)
+				}
+			}()
 
 			tt.dbSetup(mock)
 
