@@ -2,6 +2,8 @@ module github.com/immobiliare/inca
 
 go 1.23.0
 
+toolchain go1.24.1
+
 require (
 	github.com/DATA-DOG/go-sqlmock v1.5.2
 	github.com/aws/aws-sdk-go v1.55.6
@@ -214,7 +216,7 @@ require (
 	google.golang.org/protobuf v1.36.6 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
-	gopkg.in/ns1/ns1-go.v2 v2.13.0 // indirect
+	gopkg.in/ns1/ns1-go.v2 v2.14.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	k8s.io/api v0.32.3 // indirect
 	k8s.io/apimachinery v0.32.3 // indirect
