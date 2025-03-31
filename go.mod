@@ -2,6 +2,8 @@ module github.com/immobiliare/inca
 
 go 1.23.0
 
+toolchain go1.24.1
+
 require (
 	github.com/DATA-DOG/go-sqlmock v1.5.2
 	github.com/aws/aws-sdk-go v1.55.6
@@ -159,7 +161,7 @@ require (
 	github.com/sacloud/go-http v0.1.9 // indirect
 	github.com/sacloud/iaas-api-go v1.14.0 // indirect
 	github.com/sacloud/packages-go v0.0.11 // indirect
-	github.com/sagikazarmark/locafero v0.8.0 // indirect
+	github.com/sagikazarmark/locafero v0.9.0 // indirect
 	github.com/scaleway/scaleway-sdk-go v1.0.0-beta.32 // indirect
 	github.com/selectel/domains-go v1.1.0 // indirect
 	github.com/selectel/go-selvpcclient/v3 v3.2.1 // indirect
