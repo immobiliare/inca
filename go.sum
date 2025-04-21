@@ -737,6 +737,8 @@ github.com/aws/aws-sdk-go-v2/service/sts v1.33.19/go.mod h1:cQnB8CUnxbMU82JvlqjK
 github.com/aws/smithy-go v1.8.0/go.mod h1:SObp3lf9smib00L/v3U2eAKG8FyQ7iLrJnQiAmR5n+E=
 github.com/aws/smithy-go v1.22.3 h1:Z//5NuZCSW6R4PhQ93hShNbyBbn8BWCmCVCt+Q8Io5k=
 github.com/aws/smithy-go v1.22.3/go.mod h1:t1ufH5HMublsJYulve2RKmHDC15xu1f26kHCp/HgceI=
+github.com/baidubce/bce-sdk-go v0.9.223 h1:vvDeIemf7ePPP59nLHCntQ/vS++ok2HKbRPgmz1VZKU=
+github.com/baidubce/bce-sdk-go v0.9.223/go.mod h1:zbYJMQwE4IZuyrJiFO8tO8NbtYiKTFTbwh4eIsqjVdg=
 github.com/benbjohnson/clock v1.1.0/go.mod h1:J11/hYXuz8f4ySSvYwY0FKfm+ezbsZBKZxNJlLklBHA=
 github.com/benbjohnson/clock v1.3.5 h1:VvXlSJBzZpA/zum6Sj74hxwYI2DIxRWuNIoXAzHZz5o=
 github.com/benbjohnson/clock v1.3.5/go.mod h1:J11/hYXuz8f4ySSvYwY0FKfm+ezbsZBKZxNJlLklBHA=
@@ -874,8 +876,8 @@ github.com/getsentry/sentry-go v0.32.0 h1:YKs+//QmwE3DcYtfKRH8/KyOOF/I6Qnx7qYGNH
 github.com/getsentry/sentry-go v0.32.0/go.mod h1:CYNcMMz73YigoHljQRG+qPF+eMq8gG72XcGN/p71BAY=
 github.com/ghodss/yaml v1.0.0 h1:wQHKEahhL6wmXdzwWG11gIVCkOv05bNOh+Rxn0yngAk=
 github.com/ghodss/yaml v1.0.0/go.mod h1:4dBDuWmgqj2HViK6kFavaiC9ZROes6MMH2rRYeMEF04=
-github.com/go-acme/lego/v4 v4.22.2 h1:ck+HllWrV/rZGeYohsKQ5iKNnU/WAZxwOdiu6cxky+0=
-github.com/go-acme/lego/v4 v4.22.2/go.mod h1:E2FndyI3Ekv0usNJt46mFb9LVpV/XBYT+4E3tz02Tzo=
+github.com/go-acme/lego/v4 v4.23.1 h1:lZ5fGtGESA2L9FB8dNTvrQUq3/X4QOb8ExkKyY7LSV4=
+github.com/go-acme/lego/v4 v4.23.1/go.mod h1:7UMVR7oQbIYw6V7mTgGwi4Er7B6Ww0c+c8feiBM0EgI=
 github.com/go-cmd/cmd v1.0.5/go.mod h1:y8q8qlK5wQibcw63djSl/ntiHUHXHGdCkPk0j4QeW4s=
 github.com/go-errors/errors v1.0.1/go.mod h1:f4zRHt4oKfwPJE5k8C9vpYG+aDHdBFUsgrm6/TyX73Q=
 github.com/go-errors/errors v1.5.1 h1:ZwEMSLRCapFLflTpT7NKaAc7ukJ8ZPEjzlxt8rPN8bk=
@@ -1167,8 +1169,8 @@ github.com/inconshreveable/mousetrap v1.0.0/go.mod h1:PxqpIevigyE2G7u3NXJIT2ANyt
 github.com/inconshreveable/mousetrap v1.1.0 h1:wN+x4NVGpMsO7ErUn/mUI3vEoE6Jt13X2s0bqwp9tc8=
 github.com/inconshreveable/mousetrap v1.1.0/go.mod h1:vpF70FUmC8bwa3OWnCshd2FqLfsEA9PFc4w1p2J65bw=
 github.com/influxdata/influxdb1-client v0.0.0-20200827194710-b269163b24ab/go.mod h1:qj24IKcXYK6Iy9ceXlo3Tc+vtHo9lIhSX5JddghvEPo=
-github.com/infobloxopen/infoblox-go-client v1.1.1 h1:728A6LbLjptj/7kZjHyIxQnm768PWHfGFm0HH8FnbtU=
-github.com/infobloxopen/infoblox-go-client v1.1.1/go.mod h1:BXiw7S2b9qJoM8MS40vfgCNB2NLHGusk1DtO16BD9zI=
+github.com/infobloxopen/infoblox-go-client/v2 v2.9.0 h1:wS8kTlQVeVbrepeY83s9X+XdSa6Qah5KO+tdW+zRQXU=
+github.com/infobloxopen/infoblox-go-client/v2 v2.9.0/go.mod h1:NeNJpz09efw/edzqkVivGv1bWqBXTomqYBRFbP+XBqg=
 github.com/jackc/pgpassfile v1.0.0 h1:/6Hmqy13Ss2zCq62VdNG8tM1wchn8zjSGOBJ6icpsIM=
 github.com/jackc/pgpassfile v1.0.0/go.mod h1:CEx0iS5ambNFdcRtxPj5JhEz+xB6uRky5eyVu/W2HEg=
 github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 h1:iCEnooe7UlwOQYpKFhBabPMi4aNAfoODPEFNiAnClxo=
@@ -1640,10 +1642,10 @@ github.com/xeipuuv/gojsonschema v1.2.0/go.mod h1:anYRn/JVcOK2ZgGU+IjEV4nwlhoK5sQ
 github.com/xiang90/probing v0.0.0-20190116061207-43a291ad63a2/go.mod h1:UETIi67q53MR2AWcXfiuqkDkRtnGDLqkBTpCHuJHxtU=
 github.com/xyproto/randomstring v1.0.5 h1:YtlWPoRdgMu3NZtP45drfy1GKoojuR7hmRcnhZqKjWU=
 github.com/xyproto/randomstring v1.0.5/go.mod h1:rgmS5DeNXLivK7YprL0pY+lTuhNQW3iGxZ18UQApw/E=
-github.com/yandex-cloud/go-genproto v0.0.0-20241220122821-aeb3b05efd1c h1:Rnr+lDYXVkP+3eT8/d68iq4G/UeIhyCQk+HKa8toTvg=
-github.com/yandex-cloud/go-genproto v0.0.0-20241220122821-aeb3b05efd1c/go.mod h1:0LDD/IZLIUIV4iPH+YcF+jysO3jkSvADFGm4dCAuwQo=
-github.com/yandex-cloud/go-sdk v0.0.0-20241220131134-2393e243c134 h1:qmpz0Kvr9GAng8LAhRcKIpY71CEAcL3EBkftVlsP5Cw=
-github.com/yandex-cloud/go-sdk v0.0.0-20241220131134-2393e243c134/go.mod h1:KgZCJrxdhdw/sKhTQ/M3S9WOLri2PCnBlc4C3s+PfKY=
+github.com/yandex-cloud/go-genproto v0.0.0-20250319153614-fb9d3e5eb01a h1:YO8gGyAV4N5SR3NzloZ1128IahSpXWr78oU7aEe7f04=
+github.com/yandex-cloud/go-genproto v0.0.0-20250319153614-fb9d3e5eb01a/go.mod h1:0LDD/IZLIUIV4iPH+YcF+jysO3jkSvADFGm4dCAuwQo=
+github.com/yandex-cloud/go-sdk v0.0.0-20250320143332-9cbcfc5de4ae h1:x+uGuST05LVlgCxF5TsP8kQCCTW7uIeAQJ1dKtSmWqE=
+github.com/yandex-cloud/go-sdk v0.0.0-20250320143332-9cbcfc5de4ae/go.mod h1:V71iJlJnS/NtNNdg/B7SwccBS19aXxwY3fv/wut9D74=
 github.com/youmark/pkcs8 v0.0.0-20181117223130-1be2e3e5546d/go.mod h1:rHwXgn7JulP+udvsHwJoVG1YGAP6VLg4y9I5dyZdqmA=
 github.com/youmark/pkcs8 v0.0.0-20240726163527-a2c0da244d78 h1:ilQV1hzziu+LLM3zUTJ0trRztfwgjqKnBWNtSRkbmwM=
 github.com/youmark/pkcs8 v0.0.0-20240726163527-a2c0da244d78/go.mod h1:aL8wCCfTfSfmXjznFBSZNN13rSJjlIOI1fUNAtF7rmI=
