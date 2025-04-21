@@ -8,7 +8,7 @@ require (
 	github.com/DATA-DOG/go-sqlmock v1.5.2
 	github.com/aws/aws-sdk-go v1.55.6
 	github.com/getsentry/sentry-go v0.32.0
-	github.com/go-acme/lego/v4 v4.22.2
+	github.com/go-acme/lego/v4 v4.23.1
 	github.com/gofiber/fiber/v2 v2.52.6
 	github.com/gofiber/template/django/v3 v3.1.13
 	github.com/google/uuid v1.6.0
@@ -60,6 +60,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.30.1 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sts v1.33.19 // indirect
 	github.com/aws/smithy-go v1.22.3 // indirect
+	github.com/baidubce/bce-sdk-go v0.9.223 // indirect
 	github.com/benbjohnson/clock v1.3.5 // indirect
 	github.com/boombuler/barcode v1.0.2 // indirect
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
@@ -107,7 +108,7 @@ require (
 	github.com/huaweicloud/huaweicloud-sdk-go-v3 v0.1.144 // indirect
 	github.com/iij/doapi v0.0.0-20190504054126-0bbf12d6d7df // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
-	github.com/infobloxopen/infoblox-go-client v1.1.1 // indirect
+	github.com/infobloxopen/infoblox-go-client/v2 v2.9.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect
 	github.com/jackc/puddle/v2 v2.2.2 // indirect
@@ -189,8 +190,8 @@ require (
 	github.com/volcengine/volc-sdk-golang v1.0.203 // indirect
 	github.com/vultr/govultr/v3 v3.19.1 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
-	github.com/yandex-cloud/go-genproto v0.0.0-20241220122821-aeb3b05efd1c // indirect
-	github.com/yandex-cloud/go-sdk v0.0.0-20241220131134-2393e243c134 // indirect
+	github.com/yandex-cloud/go-genproto v0.0.0-20250319153614-fb9d3e5eb01a // indirect
+	github.com/yandex-cloud/go-sdk v0.0.0-20250320143332-9cbcfc5de4ae // indirect
 	github.com/youmark/pkcs8 v0.0.0-20240726163527-a2c0da244d78 // indirect
 	go.mongodb.org/mongo-driver v1.17.3 // indirect
 	go.opentelemetry.io/auto/sdk v1.1.0 // indirect
