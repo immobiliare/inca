@@ -1644,8 +1644,8 @@ github.com/xyproto/randomstring v1.0.5 h1:YtlWPoRdgMu3NZtP45drfy1GKoojuR7hmRcnhZ
 github.com/xyproto/randomstring v1.0.5/go.mod h1:rgmS5DeNXLivK7YprL0pY+lTuhNQW3iGxZ18UQApw/E=
 github.com/yandex-cloud/go-genproto v0.2.0 h1:r/K224sA9c2KYZVWk2Tdcq7qPl9E0npIM3hNfmi9qg0=
 github.com/yandex-cloud/go-genproto v0.2.0/go.mod h1:0LDD/IZLIUIV4iPH+YcF+jysO3jkSvADFGm4dCAuwQo=
-github.com/yandex-cloud/go-sdk v0.0.0-20250320143332-9cbcfc5de4ae h1:x+uGuST05LVlgCxF5TsP8kQCCTW7uIeAQJ1dKtSmWqE=
-github.com/yandex-cloud/go-sdk v0.0.0-20250320143332-9cbcfc5de4ae/go.mod h1:V71iJlJnS/NtNNdg/B7SwccBS19aXxwY3fv/wut9D74=
+github.com/yandex-cloud/go-sdk v0.3.0 h1:1lRrzBbcTpX4ZFXJnJZyCkNKWDvtiFC4USrbuNQUEQQ=
+github.com/yandex-cloud/go-sdk v0.3.0/go.mod h1:dx7ojE5bXWhvsWWJ8kvgvb35X5bbNS3RNgBSgaTW9jA=
 github.com/youmark/pkcs8 v0.0.0-20181117223130-1be2e3e5546d/go.mod h1:rHwXgn7JulP+udvsHwJoVG1YGAP6VLg4y9I5dyZdqmA=
 github.com/youmark/pkcs8 v0.0.0-20240726163527-a2c0da244d78 h1:ilQV1hzziu+LLM3zUTJ0trRztfwgjqKnBWNtSRkbmwM=
 github.com/youmark/pkcs8 v0.0.0-20240726163527-a2c0da244d78/go.mod h1:aL8wCCfTfSfmXjznFBSZNN13rSJjlIOI1fUNAtF7rmI=
