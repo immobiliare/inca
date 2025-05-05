@@ -49,6 +49,8 @@ jobs:
       - uses: docker/build-push-action@v6
         with:
           context: .
+          provenance: mode=max
+          sbom: true
           tags: ghcr.io/immobiliare/inca:next
           push: true
       - uses: dataaxiom/ghcr-cleanup-action@v1
