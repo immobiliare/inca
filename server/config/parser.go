@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/goccy/go-yaml"
 	"github.com/immobiliare/inca/provider"
 	"github.com/immobiliare/inca/storage"
-	"gopkg.in/yaml.v3"
 )
 
 type Config struct {
