@@ -108,7 +108,7 @@ require (
 	github.com/huaweicloud/huaweicloud-sdk-go-v3 v0.1.147 // indirect
 	github.com/iij/doapi v0.0.0-20190504054126-0bbf12d6d7df // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
-	github.com/infobloxopen/infoblox-go-client/v2 v2.9.0 // indirect
+	github.com/infobloxopen/infoblox-go-client/v2 v2.10.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect
 	github.com/jackc/puddle/v2 v2.2.2 // indirect
