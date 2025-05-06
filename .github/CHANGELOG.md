@@ -1,3 +1,18 @@
+## [1.7.1](https://github.com/immobiliare/inca/compare/1.7.0...1.7.1) (2025-05-06)
+
+
+### Bug Fixes
+
+* **cmd:** update command output method to SetOut for consistency ([82e9618](https://github.com/immobiliare/inca/commit/82e96181510ef1b59297d5ade3c8975917387034))
+* **oci:** add missing provenance and sbom options to the docker build-push action ([b30e8ab](https://github.com/immobiliare/inca/commit/b30e8ab93312ecad7368fdccd488efaef3b29ca7))
+* **oci:** update dockerfile to use chainguard base images ([b887b40](https://github.com/immobiliare/inca/commit/b887b408cac9e8b06aa61f9f0e1a50f64656c014))
+* **pki:** ensure every error is handled in export function ([cbcd57b](https://github.com/immobiliare/inca/commit/cbcd57b5990243ffe033a0a88bcdc2bc8e9aea3e))
+* **provider:** ensure every error is handled in ca function ([aac0854](https://github.com/immobiliare/inca/commit/aac0854cf436f15bb5b1f16727f728f0b379ba5f))
+* **server:** replace unmaintained gopkg.in/yaml.v3 with github.com/goccy/go-yaml ([6463248](https://github.com/immobiliare/inca/commit/6463248024162e9286853ce3d5bd137cdd8b0397))
+* **storage:** ensure every error is handled in find function ([63ef369](https://github.com/immobiliare/inca/commit/63ef3699cd20d876a1d47212aace6efdff53312a))
+* **storage:** ensure every error is handled in get function ([dd3b299](https://github.com/immobiliare/inca/commit/dd3b29993754113039ba853f9cc85a8dbdf1bbff))
+* **test:** handle error when writing response in httpRequestHandler ([1c2e662](https://github.com/immobiliare/inca/commit/1c2e66268af4e3e90725023e099ae48df55bf8e6))
+
 ## [1.7.0](https://github.com/immobiliare/inca/compare/1.6.0...1.7.0) (2025-01-07)
 
 
