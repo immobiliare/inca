@@ -1504,8 +1504,8 @@ github.com/sacloud/api-client-go v0.2.10 h1:+rv3jDohD+pkdYwOTBiB+jZsM0xK3AxadXRz
 github.com/sacloud/api-client-go v0.2.10/go.mod h1:Jj3CTy2+O4bcMedVDXlbHuqqche85HEPuVXoQFhLaRc=
 github.com/sacloud/go-http v0.1.9 h1:Xa5PY8/pb7XWhwG9nAeXSrYXPbtfBWqawgzxD5co3VE=
 github.com/sacloud/go-http v0.1.9/go.mod h1:DpDG+MSyxYaBwPJ7l3aKLMzwYdTVtC5Bo63HActcgoE=
-github.com/sacloud/iaas-api-go v1.14.0 h1:xjkFWqdo4ilTrKPNNYBNWR/CZ/kVRsJrdAHAad6J/AQ=
-github.com/sacloud/iaas-api-go v1.14.0/go.mod h1:C8os2Mnj0TOmMdSllwhaDWKMVG2ysFnpe69kyA4M3V0=
+github.com/sacloud/iaas-api-go v1.15.0 h1:G88U69OOVUSjOZ2fEP5QWMg7r3VOVsfNkl5Mxl+/wMk=
+github.com/sacloud/iaas-api-go v1.15.0/go.mod h1:AU6TM3giGEeyl/p1FAYfpwMDpkl7aLco2svdYXnrAfA=
 github.com/sacloud/packages-go v0.0.11 h1:hrRWLmfPM9w7GBs6xb5/ue6pEMl8t1UuDKyR/KfteHo=
 github.com/sacloud/packages-go v0.0.11/go.mod h1:XNF5MCTWcHo9NiqWnYctVbASSSZR3ZOmmQORIzcurJ8=
 github.com/sagikazarmark/crypt v0.10.0/go.mod h1:gwTNHQVoOS3xp9Xvz5LLR+1AauC5M6880z5NWzdhOyQ=
