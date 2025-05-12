@@ -1623,8 +1623,8 @@ github.com/ultradns/ultradns-go-sdk v1.8.0-20241010134910-243eeec/go.mod h1:BZr7
 github.com/urfave/cli/v2 v2.3.0/go.mod h1:LJmUH05zAU44vOAcrfzZQKsZbVcdbOG8rtL3/XcUArI=
 github.com/valyala/bytebufferpool v1.0.0 h1:GqA5TC/0021Y/b9FG4Oi9Mr3q7XYx6KllzawFIhcdPw=
 github.com/valyala/bytebufferpool v1.0.0/go.mod h1:6bBcMArwyJ5K/AmCkWv1jt77kVWyCJ6HpOuEn7z0Csc=
-github.com/valyala/fasthttp v1.61.0 h1:VV08V0AfoRaFurP1EWKvQQdPTZHiUzaVoulX1aBDgzU=
-github.com/valyala/fasthttp v1.61.0/go.mod h1:wRIV/4cMwUPWnRcDno9hGnYZGh78QzODFfo1LTUhBog=
+github.com/valyala/fasthttp v1.62.0 h1:8dKRBX/y2rCzyc6903Zu1+3qN0H/d2MsxPPmVNamiH0=
+github.com/valyala/fasthttp v1.62.0/go.mod h1:FCINgr4GKdKqV8Q0xv8b+UxPV+H/O5nNFo3D+r54Htg=
 github.com/vinyldns/go-vinyldns v0.9.16 h1:GZJStDkcCk1F1AcRc64LuuMh+ENL8pHA0CVd4ulRMcQ=
 github.com/vinyldns/go-vinyldns v0.9.16/go.mod h1:5qIJOdmzAnatKjurI+Tl4uTus7GJKJxb+zitufjHs3Q=
 github.com/volcengine/volc-sdk-golang v1.0.206 h1:7NG8FCpvu9wbx+Z4I/p3tcTS2zdBqTZtJXgydunGy6g=
