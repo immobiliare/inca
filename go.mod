@@ -188,7 +188,7 @@ require (
 	github.com/valyala/fasthttp v1.62.0 // indirect
 	github.com/vinyldns/go-vinyldns v0.9.16 // indirect
 	github.com/volcengine/volc-sdk-golang v1.0.206 // indirect
-	github.com/vultr/govultr/v3 v3.19.1 // indirect
+	github.com/vultr/govultr/v3 v3.20.0 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
 	github.com/yandex-cloud/go-genproto v0.2.0 // indirect
 	github.com/yandex-cloud/go-sdk v0.3.0 // indirect
