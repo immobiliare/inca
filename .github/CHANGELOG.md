@@ -1,3 +1,10 @@
+## [1.7.2](https://github.com/immobiliare/inca/compare/1.7.1...1.7.2) (2025-05-23)
+
+
+### Bug Fixes
+
+* **deps:** bump github.com/gofiber/fiber/v2 from 2.52.6 to 2.52.7 ([3a80c20](https://github.com/immobiliare/inca/commit/3a80c20ed393cb51744fb8bdf13f6eaab857e970))
+
 ## [1.7.1](https://github.com/immobiliare/inca/compare/1.7.0...1.7.1) (2025-05-06)
 
 
