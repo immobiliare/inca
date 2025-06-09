@@ -37,7 +37,7 @@ func TestCmdRootHelpP(t *testing.T) {
 }
 
 func TestCmdRootHelpS(t *testing.T) {
-	t.Parallel()
+	//t.Parallel()
 
 	cmdRoot.SetArgs([]string{"help"})
 	is.New(t).NoErr(cmdRoot.Execute())
