@@ -71,6 +71,11 @@ func (inca *Inca) handlerWebDownloadPfx(c *fiber.Ctx) error {
 	}
 
 	certBlock, _ := pem.Decode([]byte(crt))
+	if certBlock == nil {
+		_ = c.Bind(fiber.Map{"error": "Invalid PEM content for certificate"})
+		log.Error().Msg("invalid PEM content for certificate")
+		return inca.handlerWebView(c)
+	}
 	cert, err := x509.ParseCertificate(certBlock.Bytes)
 	if err != nil {
 		_ = c.Bind(fiber.Map{"error": "Unable to parse certificate"})
