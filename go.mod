@@ -17,6 +17,7 @@ require (
 	github.com/matryer/is v1.4.1
 	github.com/rs/zerolog v1.34.0
 	github.com/spf13/cobra v1.9.1
+	software.sslmate.com/src/go-pkcs12 v0.5.0
 )
 
 require (
