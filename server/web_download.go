@@ -84,6 +84,11 @@ func (inca *Inca) handlerWebDownloadPfx(c *fiber.Ctx) error {
 	}
 
 	keyBlock, _ := pem.Decode([]byte(key))
+	if keyBlock == nil {
+		_ = c.Bind(fiber.Map{"error": "Invalid PEM data for private key"})
+		log.Error().Msg("invalid PEM data for private key")
+		return inca.handlerWebView(c)
+	}
 	privateKey, err := x509.ParsePKCS8PrivateKey(keyBlock.Bytes)
 	if err != nil {
 		_ = c.Bind(fiber.Map{"error": "Unable to parse private key"})
