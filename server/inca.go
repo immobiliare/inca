@@ -39,6 +39,9 @@ var embedStatic embed.FS
 //go:embed views/**
 var embedViews embed.FS
 
+// Spinup initializes and configures an Inca server instance using the provided configuration file path.
+// It sets up error tracking, session management, access control, embedded static assets, template rendering, middleware, and HTTP routes.
+// Returns the initialized Inca server or an error if setup fails.
 func Spinup(path string) (*Inca, error) {
 	cfg, err := config.Parse(path)
 	if err != nil {
