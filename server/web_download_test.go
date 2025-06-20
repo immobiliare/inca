@@ -47,3 +47,16 @@ func TestServerWebDownload(t *testing.T) {
 	test.NoErr(err)
 	test.Equal(response.StatusCode, fiber.StatusOK)
 }
+
+func TestServerWebDownloadPfx(t *testing.T) {
+	var (
+		app  = testApp(t)
+		test = is.New(t)
+	)
+
+	response, err := app.Test(
+		httptest.NewRequest("GET", fmt.Sprintf("/web/%s/pfx", testingCADomain), nil),
+	)
+	test.NoErr(err)
+	test.Equal(response.StatusCode, fiber.StatusOK)
+}
