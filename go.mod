@@ -189,8 +189,8 @@ require (
 	github.com/volcengine/volc-sdk-golang v1.0.211 // indirect
 	github.com/vultr/govultr/v3 v3.20.0 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
-	github.com/yandex-cloud/go-genproto v0.9.0 // indirect
-	github.com/yandex-cloud/go-sdk v0.9.0 // indirect
+	github.com/yandex-cloud/go-genproto v0.11.0 // indirect
+	github.com/yandex-cloud/go-sdk v0.10.0 // indirect
 	github.com/youmark/pkcs8 v0.0.0-20240726163527-a2c0da244d78 // indirect
 	go.mongodb.org/mongo-driver v1.17.4 // indirect
 	go.opentelemetry.io/auto/sdk v1.1.0 // indirect
