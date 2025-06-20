@@ -55,8 +55,24 @@ func TestServerWebDownloadPfx(t *testing.T) {
 	)
 
 	response, err := app.Test(
+		httptest.NewRequest("GET", "/"+testingCADomain+"?algo="+testingCAAlgorithm, nil),
+	)
+	test.NoErr(err)
+	test.Equal(response.StatusCode, fiber.StatusOK)
+
+	response, err = app.Test(
 		httptest.NewRequest("GET", fmt.Sprintf("/web/%s/pfx", testingCADomain), nil),
 	)
 	test.NoErr(err)
 	test.Equal(response.StatusCode, fiber.StatusOK)
+
+	body, err := io.ReadAll(response.Body)
+	test.NoErr(err)
+	defer func() {
+		if err := response.Body.Close(); err != nil {
+			t.Logf("Failed to close response body: %v", err)
+		}
+	}()
+
+	test.True(len(body) > 0)
 }
