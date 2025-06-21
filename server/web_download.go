@@ -89,11 +89,21 @@ func (inca *Inca) handlerWebDownloadPfx(c *fiber.Ctx) error {
 		log.Error().Msg("invalid PEM data for private key")
 		return inca.handlerWebView(c)
 	}
-	privateKey, err := x509.ParsePKCS8PrivateKey(keyBlock.Bytes)
-	if err != nil {
-		_ = c.Bind(fiber.Map{"error": "Unable to parse private key"})
-		log.Error().Err(err).Msg("unable to parse private key")
-		return inca.handlerWebView(c)
+
+	var privateKey interface{}
+	var parseErr error
+
+	privateKey, parseErr = x509.ParsePKCS8PrivateKey(keyBlock.Bytes)
+	if parseErr != nil {
+		privateKey, parseErr = x509.ParsePKCS1PrivateKey(keyBlock.Bytes)
+		if parseErr != nil {
+			privateKey, parseErr = x509.ParseECPrivateKey(keyBlock.Bytes)
+			if parseErr != nil {
+				_ = c.Bind(fiber.Map{"error": "Unable to parse private key"})
+				log.Error().Err(parseErr).Msg("unable to parse private key")
+				return inca.handlerWebView(c)
+			}
+		}
 	}
 
 	password := util.GenerateRandomString(256)
