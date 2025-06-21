@@ -70,17 +70,48 @@ func (inca *Inca) handlerWebDownloadPfx(c *fiber.Ctx) error {
 		return inca.handlerWebIndex(c)
 	}
 
-	certBlock, _ := pem.Decode([]byte(crt))
-	if certBlock == nil {
-		_ = c.Bind(fiber.Map{"error": "Invalid PEM content for certificate"})
-		log.Error().Msg("invalid PEM content for certificate")
+	var certs []*x509.Certificate
+	rest := []byte(crt)
+	for {
+		var certBlock *pem.Block
+		certBlock, rest = pem.Decode(rest)
+		if certBlock == nil {
+			break
+		}
+		cert, err := x509.ParseCertificate(certBlock.Bytes)
+		if err != nil {
+			_ = c.Bind(fiber.Map{"error": "Unable to parse certificate"})
+			log.Error().Err(err).Msg("unable to parse certificate")
+			return inca.handlerWebView(c)
+		}
+		certs = append(certs, cert)
+	}
+	if len(certs) == 0 {
+		_ = c.Bind(fiber.Map{"error": "No valid certificates found"})
+		log.Error().Msg("no valid certificates found")
 		return inca.handlerWebView(c)
 	}
-	cert, err := x509.ParseCertificate(certBlock.Bytes)
-	if err != nil {
-		_ = c.Bind(fiber.Map{"error": "Unable to parse certificate"})
-		log.Error().Err(err).Msg("unable to parse certificate")
-		return inca.handlerWebView(c)
+
+	leaf := certs[0]
+	for _, candidate := range certs {
+		isIssuer := false
+		for _, other := range certs {
+			if candidate.Subject.String() == other.Issuer.String() && candidate != other {
+				isIssuer = true
+				break
+			}
+		}
+		if !isIssuer {
+			leaf = candidate
+			break
+		}
+	}
+
+	var chain []*x509.Certificate
+	for _, cert := range certs {
+		if cert != leaf {
+			chain = append(chain, cert)
+		}
 	}
 
 	keyBlock, _ := pem.Decode([]byte(key))
@@ -107,7 +138,7 @@ func (inca *Inca) handlerWebDownloadPfx(c *fiber.Ctx) error {
 	}
 
 	password := util.GenerateRandomString(256)
-	pfxData, err := pkcs12.Modern.Encode(privateKey, cert, nil, password)
+	pfxData, err := pkcs12.Modern.Encode(privateKey, leaf, chain, password)
 	if err != nil {
 		_ = c.Bind(fiber.Map{"error": "Unable to create PFX"})
 		log.Error().Err(err).Msg("unable to create PFX")
