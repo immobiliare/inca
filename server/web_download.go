@@ -137,7 +137,7 @@ func (inca *Inca) handlerWebDownloadPfx(c *fiber.Ctx) error {
 		}
 	}
 
-	password := util.GenerateRandomString(256)
+	password := util.GenerateRandomString(30)
 	pfxData, err := pkcs12.Modern.Encode(privateKey, leaf, chain, password)
 	if err != nil {
 		_ = c.Bind(fiber.Map{"error": "Unable to create PFX"})
