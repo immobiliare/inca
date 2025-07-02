@@ -1,3 +1,21 @@
+## [1.8.0](https://github.com/immobiliare/inca/compare/1.7.2...1.8.0) (2025-07-02)
+
+
+### Features
+
+* **server:** add PFX download functionality ([96ef5dd](https://github.com/immobiliare/inca/commit/96ef5dd864cbee2d741dc4465e9ba701ee37c019))
+* **server:** detect leaf and chain certs before encoding PFX ([84b6cad](https://github.com/immobiliare/inca/commit/84b6cad444aeb911b603ae44b333bb126341fc6d))
+* **util:** add GenerateRandomString functionality ([f49b6b6](https://github.com/immobiliare/inca/commit/f49b6b699394ee6bb38bb136979fed6460aade90))
+
+
+### Bug Fixes
+
+* **oci:** update syft output path to an unprivileged directory ([4063d47](https://github.com/immobiliare/inca/commit/4063d47a470247e218d17701905628df19f8e6f0))
+* **server:** add a nil check to handle invalid PEM content ([4fc24cd](https://github.com/immobiliare/inca/commit/4fc24cd8106dde0bfdf43993027124bca81ad72b))
+* **server:** add a nil check to handle invalid PEM content ([89e3ab5](https://github.com/immobiliare/inca/commit/89e3ab5ad58184b02f7648e9fd8bfac29352bf9a))
+* **server:** enhance private key parsing to support multiple formats ([0481710](https://github.com/immobiliare/inca/commit/04817108e99a9cadff44ced642d28bab06056f9f))
+* **server:** reduce password length for PFX generation from 256 to 30 characters ([58582f1](https://github.com/immobiliare/inca/commit/58582f18c0359b349bb785768f8ea8f53dfdd8c9))
+
 ## [1.7.2](https://github.com/immobiliare/inca/compare/1.7.1...1.7.2) (2025-05-23)
 
 
