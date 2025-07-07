@@ -1,3 +1,12 @@
+## [1.8.1](https://github.com/immobiliare/inca/compare/1.8.0...1.8.1) (2025-07-07)
+
+
+### Bug Fixes
+
+* **oci:** create missing directory .well-known for webroot ([5eee4c0](https://github.com/immobiliare/inca/commit/5eee4c08075116d60fdf9efc30928f352a0663fd))
+* **oci:** create missing subdirectory for acme-challenge in webroot ([4e63042](https://github.com/immobiliare/inca/commit/4e63042d439a9112a53afc0f58dc8e1f46ab68a8))
+* **oci:** set permissions for webroot directory ([133596f](https://github.com/immobiliare/inca/commit/133596fee1fc6e54bdc63a0e220bbf42abfdf6c4))
+
 ## [1.8.0](https://github.com/immobiliare/inca/compare/1.7.2...1.8.0) (2025-07-02)
 
 
