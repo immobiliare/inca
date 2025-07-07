@@ -1498,8 +1498,8 @@ github.com/ruudk/golang-pdf417 v0.0.0-20181029194003-1af4ab5afa58/go.mod h1:6lfF
 github.com/ruudk/golang-pdf417 v0.0.0-20201230142125-a7e3863a1245/go.mod h1:pQAZKsJ8yyVxGRWYNEm9oFB8ieLgKFnamEyDmSA0BRk=
 github.com/ryanuber/columnize v0.0.0-20160712163229-9b3edd62028f/go.mod h1:sm1tb6uqfes/u+d4ooFouqFdy9/2g9QGwK3SQygK0Ts=
 github.com/ryanuber/columnize v2.1.0+incompatible/go.mod h1:sm1tb6uqfes/u+d4ooFouqFdy9/2g9QGwK3SQygK0Ts=
-github.com/sacloud/api-client-go v0.3.0 h1:NLA2BpZ5welAXBPxgmXSCjgn/k0ShDB0x5kmUHl7TJ4=
-github.com/sacloud/api-client-go v0.3.0/go.mod h1:v8ke3pxVQ9TCWEbMkfbLX8NMeGiPpE+uDwlgcUWfMgM=
+github.com/sacloud/api-client-go v0.3.2 h1:INbdSpQbyGN9Ai4hQ+Gbv3UQcgtRPG2tJrOmqT7HGl0=
+github.com/sacloud/api-client-go v0.3.2/go.mod h1:0p3ukcWYXRCc2AUWTl1aA+3sXLvurvvDqhRaLZRLBwo=
 github.com/sacloud/go-http v0.1.9 h1:Xa5PY8/pb7XWhwG9nAeXSrYXPbtfBWqawgzxD5co3VE=
 github.com/sacloud/go-http v0.1.9/go.mod h1:DpDG+MSyxYaBwPJ7l3aKLMzwYdTVtC5Bo63HActcgoE=
 github.com/sacloud/iaas-api-go v1.16.0 h1:JUj7f5yHSSakhy0N8qsZ0a5IYpbUgsv4x5rN8pgRbEg=
