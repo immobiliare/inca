@@ -1,6 +1,6 @@
 FROM cgr.dev/chainguard/go:latest AS builder
 ENV CGO_ENABLED=0
-RUN mkdir -p /tmp/server/webroot
+RUN mkdir -p /tmp/server/webroot/.well-known
 WORKDIR /workspace
 COPY go.mod .
 COPY go.sum .
