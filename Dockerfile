@@ -1,6 +1,6 @@
 FROM cgr.dev/chainguard/go:latest AS builder
 ENV CGO_ENABLED=0
-RUN mkdir -p /tmp/server/webroot/.well-known/acme-challenge
+RUN mkdir -p -m 777 /tmp/server/webroot/.well-known/acme-challenge
 WORKDIR /workspace
 COPY go.mod .
 COPY go.sum .
