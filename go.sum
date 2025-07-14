@@ -1693,10 +1693,10 @@ github.com/xeipuuv/gojsonschema v1.2.0/go.mod h1:anYRn/JVcOK2ZgGU+IjEV4nwlhoK5sQ
 github.com/xiang90/probing v0.0.0-20190116061207-43a291ad63a2/go.mod h1:UETIi67q53MR2AWcXfiuqkDkRtnGDLqkBTpCHuJHxtU=
 github.com/xyproto/randomstring v1.0.5 h1:YtlWPoRdgMu3NZtP45drfy1GKoojuR7hmRcnhZqKjWU=
 github.com/xyproto/randomstring v1.0.5/go.mod h1:rgmS5DeNXLivK7YprL0pY+lTuhNQW3iGxZ18UQApw/E=
-github.com/yandex-cloud/go-genproto v0.13.0 h1:KbMyonhUDvyHpQLjBsaTt9RT3wZdHjTbAZxUHGvQBog=
-github.com/yandex-cloud/go-genproto v0.13.0/go.mod h1:0LDD/IZLIUIV4iPH+YcF+jysO3jkSvADFGm4dCAuwQo=
-github.com/yandex-cloud/go-sdk v0.12.0 h1:A3zqY5F+j2YQCSRcXMLYonQNvguI0JVgHIM1JII3b4U=
-github.com/yandex-cloud/go-sdk v0.12.0/go.mod h1:ZrBErlTPctwdRJ6SS5OsY7pLEF/Q3HtLwCJXyoDeDOY=
+github.com/yandex-cloud/go-genproto v0.14.0 h1:yDqD260mICkjodXyAaDhESfrLr6gIGwwRc9MYE0jvW0=
+github.com/yandex-cloud/go-genproto v0.14.0/go.mod h1:0LDD/IZLIUIV4iPH+YcF+jysO3jkSvADFGm4dCAuwQo=
+github.com/yandex-cloud/go-sdk v0.15.0 h1:qw4DIjB9R5kFxAM41oRX6fR6Peu3+NJJ+8Hq0HweAUk=
+github.com/yandex-cloud/go-sdk v0.15.0/go.mod h1:FrGFoK1NSOGjW5k/ga811r3UPACWPiDhMLL5B5GKeNA=
 github.com/youmark/pkcs8 v0.0.0-20181117223130-1be2e3e5546d/go.mod h1:rHwXgn7JulP+udvsHwJoVG1YGAP6VLg4y9I5dyZdqmA=
 github.com/youmark/pkcs8 v0.0.0-20240726163527-a2c0da244d78 h1:ilQV1hzziu+LLM3zUTJ0trRztfwgjqKnBWNtSRkbmwM=
 github.com/youmark/pkcs8 v0.0.0-20240726163527-a2c0da244d78/go.mod h1:aL8wCCfTfSfmXjznFBSZNN13rSJjlIOI1fUNAtF7rmI=
