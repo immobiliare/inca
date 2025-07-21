@@ -154,7 +154,7 @@ require (
 	github.com/nrdcg/mailinabox v0.2.0 // indirect
 	github.com/nrdcg/namesilo v0.2.1 // indirect
 	github.com/nrdcg/nodion v0.1.0 // indirect
-	github.com/nrdcg/oci-go-sdk/common/v1065 v1065.95.1 // indirect
+	github.com/nrdcg/oci-go-sdk/common/v1065 v1065.95.2 // indirect
 	github.com/nrdcg/oci-go-sdk/dns/v1065 v1065.95.1 // indirect
 	github.com/nrdcg/porkbun v0.4.0 // indirect
 	github.com/nzdjb/go-metaname v1.0.0 // indirect
