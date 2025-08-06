@@ -8,7 +8,7 @@ require (
 	github.com/DATA-DOG/go-sqlmock v1.5.2
 	github.com/aws/aws-sdk-go v1.55.7
 	github.com/getsentry/sentry-go v0.34.1
-	github.com/go-acme/lego/v4 v4.25.1
+	github.com/go-acme/lego/v4 v4.25.2
 	github.com/goccy/go-yaml v1.18.0
 	github.com/gofiber/fiber/v2 v2.52.9
 	github.com/gofiber/template/django/v3 v3.1.14
