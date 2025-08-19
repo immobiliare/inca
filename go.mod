@@ -83,7 +83,7 @@ require (
 	github.com/go-acme/alidns-20150109/v4 v4.5.11 // indirect
 	github.com/go-acme/tencentclouddnspod v1.0.1208 // indirect
 	github.com/go-errors/errors v1.5.1 // indirect
-	github.com/go-jose/go-jose/v4 v4.1.1 // indirect
+	github.com/go-jose/go-jose/v4 v4.1.2 // indirect
 	github.com/go-logr/logr v1.4.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
