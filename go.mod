@@ -188,7 +188,7 @@ require (
 	github.com/volcengine/volc-sdk-golang v1.0.217 // indirect
 	github.com/vultr/govultr/v3 v3.22.1 // indirect
 	github.com/yandex-cloud/go-genproto v0.17.0 // indirect
-	github.com/yandex-cloud/go-sdk/services/dns v0.0.3 // indirect
+	github.com/yandex-cloud/go-sdk/services/dns v0.0.10 // indirect
 	github.com/yandex-cloud/go-sdk/v2 v2.6.1 // indirect
 	github.com/youmark/pkcs8 v0.0.0-20240726163527-a2c0da244d78 // indirect
 	go.mongodb.org/mongo-driver v1.17.4 // indirect
@@ -210,8 +210,8 @@ require (
 	golang.org/x/time v0.12.0 // indirect
 	golang.org/x/tools v0.36.0 // indirect
 	google.golang.org/api v0.242.0 // indirect
-	google.golang.org/genproto/googleapis/api v0.0.0-20250707201910-8d1bb00bc6a7 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20250707201910-8d1bb00bc6a7 // indirect
+	google.golang.org/genproto/googleapis/api v0.0.0-20250811230008-5f3141c8851a // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20250811230008-5f3141c8851a // indirect
 	google.golang.org/grpc v1.74.2 // indirect
 	google.golang.org/protobuf v1.36.7 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
