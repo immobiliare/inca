@@ -43,10 +43,10 @@ require (
 	github.com/OpenDNS/vegadns2client v0.0.0-20180418235048-a3fa4a771d87 // indirect
 	github.com/akamai/AkamaiOPEN-edgegrid-golang v1.2.2 // indirect
 	github.com/alibabacloud-go/alibabacloud-gateway-spi v0.0.5 // indirect
-	github.com/alibabacloud-go/darabonba-openapi/v2 v2.1.10 // indirect
+	github.com/alibabacloud-go/darabonba-openapi/v2 v2.1.11 // indirect
 	github.com/alibabacloud-go/debug v1.0.1 // indirect
 	github.com/alibabacloud-go/endpoint-util v1.1.1 // indirect
-	github.com/alibabacloud-go/tea v1.3.10 // indirect
+	github.com/alibabacloud-go/tea v1.3.11 // indirect
 	github.com/alibabacloud-go/tea-utils/v2 v2.0.7 // indirect
 	github.com/aliyun/credentials-go v1.4.7 // indirect
 	github.com/andybalholm/brotli v1.2.0 // indirect
