@@ -158,7 +158,7 @@ require (
 	github.com/pquerna/otp v1.5.0 // indirect
 	github.com/regfish/regfish-dnsapi-go v0.1.1 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
-	github.com/sacloud/api-client-go v0.3.2 // indirect
+	github.com/sacloud/api-client-go v0.3.3 // indirect
 	github.com/sacloud/go-http v0.1.9 // indirect
 	github.com/sacloud/iaas-api-go v1.17.0 // indirect
 	github.com/sacloud/packages-go v0.0.11 // indirect
