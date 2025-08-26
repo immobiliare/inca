@@ -1660,8 +1660,8 @@ github.com/valyala/fasthttp v1.65.0 h1:j/u3uzFEGFfRxw79iYzJN+TteTJwbYkru9uDp3d0Y
 github.com/valyala/fasthttp v1.65.0/go.mod h1:P/93/YkKPMsKSnATEeELUCkG8a7Y+k99uxNHVbKINr4=
 github.com/vinyldns/go-vinyldns v0.9.16 h1:GZJStDkcCk1F1AcRc64LuuMh+ENL8pHA0CVd4ulRMcQ=
 github.com/vinyldns/go-vinyldns v0.9.16/go.mod h1:5qIJOdmzAnatKjurI+Tl4uTus7GJKJxb+zitufjHs3Q=
-github.com/volcengine/volc-sdk-golang v1.0.217 h1:ylONAeFRGTRc5D0s2ASvekaoQsKDD1fd+w41IgAoVvk=
-github.com/volcengine/volc-sdk-golang v1.0.217/go.mod h1:zHJlaqiMbIB+0mcrsZPTwOb3FB7S/0MCfqlnO8R7hlM=
+github.com/volcengine/volc-sdk-golang v1.0.218 h1:IVbZdALi1hH0m6NjefaOUMqwdP1s87TcL8chuFTCsMs=
+github.com/volcengine/volc-sdk-golang v1.0.218/go.mod h1:zHJlaqiMbIB+0mcrsZPTwOb3FB7S/0MCfqlnO8R7hlM=
 github.com/vultr/govultr/v3 v3.22.1 h1:Be7unmYIFSKfBSZb+O7/zYqGH4jPUFueSGcmSkgpd1o=
 github.com/vultr/govultr/v3 v3.22.1/go.mod h1:9WwnWGCKnwDlNjHjtt+j+nP+0QWq6hQXzaHgddqrLWY=
 github.com/xdg-go/pbkdf2 v1.0.0/go.mod h1:jrpuAogTd400dnrH08LKmI/xc1MbPOebTwRqcT5RDeI=
