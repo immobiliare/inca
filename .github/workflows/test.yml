@@ -53,6 +53,12 @@ jobs:
           sbom: true
           tags: ghcr.io/immobiliare/inca:next
           push: true
+  
+  cleanup:
+    needs: [docker]
+    if: success() && github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
       - uses: dataaxiom/ghcr-cleanup-action@v1
         with:
           token: ${{ secrets.GH_SRE_TOKEN }}
