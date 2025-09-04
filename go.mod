@@ -14,7 +14,7 @@ require (
 	github.com/jackc/pgx/v5 v5.7.5
 	github.com/matryer/is v1.4.1
 	github.com/rs/zerolog v1.34.0
-	github.com/spf13/cobra v1.9.1
+	github.com/spf13/cobra v1.10.1
 	software.sslmate.com/src/go-pkcs12 v0.6.0
 )
 
