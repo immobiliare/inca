@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v5
       - uses: actions/setup-go@v5
         with:
-          go-version: "1.24"
+          go-version: "1.25"
       - uses: golangci/golangci-lint-action@v8
         with:
           version: latest
@@ -28,7 +28,7 @@ jobs:
       - uses: actions/checkout@v5
       - uses: actions/setup-go@v5
         with:
-          go-version: "1.24"
+          go-version: "1.25"
       - run: go build -v ./...
       - run: go test -v ./...
       - run: test/test.sh domain.tld
