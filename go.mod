@@ -187,7 +187,7 @@ require (
 	github.com/vinyldns/go-vinyldns v0.9.16 // indirect
 	github.com/volcengine/volc-sdk-golang v1.0.219 // indirect
 	github.com/vultr/govultr/v3 v3.23.0 // indirect
-	github.com/yandex-cloud/go-genproto v0.21.0 // indirect
+	github.com/yandex-cloud/go-genproto v0.22.0 // indirect
 	github.com/yandex-cloud/go-sdk/services/dns v0.0.12 // indirect
 	github.com/yandex-cloud/go-sdk/v2 v2.9.0 // indirect
 	github.com/youmark/pkcs8 v0.0.0-20240726163527-a2c0da244d78 // indirect
