@@ -81,6 +81,10 @@ func (s *FS) Del(name string) error {
 	return os.RemoveAll(filepath.Join(s.path, name))
 }
 
+func (s *FS) Renew(name string, crtData, keyData []byte) error {
+	return s.Put(name, crtData, keyData)
+}
+
 func (s *FS) Find(filters ...string) ([][]byte, error) {
 	dirs, err := os.ReadDir(s.path)
 	if err != nil {

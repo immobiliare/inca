@@ -160,8 +160,33 @@ func (s *S3) Del(name string) error {
 		return err
 	}
 
-	if _, err := client.DeleteBucket(&s3.DeleteBucketInput{
+	// Bucket is left intact - no longer deleting the bucket
+	return nil
+}
+
+func (s *S3) Renew(name string, crtData, keyData []byte) error {
+	bucketName, err := nameToBucket(name)
+	if err != nil {
+		return err
+	}
+
+	client := s3.New(
+		session.Must(session.NewSession()),
+		s.config,
+	)
+
+	if _, err := client.PutObject(&s3.PutObjectInput{
 		Bucket: bucketName,
+		Key:    &s3CrtName,
+		Body:   bytes.NewReader(crtData),
+	}); err != nil {
+		return err
+	}
+
+	if _, err := client.PutObject(&s3.PutObjectInput{
+		Bucket: bucketName,
+		Key:    &s3KeyName,
+		Body:   bytes.NewReader(keyData),
 	}); err != nil {
 		return err
 	}
@@ -188,7 +213,9 @@ func (s *S3) Find(filters ...string) ([][]byte, error) {
 
 		crt, _, err := s.Get(*bucket.Name)
 		if err != nil {
-			return nil, err
+			// Skip empty buckets or buckets with missing certificates
+			// This can happen after certificate deletion when bucket is left intact
+			continue
 		}
 
 		results = append(results, crt)

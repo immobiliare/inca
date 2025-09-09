@@ -120,6 +120,10 @@ func (s *PostgreSQL) Del(name string) error {
 	return nil
 }
 
+func (s *PostgreSQL) Renew(name string, crtData, keyData []byte) error {
+	return s.Put(name, crtData, keyData)
+}
+
 func (s *PostgreSQL) Find(filters ...string) ([][]byte, error) {
 	rows, err := s.db.Query("SELECT name, crt_data FROM certificates")
 	if err != nil {
