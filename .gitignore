@@ -1,5 +1,6 @@
 .test
 .vscode
+.env
 /inca
 /domain.tld.crt
 /test.domain.tld.crt

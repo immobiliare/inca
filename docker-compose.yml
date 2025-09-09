@@ -1,0 +1,145 @@
+version: '3.8'
+
+services:
+  # Init container to generate CA certificates
+  ca-init:
+    image: alpine:latest
+    container_name: inca-ca-init
+    env_file:
+      - .env
+    environment:
+      - CA_NAME=${CA_NAME:-example.org}
+      - CA_COUNTRY=${CA_COUNTRY:-US}
+      - CA_STATE=${CA_STATE:-California}
+      - CA_CITY=${CA_CITY:-San Francisco}
+      - CA_ORG=${CA_ORG:-Example Organization}
+      - CA_OU=${CA_OU:-IT Department}
+      - CA_EMAIL=${CA_EMAIL:-admin@example.org}
+      - CA_VALIDITY_DAYS=${CA_VALIDITY_DAYS:-3650}
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER:-minioadmin}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD:-minioadmin}
+      - INCA_HOST=${INCA_HOST:-0.0.0.0}
+      - INCA_PORT=${INCA_PORT:-8080}
+    volumes:
+      - ca_certs:/certs
+      - inca_config:/config
+    command: |
+      /bin/sh -c "
+        apk add --no-cache openssl
+        if [ ! -f /certs/ca.crt ]; then
+          echo 'Generating CA certificate for $CA_NAME...'
+          
+          # Generate CA private key
+          openssl genrsa -out /certs/ca.key 4096
+          
+          # Generate CA certificate with configurable parameters
+          openssl req -new -x509 -key /certs/ca.key -sha256 \
+            -subj '/C=$CA_COUNTRY/ST=$CA_STATE/L=$CA_CITY/O=$CA_ORG/OU=$CA_OU/CN=$CA_NAME/emailAddress=$CA_EMAIL' \
+            -days $CA_VALIDITY_DAYS -out /certs/ca.crt
+          
+          # Set proper permissions
+          chmod 644 /certs/ca.key
+          chmod 644 /certs/ca.crt
+          
+          echo 'CA certificate generated successfully'
+        else
+          echo 'CA certificate already exists'
+        fi
+        
+        # Generate INCA configuration with environment variables
+        cat > /config/inca.yaml << EOF
+        server:
+          bind: $INCA_HOST:$INCA_PORT
+
+        providers:
+          - type: local
+            crt: /etc/inca/certs/ca.crt
+            key: /etc/inca/certs/ca.key
+
+        storage:
+          type: s3
+          endpoint: http://minio:9000
+          access: $MINIO_ROOT_USER
+          secret: $MINIO_ROOT_PASSWORD
+          region: us-east-1
+          bucket: inca-certificates
+
+        acl:
+          admin:
+          - .*
+
+        logging:
+          level: debug
+        
+      EOF
+        
+        echo 'INCA configuration generated successfully'
+      "
+
+  # MinIO S3 storage
+  minio:
+    image: minio/minio:latest
+    container_name: inca-minio
+    env_file:
+      - .env
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
+    volumes:
+      - minio_data:/data
+    command: server /data --address :9000 --console-address :9001
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+  # Create S3 bucket
+  minio-init:
+    image: minio/mc:latest
+    container_name: inca-minio-init
+    env_file:
+      - .env
+    environment:
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER:-minioadmin}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD:-minioadmin}
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: |
+      sh -c "
+      mc alias set minio http://minio:9000 $MINIO_ROOT_USER $MINIO_ROOT_PASSWORD &&
+      mc mb minio/inca-certificates --ignore-existing &&
+      echo 'S3 bucket created successfully'
+      "
+
+  # INCA server
+  inca:
+    build: .
+    container_name: inca-server
+    env_file:
+      - .env
+    ports:
+      - "${INCA_PORT:-8080}:8080"
+    volumes:
+      - ca_certs:/etc/inca/certs
+      - inca_config:/etc/inca
+    command: server -c /etc/inca/inca.yaml
+    depends_on:
+      ca-init:
+        condition: service_completed_successfully
+      minio-init:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  ca_certs:
+  inca_config:
+  minio_data:
