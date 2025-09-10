@@ -36,7 +36,11 @@ func TestServerWebRenewView(t *testing.T) {
 
 	body, err := io.ReadAll(resp.Body)
 	test.NoErr(err)
-	defer resp.Body.Close()
+	defer func() {
+		if err := resp.Body.Close(); err != nil {
+			t.Logf("Failed to close response body: %v", err)
+		}
+	}()
 
 	test.True(strings.Contains(string(body), testDomain))
 
@@ -77,7 +81,11 @@ func TestServerWebRenewPost(t *testing.T) {
 
 	_, err = io.ReadAll(resp.Body)
 	test.NoErr(err)
-	defer resp.Body.Close()
+	defer func() {
+		if err := resp.Body.Close(); err != nil {
+			t.Logf("Failed to close response body: %v", err)
+		}
+	}()
 
 	// Should get a redirect or success response
 	test.True(resp.StatusCode == fiber.StatusOK || resp.StatusCode == fiber.StatusFound)
@@ -112,7 +120,11 @@ func TestServerWebRenewUnauthorized(t *testing.T) {
 
 	body, err := io.ReadAll(resp.Body)
 	is.NoErr(err)
-	defer resp.Body.Close()
+	defer func() {
+		if err := resp.Body.Close(); err != nil {
+			t.Logf("Failed to close response body: %v", err)
+		}
+	}()
 
 	// Should get unauthorized response
 	is.True(strings.Contains(string(body), "Unauthorized") || resp.StatusCode == fiber.StatusFound)
