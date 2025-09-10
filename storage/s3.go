@@ -15,6 +15,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 	"github.com/immobiliare/inca/pki"
 	"github.com/immobiliare/inca/util"
+	"github.com/rs/zerolog/log"
 )
 
 var (
@@ -213,6 +214,7 @@ func (s *S3) Find(filters ...string) ([][]byte, error) {
 
 		crt, _, err := s.Get(*bucket.Name)
 		if err != nil {
+			log.Error().Err(err).Msg("storage/s3: skip empty buckets with missing certificates")
 			// Skip empty buckets or buckets with missing certificates
 			// This can happen after certificate deletion when bucket is left intact
 			continue
