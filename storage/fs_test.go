@@ -286,6 +286,139 @@ func TestFS_Find(t *testing.T) {
 	}
 }
 
+func TestFS_Renew(t *testing.T) {
+	t.Parallel()
+
+	tmpDir := t.TempDir()
+	s := &FS{path: tmpDir}
+
+	testName := "test"
+	originalCrt := []byte("original-crt")
+	originalKey := []byte("original-key")
+	newCrt := []byte("renewed-crt")
+	newKey := []byte("renewed-key")
+
+	// First, put original certificate
+	if err := s.Put(testName, originalCrt, originalKey); err != nil {
+		t.Fatal(err)
+	}
+
+	// Verify original certificate exists
+	gotCrt, gotKey, err := s.Get(testName)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if string(gotCrt) != string(originalCrt) {
+		t.Errorf("Original certificate mismatch: got %v, want %v", string(gotCrt), string(originalCrt))
+	}
+	if string(gotKey) != string(originalKey) {
+		t.Errorf("Original key mismatch: got %v, want %v", string(gotKey), string(originalKey))
+	}
+
+	tests := []struct {
+		name     string
+		certName string
+		crtData  []byte
+		keyData  []byte
+		wantErr  bool
+	}{
+		{
+			name:     "valid renewal",
+			certName: testName,
+			crtData:  newCrt,
+			keyData:  newKey,
+			wantErr:  false,
+		},
+		{
+			name:     "renew non-existent certificate",
+			certName: "nonexistent",
+			crtData:  newCrt,
+			keyData:  newKey,
+			wantErr:  false, // Renew creates new certificate if it doesn't exist
+		},
+		{
+			name:     "empty certificate renewal",
+			certName: "empty",
+			crtData:  []byte{},
+			keyData:  []byte{},
+			wantErr:  false,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			err := s.Renew(tt.certName, tt.crtData, tt.keyData)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("FS.Renew() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+
+			if !tt.wantErr {
+				// Verify the certificate was renewed
+				gotCrt, gotKey, err := s.Get(tt.certName)
+				if err != nil {
+					t.Errorf("FS.Get() after renewal error = %v", err)
+					return
+				}
+				if string(gotCrt) != string(tt.crtData) {
+					t.Errorf("FS.Renew() renewed crt = %v, want %v", string(gotCrt), string(tt.crtData))
+				}
+				if string(gotKey) != string(tt.keyData) {
+					t.Errorf("FS.Renew() renewed key = %v, want %v", string(gotKey), string(tt.keyData))
+				}
+			}
+		})
+	}
+}
+
+func TestFS_RenewOverwritesExisting(t *testing.T) {
+	t.Parallel()
+
+	tmpDir := t.TempDir()
+	s := &FS{path: tmpDir}
+
+	testName := "overwrite-test"
+	originalCrt := []byte("original-certificate-data")
+	originalKey := []byte("original-key-data")
+	newCrt := []byte("new-certificate-data")
+	newKey := []byte("new-key-data")
+
+	// Put original certificate
+	if err := s.Put(testName, originalCrt, originalKey); err != nil {
+		t.Fatal(err)
+	}
+
+	// Renew with new data
+	if err := s.Renew(testName, newCrt, newKey); err != nil {
+		t.Errorf("FS.Renew() error = %v", err)
+		return
+	}
+
+	// Verify the certificate was overwritten
+	gotCrt, gotKey, err := s.Get(testName)
+	if err != nil {
+		t.Errorf("FS.Get() after renewal error = %v", err)
+		return
+	}
+
+	if string(gotCrt) != string(newCrt) {
+		t.Errorf("Certificate not overwritten: got %v, want %v", string(gotCrt), string(newCrt))
+	}
+	if string(gotKey) != string(newKey) {
+		t.Errorf("Key not overwritten: got %v, want %v", string(gotKey), string(newKey))
+	}
+
+	// Ensure original data is not present
+	if string(gotCrt) == string(originalCrt) {
+		t.Error("Original certificate data still present after renewal")
+	}
+	if string(gotKey) == string(originalKey) {
+		t.Error("Original key data still present after renewal")
+	}
+}
+
 func TestFS_Config(t *testing.T) {
 	t.Parallel()
 
