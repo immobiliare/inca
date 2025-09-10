@@ -5,7 +5,7 @@ go 1.25
 require (
 	github.com/DATA-DOG/go-sqlmock v1.5.2
 	github.com/aws/aws-sdk-go v1.55.7
-	github.com/getsentry/sentry-go v0.35.1
+	github.com/getsentry/sentry-go v0.35.2
 	github.com/go-acme/lego/v4 v4.25.2
 	github.com/goccy/go-yaml v1.18.0
 	github.com/gofiber/fiber/v2 v2.52.9
