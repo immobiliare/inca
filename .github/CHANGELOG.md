@@ -1,3 +1,16 @@
+## [1.9.0](https://github.com/immobiliare/inca/compare/1.8.1...1.9.0) (2025-09-10)
+
+
+### Features
+
+* implement a self-contained docker-compose configurable via .env file ([ee9299a](https://github.com/immobiliare/inca/commit/ee9299ace10b9a1475193a1e23f234578153363e))
+* implement dedicated cert renewal method ([7d88510](https://github.com/immobiliare/inca/commit/7d885102df36bb713b6f1d131b7c759267137d3a))
+
+
+### Bug Fixes
+
+* resolve test stability issues in server package ([7052e70](https://github.com/immobiliare/inca/commit/7052e705325ea181a4b680b1a01c56567378efee))
+
 ## [1.8.1](https://github.com/immobiliare/inca/compare/1.8.0...1.8.1) (2025-07-07)
 
 
