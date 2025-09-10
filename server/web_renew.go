@@ -6,6 +6,37 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
+// CertificateResult holds the result of certificate generation
+type CertificateResult struct {
+	Crt []byte
+	Key []byte
+	Err error
+}
+
+// getProvider is a shared helper method that handles provider lookup
+func (inca *Inca) getProvider(name string, options map[string]string) *provider.Provider {
+	return provider.GetByTargetName(name, options, inca.Providers)
+}
+
+// generateCertificate is a shared helper method that handles provider lookup and certificate generation
+func (inca *Inca) generateCertificate(name string, options map[string]string) CertificateResult {
+	// Find appropriate provider
+	p := inca.getProvider(name, options)
+	if p == nil {
+		log.Warn().Str("name", name).Msg("no provider found")
+		return CertificateResult{Err: fiber.NewError(fiber.StatusBadRequest, "Unable to find a suitable provider")}
+	}
+
+	// Get certificate from provider
+	crt, key, err := (*p).Get(name, options)
+	if err != nil {
+		log.Error().Err(err).Str("name", name).Msg("unable to generate certificate")
+		return CertificateResult{Err: fiber.NewError(fiber.StatusInternalServerError, "Unable to generate certificate")}
+	}
+
+	return CertificateResult{Crt: crt, Key: key, Err: nil}
+}
+
 func (inca *Inca) handlerWebRenew(c *fiber.Ctx) error {
 	name := c.Params("name")
 
@@ -21,20 +52,13 @@ func (inca *Inca) handlerWebRenew(c *fiber.Ctx) error {
 		return inca.handlerWebIndex(c)
 	}
 
-	// Find appropriate provider
-	p := provider.GetByTargetName(name, map[string]string{}, inca.Providers)
-	if p == nil {
-		_ = c.Bind(fiber.Map{"error": "Unable to find a suitable provider for renewal"})
-		return inca.handlerWebIndex(c)
-	}
-
-	// Get new certificate from provider
-	crt, key, err := (*p).Get(name, map[string]string{})
-	if err != nil {
-		log.Error().Err(err).Str("name", name).Msg("unable to renew certificate")
+	// Generate new certificate using shared helper
+	result := inca.generateCertificate(name, map[string]string{})
+	if result.Err != nil {
 		_ = c.Bind(fiber.Map{"error": "Unable to renew the certificate"})
 		return inca.handlerWebIndex(c)
 	}
+	crt, key := result.Crt, result.Key
 
 	// Try to renew certificate in place
 	if err := (*inca.Storage).Renew(name, crt, key); err != nil {
@@ -60,19 +84,15 @@ func (inca *Inca) handlerRenew(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusNotFound)
 	}
 
-	// Find appropriate provider
-	p := provider.GetByTargetName(name, map[string]string{}, inca.Providers)
-	if p == nil {
-		log.Warn().Str("name", name).Msg("no provider found for renewal")
-		return c.SendStatus(fiber.StatusBadRequest)
-	}
-
-	// Get new certificate from provider
-	crt, key, err := (*p).Get(name, map[string]string{})
-	if err != nil {
-		log.Error().Err(err).Str("name", name).Msg("unable to renew certificate")
+	// Generate new certificate using shared helper
+	result := inca.generateCertificate(name, map[string]string{})
+	if result.Err != nil {
+		if fiberErr, ok := result.Err.(*fiber.Error); ok {
+			return c.SendStatus(fiberErr.Code)
+		}
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}
+	crt, key := result.Crt, result.Key
 
 	// Try to renew certificate in place
 	if err := (*inca.Storage).Renew(name, crt, key); err != nil {
