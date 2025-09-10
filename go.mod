@@ -11,7 +11,7 @@ require (
 	github.com/gofiber/fiber/v2 v2.52.9
 	github.com/gofiber/template/django/v3 v3.1.14
 	github.com/google/uuid v1.6.0
-	github.com/jackc/pgx/v5 v5.7.5
+	github.com/jackc/pgx/v5 v5.7.6
 	github.com/matryer/is v1.4.1
 	github.com/rs/zerolog v1.34.0
 	github.com/spf13/cobra v1.10.1
