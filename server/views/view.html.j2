@@ -52,6 +52,10 @@
     <textarea style="min-height: 150px;" readonly="true">{{ key }}</textarea>
 {% endif %}
 </form>
+<form method="POST" action="/web/{{ crt.CN }}/renew"
+    onsubmit="return confirm('Do you really want to renew {{ crt.CN }}?')">
+    <button>Renew</button>
+</form>
 <form method="POST" action="/web/{{ crt.CN }}/delete"
     onsubmit="return confirm('Do you really want to delete {{ crt.CN }}?')">
     <button>Delete</button>

@@ -2,7 +2,6 @@ package server
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/immobiliare/inca/provider"
 )
 
 func (inca *Inca) handlerWebDelete(c *fiber.Ctx) error {
@@ -24,7 +23,7 @@ func (inca *Inca) handlerWebDelete(c *fiber.Ctx) error {
 		return inca.handlerWebIndex(c)
 	}
 
-	p := provider.GetByTargetName(name, map[string]string{}, inca.Providers)
+	p := inca.getProvider(name, map[string]string{})
 	if p == nil {
 		_ = c.Bind(fiber.Map{"error": "Provider not found: certificate not revoked"})
 		return inca.handlerWebIndex(c)

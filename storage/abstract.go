@@ -11,6 +11,7 @@ type Storage interface {
 	Put(name string, crtData, keyData []byte) error
 	Get(name string) ([]byte, []byte, error)
 	Del(name string) error
+	Renew(name string, crtData, keyData []byte) error
 	Find(filters ...string) ([][]byte, error)
 	Config() map[string]string
 }

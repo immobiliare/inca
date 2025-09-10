@@ -48,13 +48,22 @@ func TestServerWebImportView(t *testing.T) {
 }
 
 func TestServerWebImport(t *testing.T) {
-	t.Parallel()
-
+	// Don't run in parallel to avoid state conflicts
 	var (
 		app                 = testApp(t)
 		test                = is.New(t)
 		testingImportDomain = "foreign.tld"
 	)
+
+	// Clean up any existing certificates first
+	if resp, err := app.Test(httptest.NewRequest("DELETE", "/"+testingImportDomain, nil)); err != nil {
+		t.Logf("pre-cleanup DELETE failed: %v", err)
+	} else if resp != nil && resp.Body != nil {
+		_, _ = io.Copy(io.Discard, resp.Body)
+		if cerr := resp.Body.Close(); cerr != nil {
+			t.Logf("Failed to close response body: %v", cerr)
+		}
+	}
 
 	testingImportCrt, testingImportKey, err := generateKeyPair(testingImportDomain)
 	if err != nil {
