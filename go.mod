@@ -80,7 +80,7 @@ require (
 	github.com/fsnotify/fsnotify v1.9.0 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.10 // indirect
 	github.com/ghodss/yaml v1.0.0 // indirect
-	github.com/go-acme/alidns-20150109/v4 v4.5.11 // indirect
+	github.com/go-acme/alidns-20150109/v4 v4.6.0 // indirect
 	github.com/go-acme/tencentclouddnspod v1.0.1208 // indirect
 	github.com/go-errors/errors v1.5.1 // indirect
 	github.com/go-jose/go-jose/v4 v4.1.2 // indirect
