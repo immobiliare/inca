@@ -128,10 +128,10 @@ func (s *S3) Put(name string, crtData, keyData []byte) error {
 		o.UsePathStyle = true
 	})
 
-	if _, err := client.CreateBucket(context.Background(), &s3.CreateBucketInput{Bucket: bucketName}); err != nil &&
-		strings.Contains(err.Error(), "BucketAlreadyOwnedByYou") &&
-		strings.Contains(err.Error(), "BucketAlreadyExists") {
-		return err
+	if _, err := client.CreateBucket(context.Background(), &s3.CreateBucketInput{Bucket: bucketName}); err != nil {
+		if !strings.Contains(err.Error(), "BucketAlreadyOwnedByYou") && !strings.Contains(err.Error(), "BucketAlreadyExists") {
+			return err
+		}
 	}
 
 	if _, err := client.PutObject(context.Background(), &s3.PutObjectInput{
