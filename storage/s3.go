@@ -165,7 +165,7 @@ func (s *S3) Del(name string) error {
 
 	// Step 1: list all objects in the bucket
 	listResp, err := client.ListObjectsV2(context.Background(), &s3.ListObjectsV2Input{
-		Bucket: aws.String(*bucketName),
+		Bucket: bucketName,
 	})
 	if err != nil {
 		return fmt.Errorf("list objects: %w", err)
@@ -183,7 +183,7 @@ func (s *S3) Del(name string) error {
 
 	// Step 3: delete them
 	_, err = client.DeleteObjects(context.Background(), &s3.DeleteObjectsInput{
-		Bucket: aws.String(*bucketName),
+		Bucket: bucketName,
 		Delete: &s3types.Delete{
 			Objects: objects,
 			Quiet:   aws.Bool(true),
