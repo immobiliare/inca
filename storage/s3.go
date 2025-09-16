@@ -2,17 +2,17 @@ package storage
 
 import (
 	"bytes"
+	"context"
 	"errors"
 	"fmt"
 	"io"
 	"net"
 	"strings"
 
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/credentials"
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/s3"
-	"github.com/aws/aws-sdk-go/service/s3/s3manager"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/credentials"
+	"github.com/aws/aws-sdk-go-v2/service/s3"
+	s3types "github.com/aws/aws-sdk-go-v2/service/s3/types"
 	"github.com/immobiliare/inca/pki"
 	"github.com/immobiliare/inca/util"
 	"github.com/rs/zerolog/log"
@@ -25,7 +25,9 @@ var (
 
 type S3 struct {
 	Storage
-	config *aws.Config
+	config   *aws.Config
+	endpoint string
+	region   string
 }
 
 func (s S3) ID() string {
@@ -37,6 +39,7 @@ func (s *S3) Tune(options map[string]interface{}) error {
 	if !ok {
 		return fmt.Errorf("provider %s: endpoint not defined", s.ID())
 	}
+	s.endpoint = endpoint.(string)
 
 	access, ok := options["access"]
 	if !ok {
@@ -52,17 +55,27 @@ func (s *S3) Tune(options map[string]interface{}) error {
 	if !ok {
 		return fmt.Errorf("provider %s: region not defined", s.ID())
 	}
+	s.region = region.(string)
 
-	s.config = aws.NewConfig().
-		WithEndpoint(endpoint.(string)).
-		WithDisableSSL(strings.HasPrefix(endpoint.(string), "http://")).
-		WithRegion(region.(string)).
-		WithS3ForcePathStyle(true).
-		WithCredentials(credentials.NewStaticCredentials(
-			access.(string),
-			secret.(string),
-			"",
-		))
+	s.config = &aws.Config{
+		Region: s.region,
+		Credentials: aws.NewCredentialsCache(
+			credentials.NewStaticCredentialsProvider(
+				access.(string),
+				secret.(string),
+				"",
+			),
+		),
+		EndpointResolverWithOptions: aws.EndpointResolverWithOptionsFunc(
+			func(service, region string, options ...interface{}) (aws.Endpoint, error) {
+				return aws.Endpoint{
+					URL:               s.endpoint,
+					HostnameImmutable: true,
+				}, nil
+			},
+		),
+	}
+
 	return nil
 }
 
@@ -72,13 +85,12 @@ func (s *S3) Get(name string) ([]byte, []byte, error) {
 		return nil, nil, err
 	}
 
-	client := s3.New(
-		session.Must(session.NewSession()),
-		s.config,
-	)
+	client := s3.NewFromConfig(*s.config, func(o *s3.Options) {
+		o.UsePathStyle = true
+	})
 
 	crtData := bytes.NewBuffer(nil)
-	if data, err := client.GetObject(&s3.GetObjectInput{
+	if data, err := client.GetObject(context.Background(), &s3.GetObjectInput{
 		Bucket: bucketName,
 		Key:    &s3CrtName,
 	}); err != nil {
@@ -93,7 +105,7 @@ func (s *S3) Get(name string) ([]byte, []byte, error) {
 	}
 
 	keyData := bytes.NewBuffer(nil)
-	if data, err := client.GetObject(&s3.GetObjectInput{
+	if data, err := client.GetObject(context.Background(), &s3.GetObjectInput{
 		Bucket: bucketName,
 		Key:    &s3KeyName,
 	}); err != nil {
@@ -112,18 +124,17 @@ func (s *S3) Put(name string, crtData, keyData []byte) error {
 		return err
 	}
 
-	client := s3.New(
-		session.Must(session.NewSession()),
-		s.config,
-	)
+	client := s3.NewFromConfig(*s.config, func(o *s3.Options) {
+		o.UsePathStyle = true
+	})
 
-	if _, err := client.CreateBucket(&s3.CreateBucketInput{Bucket: bucketName}); err != nil &&
-		strings.HasPrefix(err.Error(), s3.ErrCodeBucketAlreadyExists) &&
-		strings.HasPrefix(err.Error(), s3.ErrCodeBucketAlreadyOwnedByYou) {
+	if _, err := client.CreateBucket(context.Background(), &s3.CreateBucketInput{Bucket: bucketName}); err != nil &&
+		strings.Contains(err.Error(), "BucketAlreadyOwnedByYou") &&
+		strings.Contains(err.Error(), "BucketAlreadyExists") {
 		return err
 	}
 
-	if _, err := client.PutObject(&s3.PutObjectInput{
+	if _, err := client.PutObject(context.Background(), &s3.PutObjectInput{
 		Bucket: bucketName,
 		Key:    &s3CrtName,
 		Body:   bytes.NewReader(crtData),
@@ -131,7 +142,7 @@ func (s *S3) Put(name string, crtData, keyData []byte) error {
 		return err
 	}
 
-	if _, err := client.PutObject(&s3.PutObjectInput{
+	if _, err := client.PutObject(context.Background(), &s3.PutObjectInput{
 		Bucket: bucketName,
 		Key:    &s3KeyName,
 		Body:   bytes.NewReader(keyData),
@@ -148,17 +159,38 @@ func (s *S3) Del(name string) error {
 		return err
 	}
 
-	client := s3.New(
-		session.Must(session.NewSession()),
-		s.config,
-	)
+	client := s3.NewFromConfig(*s.config, func(o *s3.Options) {
+		o.UsePathStyle = true
+	})
 
-	if err := s3manager.NewBatchDeleteWithClient(client).Delete(
-		aws.BackgroundContext(),
-		s3manager.NewDeleteListIterator(client, &s3.ListObjectsInput{
-			Bucket: bucketName,
-		})); err != nil {
-		return err
+	// Step 1: list all objects in the bucket
+	listResp, err := client.ListObjectsV2(context.Background(), &s3.ListObjectsV2Input{
+		Bucket: aws.String(*bucketName),
+	})
+	if err != nil {
+		return fmt.Errorf("list objects: %w", err)
+	}
+
+	if len(listResp.Contents) == 0 {
+		return nil
+	}
+
+	// Step 2: collect object identifiers
+	objects := make([]s3types.ObjectIdentifier, 0, len(listResp.Contents))
+	for _, obj := range listResp.Contents {
+		objects = append(objects, s3types.ObjectIdentifier{Key: obj.Key})
+	}
+
+	// Step 3: delete them
+	_, err = client.DeleteObjects(context.Background(), &s3.DeleteObjectsInput{
+		Bucket: aws.String(*bucketName),
+		Delete: &s3types.Delete{
+			Objects: objects,
+			Quiet:   aws.Bool(true),
+		},
+	})
+	if err != nil {
+		return fmt.Errorf("delete objects: %w", err)
 	}
 
 	// Bucket is left intact - no longer deleting the bucket
@@ -171,12 +203,11 @@ func (s *S3) Renew(name string, crtData, keyData []byte) error {
 		return err
 	}
 
-	client := s3.New(
-		session.Must(session.NewSession()),
-		s.config,
-	)
+	client := s3.NewFromConfig(*s.config, func(o *s3.Options) {
+		o.UsePathStyle = true
+	})
 
-	if _, err := client.PutObject(&s3.PutObjectInput{
+	if _, err := client.PutObject(context.Background(), &s3.PutObjectInput{
 		Bucket: bucketName,
 		Key:    &s3CrtName,
 		Body:   bytes.NewReader(crtData),
@@ -184,7 +215,7 @@ func (s *S3) Renew(name string, crtData, keyData []byte) error {
 		return err
 	}
 
-	if _, err := client.PutObject(&s3.PutObjectInput{
+	if _, err := client.PutObject(context.Background(), &s3.PutObjectInput{
 		Bucket: bucketName,
 		Key:    &s3KeyName,
 		Body:   bytes.NewReader(keyData),
@@ -196,12 +227,11 @@ func (s *S3) Renew(name string, crtData, keyData []byte) error {
 }
 
 func (s *S3) Find(filters ...string) ([][]byte, error) {
-	client := s3.New(
-		session.Must(session.NewSession()),
-		s.config,
-	)
+	client := s3.NewFromConfig(*s.config, func(o *s3.Options) {
+		o.UsePathStyle = true
+	})
 
-	buckets, err := client.ListBuckets(&s3.ListBucketsInput{})
+	buckets, err := client.ListBuckets(context.Background(), &s3.ListBucketsInput{})
 	if err != nil {
 		return nil, err
 	}
@@ -228,8 +258,8 @@ func (s *S3) Find(filters ...string) ([][]byte, error) {
 
 func (s *S3) Config() map[string]string {
 	return map[string]string{
-		"Endpoint": *s.config.Endpoint,
-		"Region":   *s.config.Region,
+		"Endpoint": s.endpoint,
+		"Region":   s.region,
 	}
 }
 
