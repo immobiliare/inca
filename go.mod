@@ -65,7 +65,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.34.4 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sts v1.38.4 // indirect
 	github.com/aws/smithy-go v1.23.0 // indirect
-	github.com/aziontech/azionapi-go-sdk v0.142.0 // indirect
+	github.com/aziontech/azionapi-go-sdk v0.143.0 // indirect
 	github.com/baidubce/bce-sdk-go v0.9.243 // indirect
 	github.com/benbjohnson/clock v1.3.5 // indirect
 	github.com/boombuler/barcode v1.1.0 // indirect
