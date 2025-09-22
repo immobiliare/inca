@@ -192,9 +192,9 @@ require (
 	github.com/vinyldns/go-vinyldns v0.9.16 // indirect
 	github.com/volcengine/volc-sdk-golang v1.0.219 // indirect
 	github.com/vultr/govultr/v3 v3.23.0 // indirect
-	github.com/yandex-cloud/go-genproto v0.24.0 // indirect
+	github.com/yandex-cloud/go-genproto v0.25.0 // indirect
 	github.com/yandex-cloud/go-sdk/services/dns v0.0.12 // indirect
-	github.com/yandex-cloud/go-sdk/v2 v2.12.0 // indirect
+	github.com/yandex-cloud/go-sdk/v2 v2.13.0 // indirect
 	github.com/youmark/pkcs8 v0.0.0-20240726163527-a2c0da244d78 // indirect
 	go.mongodb.org/mongo-driver v1.17.4 // indirect
 	go.opentelemetry.io/auto/sdk v1.2.1 // indirect
