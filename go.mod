@@ -190,7 +190,7 @@ require (
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.66.0 // indirect
 	github.com/vinyldns/go-vinyldns v0.9.16 // indirect
-	github.com/volcengine/volc-sdk-golang v1.0.219 // indirect
+	github.com/volcengine/volc-sdk-golang v1.0.220 // indirect
 	github.com/vultr/govultr/v3 v3.23.0 // indirect
 	github.com/yandex-cloud/go-genproto v0.24.0 // indirect
 	github.com/yandex-cloud/go-sdk/services/dns v0.0.12 // indirect
