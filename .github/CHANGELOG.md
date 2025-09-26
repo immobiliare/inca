@@ -1,3 +1,10 @@
+## [1.9.1](https://github.com/immobiliare/inca/compare/1.9.0...1.9.1) (2025-09-26)
+
+
+### Bug Fixes
+
+* **lego:** restore old go.mod for le webroot challenge ([e95b4b3](https://github.com/immobiliare/inca/commit/e95b4b3737af8279713ef4e08d09c6dcf06ec72d))
+
 ## [1.9.0](https://github.com/immobiliare/inca/compare/1.8.1...1.9.0) (2025-09-10)
 
 
