@@ -5,6 +5,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/immobiliare/inca/pki"
+	"github.com/immobiliare/inca/provider"
 	"github.com/immobiliare/inca/util"
 	"github.com/rs/zerolog/log"
 )
@@ -38,18 +39,23 @@ func (inca *Inca) handlerWebIssue(c *fiber.Ctx) error {
 		return inca.handlerWebIssueView(c)
 	}
 
+	p := provider.GetByTargetName(name, options, inca.Providers)
+	if p == nil {
+		_ = c.Bind(fiber.Map{"error": "Unable to find a suitable provider"})
+		return inca.handlerWebIssueView(c)
+	}
+
 	if _, _, err := (*inca.Storage).Get(name); err == nil {
 		_ = c.Bind(fiber.Map{"error": "Certificate already existing"})
 		return inca.handlerWebIssueView(c)
 	}
 
-	result := inca.generateCertificate(name, options)
-	if result.Err != nil {
+	crt, key, err := (*p).Get(name, options)
+	if err != nil {
+		log.Error().Err(err).Msg("unable to issue certificate")
 		_ = c.Bind(fiber.Map{"error": "Unable to issue the certificate"})
 		return inca.handlerWebIssueView(c)
 	}
-
-	crt, key := result.Crt, result.Key
 
 	if err := (*inca.Storage).Put(name, crt, key); err != nil {
 		log.Error().Err(err).Msg("unable to persist certificate")

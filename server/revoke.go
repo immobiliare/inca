@@ -2,6 +2,7 @@ package server
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/immobiliare/inca/provider"
 	"github.com/rs/zerolog/log"
 )
 
@@ -21,7 +22,7 @@ func (inca *Inca) handlerRevoke(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 
-	p := inca.getProvider(name, map[string]string{})
+	p := provider.GetByTargetName(name, map[string]string{}, inca.Providers)
 	if p == nil {
 		log.Warn().Str("name", name).Msg("no provider found")
 	} else {

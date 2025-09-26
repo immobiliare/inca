@@ -7,6 +7,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/immobiliare/inca/pki"
+	"github.com/immobiliare/inca/provider"
 	"github.com/immobiliare/inca/util"
 	"github.com/rs/zerolog/log"
 )
@@ -53,12 +54,17 @@ func (inca *Inca) handlerCRT(c *fiber.Ctx) error {
 		}
 	}
 
-	result := inca.generateCertificate(name, queryStrings)
-	if result.Err != nil {
-		return result.Err
+	p := provider.GetByTargetName(name, queryStrings, inca.Providers)
+	if p == nil {
+		log.Error().Str("name", name).Msg("no provider found")
+		return c.SendStatus(fiber.StatusBadRequest)
 	}
 
-	crt, key := result.Crt, result.Key
+	crt, key, err := (*p).Get(name, queryStrings)
+	if err != nil {
+		log.Error().Err(err).Msg("unable to generate")
+		return c.SendStatus(fiber.StatusInternalServerError)
+	}
 
 	if err := (*inca.Storage).Put(name, crt, key); err != nil {
 		log.Error().Err(err).Msg("unable to persist certificate")
