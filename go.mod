@@ -10,7 +10,7 @@ require (
 	github.com/getsentry/sentry-go v0.32.0
 	github.com/go-acme/lego/v4 v4.23.1
 	github.com/goccy/go-yaml v1.18.0
-	github.com/gofiber/fiber/v2 v2.52.6
+	github.com/gofiber/fiber/v2 v2.52.9
 	github.com/gofiber/template/django/v3 v3.1.13
 	github.com/google/uuid v1.6.0
 	github.com/jackc/pgx/v5 v5.7.4
