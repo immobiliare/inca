@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/credentials"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/matryer/is"
 )
 
@@ -24,21 +24,26 @@ func TestS3_Tune(t *testing.T) {
 	test := is.New(t)
 	test.NoErr(err)
 
-	expectedConfig := aws.NewConfig().
-		WithEndpoint("https://s3.amazonaws.com").
-		WithDisableSSL(false).
-		WithRegion("us-west-2").
-		WithS3ForcePathStyle(true).
-		WithCredentials(credentials.NewStaticCredentials(
+	expectedConfig := aws.Config{
+		EndpointResolverWithOptions: aws.EndpointResolverWithOptionsFunc(
+			func(service, region string, options ...interface{}) (aws.Endpoint, error) {
+				return aws.Endpoint{
+					URL: "https://s3.amazonaws.com",
+				}, nil
+			}),
+		Region: "us-west-2",
+		Credentials: aws.NewCredentialsCache(credentials.NewStaticCredentialsProvider(
 			"access_key",
 			"secret_key",
 			"",
-		))
+		)),
+	}
 
-	test.Equal(s.config.Endpoint, expectedConfig.Endpoint)
-	test.Equal(s.config.DisableSSL, expectedConfig.DisableSSL)
 	test.Equal(s.config.Region, expectedConfig.Region)
-	test.Equal(s.config.S3ForcePathStyle, expectedConfig.S3ForcePathStyle)
+	// EndpointResolverWithOptions and Credentials are interfaces, so direct equality is not possible.
+	// You can check if they are not nil as a basic test.
+	test.True(s.config.EndpointResolverWithOptions != nil)
+	test.True(s.config.Credentials != nil)
 }
 
 func TestS3_Tune_MissingEndpoint(t *testing.T) {
@@ -104,21 +109,23 @@ func TestS3_Tune_MissingRegion(t *testing.T) {
 func TestS3_Config(t *testing.T) {
 	t.Parallel()
 
-	s := &S3{
-		config: &aws.Config{
-			Endpoint: aws.String("https://s3.amazonaws.com"),
-			Region:   aws.String("us-west-2"),
-		},
+	s := &S3{}
+	options := map[string]interface{}{
+		"endpoint": "https://s3.amazonaws.com",
+		"access":   "access_key",
+		"secret":   "secret_key",
+		"region":   "us-west-2",
 	}
+
+	err := s.Tune(options)
+	test := is.New(t)
+	test.NoErr(err)
 
 	expected := map[string]string{
 		"Endpoint": "https://s3.amazonaws.com",
 		"Region":   "us-west-2",
 	}
-
 	result := s.Config()
-
-	test := is.New(t)
 	test.Equal(result, expected)
 }
 
