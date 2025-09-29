@@ -66,7 +66,7 @@ require (
 	github.com/boombuler/barcode v1.0.2 // indirect
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
 	github.com/civo/civogo v0.3.96 // indirect
-	github.com/cloudflare/cloudflare-go v0.115.0 // indirect
+	github.com/cloudflare/cloudflare-go v0.116.0 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/dimchansky/utfbom v1.1.1 // indirect
 	github.com/dnsimple/dnsimple-go v1.7.0 // indirect
