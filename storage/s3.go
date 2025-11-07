@@ -208,19 +208,30 @@ func (s *S3) Find(filters ...string) ([][]byte, error) {
 
 	results := [][]byte{}
 	for _, bucket := range buckets.Buckets {
-		if !matchFilters(bucket.Name, filters) {
-			continue
-		}
 
-		crt, _, err := s.Get(*bucket.Name)
+		crtData, _, err := s.Get(*bucket.Name)
 		if err != nil {
-			log.Error().Err(err).Msg("storage/s3: skip empty buckets with missing certificates")
-			// Skip empty buckets or buckets with missing certificates
-			// This can happen after certificate deletion when bucket is left intact
+			// This will skip empty/deleted buckets, which is correct.
+			log.Error().Err(err).Msgf("storage/s3: skip bucket %s, missing or invalid cert", *bucket.Name)
 			continue
 		}
 
-		results = append(results, crt)
+		// 2. Parse the certificate to get the *real* Common Name
+		crt, err := pki.ParseBytes(crtData)
+		if err != nil {
+			log.Error().Err(err).Msgf("storage/s3: skip bucket %s, unable to parse certificate", *bucket.Name)
+			continue
+		}
+
+		originalCN := crt.Subject.CommonName
+
+		// 3. Apply the filter to the *real* CN
+		if !util.RegexesMatch(originalCN, filters...) {
+			continue
+		}
+
+		// 4. If it matches, add the cert data to the results
+		results = append(results, crtData)
 	}
 
 	return results, nil
@@ -242,14 +253,6 @@ func nameToBucket(name string) (*string, error) {
 	// Buckets used with Amazon S3 Transfer Acceleration can't have dots (.) in their names
 	bucket = strings.ReplaceAll(bucket, ".", "-")
 	return &bucket, nil
-}
-
-func matchFilters(bucket *string, filters []string) bool {
-	name := strings.ReplaceAll(*bucket, "-", ".")
-	wildcardName := "*." + name
-
-	return pki.IsValidCN(name) && util.RegexesMatch(name, filters...) ||
-		pki.IsValidCN(wildcardName) && util.RegexesMatch(wildcardName, filters...)
 }
 
 func validateBucketName(name string) bool {
