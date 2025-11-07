@@ -1,3 +1,10 @@
+## [1.9.2](https://github.com/immobiliare/inca/compare/1.9.1...1.9.2) (2025-11-07)
+
+
+### Bug Fixes
+
+* **storage/s3:** Correctly filter S3 certs by true CN ([dd600b7](https://github.com/immobiliare/inca/commit/dd600b7ed70e665f4cce9b40334f82c076ecc333))
+
 ## [1.9.1](https://github.com/immobiliare/inca/compare/1.9.0...1.9.1) (2025-09-26)
 
 
