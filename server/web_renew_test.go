@@ -1,14 +1,15 @@
 package server
 
 import (
-	"io"
-	"net/http/httptest"
-	"net/url"
-	"strings"
-	"testing"
+    "io"
+    "net/http/httptest"
+    "net/url"
+    "strings"
+    "testing"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/matryer/is"
+    "github.com/gofiber/fiber/v2"
+    "github.com/immobiliare/inca/pki"
+    "github.com/matryer/is"
 )
 
 func TestServerWebRenewView(t *testing.T) {
@@ -204,3 +205,172 @@ func TestServerRenewInvalidDomain(t *testing.T) {
 	// Both 401 (Unauthorized) and 404 (Not Found) are valid responses
 	is.True(resp.StatusCode == fiber.StatusUnauthorized || resp.StatusCode == fiber.StatusNotFound)
 }
+
+func TestServerRenewPreservesSANs(t *testing.T) {
+    var (
+        app        = testApp(t)
+        test       = is.New(t)
+        testDomain = "testrenewsans.domain.tld"
+        san1       = "san1.domain.tld"
+        san2       = "san2.domain.tld"
+        ipSAN      = "192.168.1.100"
+    )
+
+    // First create a certificate with multiple SANs
+    form := url.Values{}
+    form.Add("alt", testDomain+","+san1+","+san2+","+ipSAN)
+    form.Add("algo", testingCAAlgorithm)
+    request := httptest.NewRequest("POST", "/web/issue", strings.NewReader(form.Encode()))
+    request.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+    response, err := app.Test(request)
+    test.NoErr(err)
+    test.Equal(response.StatusCode, fiber.StatusOK)
+
+    // Get the original certificate and verify SANs
+    req := httptest.NewRequest("GET", "/"+testDomain, nil)
+    resp, err := app.Test(req)
+    test.NoErr(err)
+    test.Equal(resp.StatusCode, fiber.StatusOK)
+
+    originalCrtData, err := io.ReadAll(resp.Body)
+    test.NoErr(err)
+    if err := resp.Body.Close(); err != nil {
+        t.Logf("Failed to close response body: %v", err)
+    }
+
+    originalCrt, err := pki.ParseBytes(originalCrtData)
+    test.NoErr(err)
+    
+    originalDNSNames, originalIPAddresses := pki.AltNames(originalCrt)
+    test.True(len(originalDNSNames) == 3) // testDomain, san1, san2
+    test.True(len(originalIPAddresses) == 1) // ipSAN
+
+    // Now renew the certificate via API
+    renewReq := httptest.NewRequest("POST", "/"+testDomain+"/renew", nil)
+    renewResp, err := app.Test(renewReq, 5000)
+    test.NoErr(err)
+    test.Equal(renewResp.StatusCode, fiber.StatusOK)
+
+    // Get the renewed certificate
+    req = httptest.NewRequest("GET", "/"+testDomain, nil)
+    resp, err = app.Test(req)
+    test.NoErr(err)
+    test.Equal(resp.StatusCode, fiber.StatusOK)
+
+    renewedCrtData, err := io.ReadAll(resp.Body)
+    test.NoErr(err)
+    if err := resp.Body.Close(); err != nil {
+        t.Logf("Failed to close response body: %v", err)
+    }
+
+    renewedCrt, err := pki.ParseBytes(renewedCrtData)
+    test.NoErr(err)
+
+    renewedDNSNames, renewedIPAddresses := pki.AltNames(renewedCrt)
+
+    // Verify all SANs are preserved
+    test.Equal(len(renewedDNSNames), len(originalDNSNames))
+    test.Equal(len(renewedIPAddresses), len(originalIPAddresses))
+    
+    // Verify specific SANs are present
+    test.True(contains(renewedDNSNames, testDomain))
+    test.True(contains(renewedDNSNames, san1))
+    test.True(contains(renewedDNSNames, san2))
+    test.True(contains(renewedIPAddresses, ipSAN))
+
+    // Clean up
+    response, err = app.Test(
+        httptest.NewRequest("DELETE", "/"+testDomain, nil),
+    )
+    test.NoErr(err)
+    test.Equal(response.StatusCode, fiber.StatusOK)
+}
+
+func TestServerWebRenewPreservesSANs(t *testing.T) {
+    var (
+        app        = testApp(t)
+        test       = is.New(t)
+        testDomain = "testwebrenewsans.domain.tld"
+        san1       = "websan1.domain.tld"
+        san2       = "websan2.domain.tld"
+    )
+
+    // First create a certificate with multiple SANs
+    form := url.Values{}
+    form.Add("alt", testDomain+","+san1+","+san2)
+    form.Add("algo", testingCAAlgorithm)
+    request := httptest.NewRequest("POST", "/web/issue", strings.NewReader(form.Encode()))
+    request.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+    response, err := app.Test(request)
+    test.NoErr(err)
+    test.Equal(response.StatusCode, fiber.StatusOK)
+
+    // Get the original certificate and verify SANs
+    req := httptest.NewRequest("GET", "/"+testDomain, nil)
+    resp, err := app.Test(req)
+    test.NoErr(err)
+    test.Equal(resp.StatusCode, fiber.StatusOK)
+
+    originalCrtData, err := io.ReadAll(resp.Body)
+    test.NoErr(err)
+    if err := resp.Body.Close(); err != nil {
+        t.Logf("Failed to close response body: %v", err)
+    }
+
+    originalCrt, err := pki.ParseBytes(originalCrtData)
+    test.NoErr(err)
+    
+    originalDNSNames, _ := pki.AltNames(originalCrt)
+    test.True(len(originalDNSNames) == 3) // testDomain, san1, san2
+
+    // Now renew the certificate via web interface
+    form = url.Values{}
+    renewReq := httptest.NewRequest("POST", "/web/"+testDomain+"/renew", strings.NewReader(form.Encode()))
+    renewReq.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+    renewResp, err := app.Test(renewReq, 5000)
+    test.NoErr(err)
+    test.True(renewResp.StatusCode == fiber.StatusOK || renewResp.StatusCode == fiber.StatusFound)
+
+    // Get the renewed certificate
+    req = httptest.NewRequest("GET", "/"+testDomain, nil)
+    resp, err = app.Test(req)
+    test.NoErr(err)
+    test.Equal(resp.StatusCode, fiber.StatusOK)
+
+    renewedCrtData, err := io.ReadAll(resp.Body)
+    test.NoErr(err)
+    if err := resp.Body.Close(); err != nil {
+        t.Logf("Failed to close response body: %v", err)
+    }
+
+    renewedCrt, err := pki.ParseBytes(renewedCrtData)
+    test.NoErr(err)
+
+    renewedDNSNames, _ := pki.AltNames(renewedCrt)
+
+    // Verify all SANs are preserved
+    test.Equal(len(renewedDNSNames), len(originalDNSNames))
+    
+    // Verify specific SANs are present
+    test.True(contains(renewedDNSNames, testDomain))
+    test.True(contains(renewedDNSNames, san1))
+    test.True(contains(renewedDNSNames, san2))
+
+    // Clean up
+    response, err = app.Test(
+        httptest.NewRequest("DELETE", "/"+testDomain, nil),
+    )
+    test.NoErr(err)
+    test.Equal(response.StatusCode, fiber.StatusOK)
+}
+
+// Helper function to check if a slice contains a string
+func contains(slice []string, item string) bool {
+    for _, s := range slice {
+        if s == item {
+            return true
+        }
+    }
+    return false
+}
+
