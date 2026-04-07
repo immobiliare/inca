@@ -1,3 +1,5 @@
+## [1.9.4](https://github.com/immobiliare/inca/compare/1.9.3...1.9.4) (2026-04-07)
+
 ## [1.9.2](https://github.com/immobiliare/inca/compare/1.9.1...1.9.2) (2025-11-07)
 
 
